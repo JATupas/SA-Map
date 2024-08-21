@@ -1,0 +1,121 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHADE Project PH</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/stylesheet-SMG.css' %}">
+</head>
+
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo-container">
+                <img src="{% static 'images/SHADE LOGO.png' %}" alt="PHIVOLCS Logo" class="logo">
+                <div class="text-container">
+                    <h2>Philippine Institute of Volcanology and Seismology</h2>
+                    <h1>SHADE PH</h1>
+                </div>
+            </div>
+            <nav>
+                <a href="{% url 'shade_redesign' %}" class="nav-link">Home</a>
+                <a href="#" class="nav-link">About</a>
+                <span class="separator">|</span>
+                <b href="#" class="nav-link">Register</b>
+                <a href="#" class="nav-button">Log In</a>
+            </nav>
+        </div>
+    </header>
+    
+    <main>
+        <section class="Home" id="Home">
+            <div class="container1">
+                <div class="Title">
+                    <h1>SHADE Project PH</h1>
+                    <p>Seismic Hazard Assessment for Design Earthquake of the Philippines</p>
+                </div>
+                
+                <div class="container2">
+                    <div class="about-card">
+                        <img src="{% static 'images/NO IMAGE DARK.svg' %}" alt="Img 1" class="img1">
+                        <h2>About</h2>
+                        <p>Lorem ipsum dolor sit amet consectetur. Vestibulum urna pulvinar aliquam volutpat. Sed libero egestas felis faucibus id nunc. Integer dui amet sagittis sed et consequat. Non tempus tempor aliquet lacus potenti aliquam.</p>
+                    </div>
+
+                    <div class="form">
+                        <div class="form-card">
+                            <div class="form-header">
+                                <img src="{% static 'images/SMG Header.svg' %}" class="card-icon">
+                                <h2>Source Model Generator</h2>
+                            </div>                                   
+                            
+                            <div class="form-content">
+                                <div class="fault-group">
+                                    <label for="fault-file-path"> Fault Input File Path</label>
+                                    <input type="text" id="input-file-path" placeholder="example">
+                                </div>
+                                <div class="earthquake-group">
+                                    <label for="earthquake-file-path">Earthquake Input File Path</label>
+                                    <input type="text" id="earthquake-file-path" placeholder="example">
+                                </div>
+                                <div class="vertice-group">
+                                    <label for="vertice-file-path">Vertice Input File Path</label>
+                                    <input type="text" id="vertice-file-path" placeholder="example">
+                                </div>
+                                <div class="output-group">
+                                    <label for="output-file-path">Output File Path</label>
+                                    <input type="text" id="output-file-path" placeholder="example">
+                                </div>
+                            </div>
+
+                            <div class="button-group">
+                                <button type="button">Browse Files for Input and Output</button>
+                                <button type="button">Create Source Model</button>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+
+        <section class="background">
+        </section>
+
+        <section class="Info_Section1">
+                <div class="Section1">
+                    <img src="{% static 'images/NO IMAGE DARK.svg' %}" alt="Img 1" class="img2">
+                    <div class="text">
+                        <!-- <h4>Section title</h4> -->
+                        <h5>Title</h5>
+                        <p>Nunc, mattis arcu eu ut quisque quam. Nunc rhoncus, arcu venenatis consectetur facilisis. Nibh nibh porttitor lectus sit porta vestibulum. Gravida ultricies ultrices velit adipiscing nec ultricies curabitur adipiscing non. Porttitor feugiat at duis aliquam, viverra et amet. Duis pellentesque integer sem sit. Nisl praesent aliquam tellus metus sem id. Feugiat maecenas sollicitudin sed fusce turpis vel hendrerit. Commodo massa ac justo faucibus faucibus ipsum amet. Arcu tincidunt mattis lectus pellentesque in.</p>
+                        <p>Nunc, mattis arcu eu ut quisque quam. Nunc rhoncus, arcu venenatis consectetur facilisis. Nibh nibh porttitor lectus sit porta vestibulum. Gravida ultricies ultrices velit adipiscing nec ultricies curabitur adipiscing non. Porttitor feugiat at duis aliquam, viverra et amet. Duis pellentesque integer sem sit. Nisl praesent aliquam tellus metus sem id. Feugiat maecenas sollicitudin sed fusce turpis vel hendrerit. Commodo massa ac justo faucibus faucibus ipsum amet. Arcu tincidunt mattis lectus pellentesque in.</p>
+                    </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <nav>
+            <a href="#">Our Vision</a>
+            <a href="#">Features</a>
+            <a href="#">Our Team</a>
+            <a href="#">Latest News</a>
+            <a href="#">Contact</a>
+        </nav>
+        <p>Copyright © SHADE PH 2024</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
