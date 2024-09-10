@@ -56,21 +56,47 @@
                             </div>                                   
                             
                             <div class="form-content">
-                                <div class="ORC-input-group">
-                                    <label for="input-file-path">Input File Path</label>
-                                    <input type="text" id="input-file-path" placeholder="example">
-                                </div>
-                                <div class="ORC-output-group">
-                                    <label for="output-file-path">Output File Path</label>
-                                    <input type="text" id="output-file-path" placeholder="example">
-                                </div>
+                                <form id="occurrence-rates-form">
+                                    <div class="ORC-input-group">
+                                        <label for="input-file-path">Input File Path</label>
+                                        <input type="text" id="input-file-path" name="input_file_path" placeholder="example">
+                                    </div>
+                                    <div class="ORC-output-group">
+                                        <label for="output-file-path">Output File Path</label>
+                                        <input type="text" id="output-file-path" name="output_file_path" placeholder="example">
+                                    </div>
+                                </form>
                             </div>
-
+                        
                             <div class="button-group">
-                                <button type="button">Browse Files for Input and Output</button>
-                                <button type="button">Calculate Occurrence Rates</button>
+                                <button type="button" id="calculate-button">Calculate Occurrence Rates</button>
                             </div>
                             
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    document.getElementById('calculate-button').addEventListener('click', function() {
+                                        const form = document.getElementById('occurrence-rates-form');
+                                        const formData = new FormData(form);
+                            
+                                        fetch('/calculate_occurrence_rates/', {
+                                            method: 'POST',
+                                            body: formData,
+                                            headers: {
+                                                'X-CSRFToken': '{{ csrf_token }}'
+                                            }
+                                        })
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            if (data.status === 'success') {
+                                                alert('Calculation completed successfully!');
+                                            } else {
+                                                alert('Error: ' + data.message);
+                                            }
+                                        });
+                                    });
+                                });
+                            </script>
+
                         </div>
                     </div>
                 </div>
@@ -107,7 +133,8 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
+    
+    
 </body>
 </html>
 

@@ -63,9 +63,37 @@
                             </div>
 
                             <div class="button-group">
-                                <button type="button">Browse Files for Input</button>
-                                <button type="button">Run OQ</button>
+                                <button type="button" id="run-oq-button">Run OQ</button>
                             </div>
+
+                            <script>
+                                document.getElementById('run-oq-button').addEventListener('click', function() {
+                                    // Get the value of the input file path
+                                    var filePath = document.getElementById('input-file-path').value;
+
+                                    for (let [key, value] of formData.entries()) {
+                                            console.log(key, value);
+                                        }
+
+                                    // Send the file path to the Django backend
+                                    fetch('/process_oq_jobs/', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'X-CSRFToken': '{{ csrf_token }}'
+                                        },
+                                        body: JSON.stringify({ 'file_path': filePath })
+                                    })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        console.log('Success:', data);
+                                        // Handle the response data
+                                    })
+                                    .catch((error) => {
+                                        console.error('Error:', error);
+                                    });
+                                });
+                            </script>
                             
                         </div>
                     </div>

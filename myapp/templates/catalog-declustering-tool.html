@@ -56,49 +56,96 @@
                             </div>                                   
                             
                             <div class="form-content">
-                                <div class="CDT-input-group">
-                                    <label for="input-file-path">Input File Path</label>
-                                    <input type="text" id="input-file-path" placeholder="example">
-                                </div>
-
-                                <div class="declustering-method-group">
-                                    <label for="declustering-method">Declustering Method</label>
-                                    <div class="dm-select" tabindex="0">
-                                        <span class="select">Please Select</span>
-                                        <img src="{% static 'images/expand_more.svg' %}" class="arrow-down">
+                                <form id="catalog-declustering-form">
+                                    <div class="CDT-input-group">
+                                        <label for="input-file-path">Input File Path</label>
+                                        <input type="text" id="input-file-path" name="input_file_path" placeholder="example">
                                     </div>
 
-                                    <div class="dm-option-list">
-                                        <div class="option">Gardner-Knopoff</div>
-                                        <div class="option">Afteran</div>
+                                    <div class="declustering-method-group">
+                                        <label for="declustering-method">Declustering Method</label>
+                                        <div class="dm-select" tabindex="0">
+                                            <span class="select">Please Select</span>
+                                            <img src="{% static 'images/expand_more.svg' %}" class="arrow-down">
+                                        </div>
+                                        <div class="dm-option-list">
+                                            <div class="option" data-value="Gardner-Knopoff">Gardner-Knopoff</div>
+                                            <div class="option" data-value="Afteran">Afteran</div>
+                                        </div>
+                                        <input type="hidden" id="declustering-method" name="declustering_method">
                                     </div>
-                                </div>
-
-                                <div class="time-method-group">
-                                    <label for="time-method">Time Method</label>
-                                    <div class="tm-select" tabindex="0">
-                                        <span class="select">Please Select</span>
-                                        <img src="{% static 'images/expand_more.svg' %}" class="arrow-down">
+                                    
+                                    <div class="time-method-group">
+                                        <label for="time-method">Time Method</label>
+                                        <div class="tm-select" tabindex="0">
+                                            <span class="select">Please Select</span>
+                                            <img src="{% static 'images/expand_more.svg' %}" class="arrow-down">
+                                        </div>
+                                        <div class="tm-option-list">
+                                            <div class="option" data-value="Gardner-Knopoff">Gardner-Knopoff</div>
+                                            <div class="option" data-value="Urhammer">Urhammer</div>
+                                            <div class="option" data-value="Gruenthal">Gruenthal</div>
+                                        </div>
+                                        <input type="hidden" id="time-method" name="time_method">
                                     </div>
 
-                                    <div class="tm-option-list">
-                                        <div class="option">Gardner-Knopoff</div>
-                                        <div class="option">Urhammer</div>
-                                        <div class="option">Gruenthal</div>
+                                    <div class="CDT-output-group">
+                                        <label for="output-file-path">Output File Path</label>
+                                        <input type="text" id="output-file-path" name="output_file_path" placeholder="example">
                                     </div>
-                                </div>
-
-                                <div class="CDT-output-group">
-                                    <label for="output-file-path">Output File Path</label>
-                                    <input type="text" id="output-file-path" placeholder="example">
-                                </div>
+                                </form>
                             </div>
 
                             <div class="button-group">
-                                <button type="button">Browse Files for Input and Output</button>
-                                <button type="button">Create Source Model</button>
+                                <button type="button" id="decluster-button">Decluster Catalog</button>
                             </div>
                             
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    // Handle Declustering Method Dropdown
+                                    document.querySelectorAll('.dm-option-list .option').forEach(function(option) {
+                                        option.addEventListener('click', function() {
+                                            const selectedValue = option.getAttribute('data-value');
+                                            document.querySelector('.dm-select .select').textContent = selectedValue;
+                                            document.getElementById('declustering-method').value = selectedValue;
+                                        });
+                                    });
+
+                                    // Handle Time Method Dropdown
+                                    document.querySelectorAll('.tm-option-list .option').forEach(function(option) {
+                                        option.addEventListener('click', function() {
+                                            const selectedValue = option.getAttribute('data-value');
+                                            document.querySelector('.tm-select .select').textContent = selectedValue;
+                                            document.getElementById('time-method').value = selectedValue;
+                                        });
+                                    });
+                                    document.getElementById('decluster-button').addEventListener('click', function() {
+                                        const form = document.getElementById('catalog-declustering-form');
+                                        const formData = new FormData(form);
+                                        
+                                        for (let [key, value] of formData.entries()) {
+                                            console.log(key, value);
+                                        }
+
+                                        fetch('/catalog_declustering_tool/', {
+                                            method: 'POST',
+                                            body: formData,
+                                            headers: {
+                                                'X-CSRFToken': '{{ csrf_token }}'
+                                            }
+                                        })
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            if (data.status === 'success') {
+                                                alert('Calculation completed successfully!');
+                                            } else {
+                                                alert('Error: ' + data.message);
+                                            }
+                                        });
+                                    });
+                                });
+                            </script>
+
                         </div>
                     </div>
                 </div>

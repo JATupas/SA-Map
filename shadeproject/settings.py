@@ -118,7 +118,6 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
-    BASE_DIR / "static",  # This is optional if you have a global static directory
     BASE_DIR / "myapp/static",
 ]
 

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Interactive Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
+    <style>
+        body {
+            display: flex;
+            height: 100vh;
+            margin: 0;
+        }
+        #map {
+            flex: 1;
+            height: 100%; /* Ensure map takes full height of parent (body) */
+        }
+        #info {
+            width: 300px;
+            padding: 10px;
+            background: #f9f9f9;
+            border-left: 1px solid #ccc;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+            overflow-y: auto;
+        }
+        #coords {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            background: white;
+            padding: 5px;
+            z-index: 1000;
+        }
+        #popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: yellow;
+            padding: 20px;
+            border: 1px solid black;
+            z-index: 1001;
+        }
+        #popup button {
+            margin-top: 10px;
+        }
+        #back-button {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1002;
+        }
+        #back-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div id="map"></div>
+    <div id="info">
+        <h2>Closest Point</h2>
+        <div id="closest-point-info">
+            <p id="closest-point-coordinates"></p>
+            <p>Current Coordinates: 
+                <input type="text" id="current-lat" placeholder="Latitude">, 
+                <input type="text" id="current-lon" placeholder="Longitude">
+            </p>
+            <p id="additional-data"></p>
+            <button id="update-coords">Check Data</button>
+        </div>
+    </div>
+    
+    <div id="coords"></div>
+
+    <form id="coordinate-form" method="post" style="display: none;">
+        {% csrf_token %}
+        <input type="hidden" id="id_lat" name="lat">
+        <input type="hidden" id="id_lon" name="lon">
+    </form>
+
+    <div id="popup">
+        This point is outside of the Philippines. You may use these coordinates, but only the closest data from the Philippines will be used.
+        <button id="closePopup">Close</button>
+    </div>
+
+    <button id="back-button">Back</button>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function(event) {
+            console.log("DOMContentLoaded event fired");
+
+            var map = L.map('map').setView([13.41, 122.56], 6);
+            map.options.minZoom = 4;
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            var marker;
+
+            function addOrUpdateMarker(lat, lon) {
+                if (marker) {
+                    marker.setLatLng([lat, lon]).update();
+                } else {
+                    marker = L.marker([lat, lon]).addTo(map);
+                }
+            }
+
+            function updateClosestPointInfo(data) {
+                var coordinatesElem = document.getElementById('closest-point-coordinates');
+                var additionalDataElem = document.getElementById('additional-data');
+                var latInput = document.getElementById('current-lat');
+                var lonInput = document.getElementById('current-lon');
+                var infoDiv = document.getElementById('closest-point-info');
+
+        if (data.current_coord) {
+            latInput.value = data.current_coord[0];
+            lonInput.value = data.current_coord[1];
+            additionalDataElem.innerHTML  = 'Site Information: <br>SA1 = ' + data.sa1 + '<br>SA02 = ' + data.sa02;
+        } else {
+            infoDiv.innerHTML = '<p>Click on the map to find the closest point.</p>';
+        }
+    }
+
+    function submitCoordinates(lat, lon) {
+        var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', ' ', true); 
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.setRequestHeader('X-CSRFToken', csrfToken);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var data = JSON.parse(xhr.responseText);
+                updateClosestPointInfo(data);
+            }
+        };
+
+        xhr.send(`lat=${lat}&lon=${lon}`);
+    }
+
+    function checkAndSubmitCoordinates(lat, lon) {
+        if (lat < 4 || lat > 21 || lon < 116 || lon > 127) {
+            document.getElementById('popup').style.display = 'block';
+        } else {
+            submitCoordinates(lat, lon);
+        }
+    }
+
+    document.getElementById('closePopup').addEventListener('click', function() {
+        document.getElementById('popup').style.display = 'none';
+    });
+
+    map.on('click', function(e) {
+        var coord = e.latlng;
+        var lat = parseFloat(coord.lat.toFixed(5));
+        var lng = parseFloat(coord.lng.toFixed(5));
+        document.getElementById('coords').innerHTML = 'Clicked coordinates: ' + [lat, lng];
+        addOrUpdateMarker(lat, lng);
+        checkAndSubmitCoordinates(lat, lng);
+    });
+
+    // Ensure the event listener is added only once
+    document.getElementById('update-coords').addEventListener('click', function(event) {
+        event.preventDefault();
+        var lat = parseFloat(document.getElementById('current-lat').value);
+        var lon = parseFloat(document.getElementById('current-lon').value);
+        checkAndSubmitCoordinates(lat, lon);
+    });
+
+    document.getElementById('back-button').addEventListener('click', function() {
+                window.location.href = "{% url 'shade_redesign' %}"; 
+    });
+});
+
+    </script>
+</body>
+</html>

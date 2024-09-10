@@ -56,21 +56,51 @@
                             </div>                                   
                             
                             <div class="form-content">
-                                <div class="ECC-input-group">
-                                    <label for="input-file-path">Input File Path</label>
-                                    <input type="text" id="input-file-path" placeholder="example">
-                                </div>
-                                <div class="ECC-output-group">
-                                    <label for="output-file-path">Output File Path</label>
-                                    <input type="text" id="output-file-path" placeholder="example">
-                                </div>
+                                <form id="catalog-cleaning-form">
+                                    <div class="ECC-input-group">
+                                        <label for="input-file-path">Input File Path</label>
+                                        <input type="text" id="input-file-path" name="input_file_path" placeholder="example">
+                                    </div>
+                                    <div class="ECC-output-group">
+                                        <label for="output-file-path">Output File Path</label>
+                                        <input type="text" id="output-file-path" name="output_file_path" placeholder="example">
+                                    </div>
+                                </form>
                             </div>
 
                             <div class="button-group">
-                                <button type="button">Browse Files for Input and Output</button>
-                                <button type="button">Clean and Process Data</button>
+                                <button type="button" id="clean_button">Clean and Process Data</button>
                             </div>
                             
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    document.getElementById('clean_button').addEventListener('click', function() {
+                                        const form = document.getElementById('catalog-cleaning-form');
+                                        const formData = new FormData(form);
+                                        
+                                        for (let [key, value] of formData.entries()) {
+                                            console.log(key, value);
+                                        }
+
+                                        fetch('/catalog_cleaning_tool/', {
+                                            method: 'POST',
+                                            body: formData,
+                                            headers: {
+                                                'X-CSRFToken': '{{ csrf_token }}'
+                                            }
+                                        })
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            if (data.status === 'success') {
+                                                alert('Cleaning completed successfully!');
+                                            } else {
+                                                alert('Error: ' + data.message);
+                                            }
+                                        });
+                                    });
+                                });
+                            </script>
+
                         </div>
                     </div>
                 </div>

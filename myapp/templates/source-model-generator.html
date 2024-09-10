@@ -56,29 +56,59 @@
                             </div>                                   
                             
                             <div class="form-content">
-                                <div class="fault-group">
-                                    <label for="fault-file-path"> Fault Input File Path</label>
-                                    <input type="text" id="input-file-path" placeholder="example">
-                                </div>
-                                <div class="earthquake-group">
-                                    <label for="earthquake-file-path">Earthquake Input File Path</label>
-                                    <input type="text" id="earthquake-file-path" placeholder="example">
-                                </div>
-                                <div class="vertice-group">
-                                    <label for="vertice-file-path">Vertice Input File Path</label>
-                                    <input type="text" id="vertice-file-path" placeholder="example">
-                                </div>
-                                <div class="output-group">
-                                    <label for="output-file-path">Output File Path</label>
-                                    <input type="text" id="output-file-path" placeholder="example">
-                                </div>
+                                <form id="source-model-form">
+                                    <div class="fault-group">
+                                        <label for="fault-file-path"> Fault Input File Path</label>
+                                        <input type="text" id="fault-file-path" name="fault_file_path" placeholder="example">
+                                    </div>
+                                    <div class="earthquake-group">
+                                        <label for="earthquake-file-path">Earthquake Input File Path</label>
+                                        <input type="text" id="earthquake-file-path" name="earthquake_file_path" placeholder="example">
+                                    </div>
+                                    <div class="vertice-group">
+                                        <label for="vertice-file-path">Vertice Input File Path</label>
+                                        <input type="text" id="vertice-file-path" name="vertice_file_path" placeholder="example">
+                                    </div>
+                                    <div class="output-group">
+                                        <label for="output-file-path">Output File Path</label>
+                                        <input type="text" id="output-file-path" name="output_file_path" placeholder="example">
+                                    </div>
+                                </form>
                             </div>
 
                             <div class="button-group">
-                                <button type="button">Browse Files for Input and Output</button>
-                                <button type="button">Create Source Model</button>
+                                <button type="button" id="model_button">Create Source Model</button>
                             </div>
                             
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    document.getElementById('model_button').addEventListener('click', function() {
+                                        const form = document.getElementById('source-model-form');
+                                        const formData = new FormData(form);
+                                        
+                                        for (let [key, value] of formData.entries()) {
+                                            console.log(key, value);
+                                        }
+
+                                        fetch('/source_model_tool/', {
+                                            method: 'POST',
+                                            body: formData,
+                                            headers: {
+                                                'X-CSRFToken': '{{ csrf_token }}'
+                                            }
+                                        })
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            if (data.status === 'success') {
+                                                alert('Source Model Generated!');
+                                            } else {
+                                                alert('Error: ' + data.message);
+                                            }
+                                        });
+                                    });
+                                });
+                            </script>
+
                         </div>
                     </div>
                 </div>
