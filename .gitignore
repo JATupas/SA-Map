@@ -1,0 +1,15 @@
+# Ignore Python bytecode files and directories
+__pycache__/
+*.py[cod]
+
+# Ignore virtual environment directories
+venv/
+env/
+
+# Ignore Django secret key and settings (if stored in a separate file)
+*.env
+*.env.*
+
+# Ignore system files (macOS, Windows)
+.DS_Store
+Thumbs.db
