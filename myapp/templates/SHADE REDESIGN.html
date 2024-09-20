@@ -73,11 +73,19 @@
                             </div>
                         </a>
     
-                        <a href="{% url 'openquake_calculator' %}" class="tool-card">
+                        <!-- <a href="{% url 'openquake_calculator' %}" class="tool-card">
                             <img src="{% static 'images/OQ.svg' %}" alt="Icon 1" class="card-icon">
                             <div class="card-text">
                                 <h3>OpenQuake Calculator</h3>
                                 <p>Automatically run consecutive calculations on OpenQuake</p>
+                            </div>
+                        </a> -->
+
+                        <a href="{% url 'sa_pga_map' %}" class="tool-card">
+                            <img src="{% static 'images/OQ.svg' %}" alt="Icon 1" class="card-icon">
+                            <div class="card-text">
+                                <h3>SA PGA Map</h3>
+                                <p>Check detailed information on specific locations within the SA PGA Map</p>
                             </div>
                         </a>
     
@@ -97,13 +105,14 @@
                             </div>
                         </a>
 
-                        <a href="{% url 'sa_pga_map' %}" class="tool-card">
+
+                        <!-- <a href="{% url 'sa_pga_map' %}" class="tool-card">
                             <img src="{% static 'images/SAPGA.svg' %}" alt="Icon 1" class="card-icon">
                             <div class="card-text">
                                 <h3>SA PGA Map</h3>
                                 <p>Check info on specific sites</p>
                             </div>
-                        </a>
+                        </a> -->
                     </div>
                 </div>
                 
