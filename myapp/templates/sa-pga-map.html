@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -61,11 +63,6 @@
             background-color: #0056b3;
         }
     </style>
-    
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-    crossorigin=""></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <div id="map"></div>
@@ -97,6 +94,10 @@
 
     <button id="back-button">Back</button>
 
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
             console.log("DOMContentLoaded event fired");
@@ -125,19 +126,19 @@
                 var lonInput = document.getElementById('current-lon');
                 var infoDiv = document.getElementById('closest-point-info');
 
-        if (data.current_coord) {
-            latInput.value = data.current_coord[0];
-            lonInput.value = data.current_coord[1];
-            additionalDataElem.innerHTML  = 'Site Information: <br>SA1 = ' + data.sa1 + '<br>SA02 = ' + data.sa02;
-        } else {
-            infoDiv.innerHTML = '<p>Click on the map to find the closest point.</p>';
-        }
+                if (data.current_coord) {
+                    latInput.value = data.current_coord[0];
+                    lonInput.value = data.current_coord[1];
+                    additionalDataElem.innerHTML  = 'Site Information: <br>SA1 = ' + data.sa1 + '<br>SA02 = ' + data.sa02;
+                } else {
+                    infoDiv.innerHTML = '<p>Click on the map to find the closest point.</p>';
+                }
     }
 
     function submitCoordinates(lat, lon) {
         var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', ' ', true); 
+        xhr.open('POST', '{% url "sa_pga_map" %}', true);
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.setRequestHeader('X-CSRFToken', csrfToken);
         xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
