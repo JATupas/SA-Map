@@ -29,7 +29,54 @@ def source_model_generator(request):
     return render(request, 'source-model-generator.html')
 
 def sa_pga_map(request):
-    return render(request, 'sa-pga-map.html')
+      # Define the path to the CSV file
+    csv_file_path = os.path.join(settings.BASE_DIR, 'myapp', 'data', 'points.csv')
+    
+    # Load the points and additional data from the CSV file
+    df = pd.read_csv(csv_file_path)
+    points = df[['xcoord', 'ycoord']].values
+    values_sa1 = df['Combined-SA1'].values
+    values_sa02 = df['Combined-SA02'].values
+    
+    sa1 = None
+    sa02 = None
+    given_point = None
+    
+    if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        try:
+            lat = float(request.POST.get('lat'))
+            lon = float(request.POST.get('lon'))
+            given_point = [lat, lon]
+            
+            # Debugging information
+            print("Received coordinates:", given_point)
+
+            # Perform interpolation to find the nearest values
+            interpolated_sa1 = griddata(points, values_sa1, given_point, method='nearest')
+            interpolated_sa02 = griddata(points, values_sa02, given_point, method='nearest')
+
+            # Handle potential NaN values in interpolation results
+            if np.isnan(interpolated_sa1):
+                interpolated_sa1 = None
+            if np.isnan(interpolated_sa02):
+                interpolated_sa02 = None
+
+            response_data = {
+                'current_coord': given_point,
+                'sa1': float(interpolated_sa1) if interpolated_sa1 is not None else None,
+                'sa02': float(interpolated_sa02) if interpolated_sa02 is not None else None,
+            }
+            return JsonResponse(response_data)
+        except Exception as e:
+            print("Error processing coordinates:", str(e))
+            return HttpResponseBadRequest("Invalid data")
+
+    context = {
+        'current_coord': given_point,
+        'sa1': sa1,
+        'sa02': sa02,
+    }
+    return render(request, 'sa-pga-map.html', context)
 # Add more views as needed
 
 from .process.OQ_Run import run_oq_jobs
