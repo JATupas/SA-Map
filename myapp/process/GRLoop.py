@@ -7,6 +7,7 @@ import ast
 import matplotlib.pyplot as plt
 import math
 from scipy import stats
+import os
 
 # # file paths
 # output_file_path = 'C:/Users/shade/Downloads/SHADE App/demos/Reccurence Model Calculator/GR1/'
@@ -168,7 +169,8 @@ def analyze_faults(output_file_path, gr_file_path, luzon_seismic_sources, rawEQ,
         eq_event_counts = CAT['EQ Event'].value_counts()
         print(eq_event_counts)
 
-        ph_shapefile = "C:/Users/shade/Downloads/SHADE App/demos/Reccurence Model Calculator/Country_shp/PHL_adm0.shp"
+        static_folder = os.path.join(os.path.dirname(__file__), '..', 'static')
+        ph_shapefile = os.path.join(static_folder, 'PHL_adm0.shp')
         gdf = gpd.read_file(ph_shapefile)
 
 
