@@ -7,17 +7,17 @@ import ast
 import matplotlib.pyplot as plt
 import math
 from scipy import stats
-import os
+from pathlib import Path
 
 # # file paths
-# output_file_path = 'C:/Users/shade/Downloads/SHADE App/demos/Reccurence Model Calculator/GR1/'
-# gr_file_path = 'C:/Users/shade/Downloads/SHADE App/demos/Reccurence Model Calculator/GR1/Graphs/'
-# luzon_seismic_sources = 'C:/Users/shade/Downloads/SHADE App/demos/Reccurence Model Calculator/Luzon Seismic Sources.xlsx'
+output_file_path = 'C:/Users/HP/Downloads/SHADE Redesign Input, output/Recurrence Model Calculator/OUTPUT/'
+gr_file_path = 'C:/Users/HP/Downloads/SHADE Redesign Input, output/Recurrence Model Calculator/OUTPUT/GR/'
+luzon_seismic_sources = 'C:/Users/HP/Downloads/SHADE Redesign Input, output/Recurrence Model Calculator/INPUT/Specific Source.xlsx'
 
-# # CSV of EQ events (Declustered or not)
-# rawEQ = 'C:/Users/shade/Downloads/SHADE App/demos/Reccurence Model Calculator/Declustered.csv'
-# # CSV of Fault parameters
-# rawFaults = 'C:/Users/shade/Downloads/SHADE App/demos/Reccurence Model Calculator/Simple Fault Sources.xlsx'
+# CSV of EQ events (Declustered or not)
+rawEQ = 'C:/Users/HP/Downloads/SHADE Redesign Input, output/Recurrence Model Calculator/INPUT/Declustered.csv'
+# CSV of Fault parameters
+rawFaults = 'C:/Users/HP/Downloads/SHADE Redesign Input, output/Recurrence Model Calculator/INPUT/Raw Faults.xlsx'
 
 def analyze_faults(output_file_path, gr_file_path, luzon_seismic_sources, rawEQ, rawFaults, Buffer_Size):
 
@@ -169,9 +169,14 @@ def analyze_faults(output_file_path, gr_file_path, luzon_seismic_sources, rawEQ,
         eq_event_counts = CAT['EQ Event'].value_counts()
         print(eq_event_counts)
 
-        static_folder = os.path.join(os.path.dirname(__file__), '..', 'static')
-        ph_shapefile = os.path.join(static_folder, 'PHL_adm0.shp')
-        gdf = gpd.read_file(ph_shapefile)
+        # Get the current script directory
+        script_dir = Path(__file__).resolve().parent
+
+        # Dynamically create the path to the shapefile in the 'static' folder
+        shapefile_path = script_dir / '..' / 'static' / 'shp' / 'PHL_adm0.shp'
+
+        # Load the shapefile using Geopandas
+        gdf = gpd.read_file(shapefile_path)
 
 
 
@@ -357,4 +362,4 @@ def analyze_faults(output_file_path, gr_file_path, luzon_seismic_sources, rawEQ,
 
     gr_loop(faults, rawEQ, rawFaults, luzon_df)
 
-# analyze_faults(output_file_path, gr_file_path, luzon_seismic_sources, rawEQ, rawFaults, 20)
+analyze_faults(output_file_path, gr_file_path, luzon_seismic_sources, rawEQ, rawFaults, 20)
