@@ -9,15 +9,15 @@ import math
 from scipy import stats
 from pathlib import Path
 
-# # file paths
-output_file_path = 'C:/Users/HP/Downloads/SHADE Redesign Input, output/Recurrence Model Calculator/OUTPUT/'
-gr_file_path = 'C:/Users/HP/Downloads/SHADE Redesign Input, output/Recurrence Model Calculator/OUTPUT/GR/'
-luzon_seismic_sources = 'C:/Users/HP/Downloads/SHADE Redesign Input, output/Recurrence Model Calculator/INPUT/Specific Source.xlsx'
+# # # file paths
+# output_file_path = 'C:/Users/HP/Downloads/SHADE Redesign Input, output/Recurrence Model Calculator/OUTPUT/'
+# gr_file_path = 'C:/Users/HP/Downloads/SHADE Redesign Input, output/Recurrence Model Calculator/OUTPUT/GR/'
+# luzon_seismic_sources = 'C:/Users/HP/Downloads/SHADE Redesign Input, output/Recurrence Model Calculator/INPUT/Specific Source.xlsx'
 
-# CSV of EQ events (Declustered or not)
-rawEQ = 'C:/Users/HP/Downloads/SHADE Redesign Input, output/Recurrence Model Calculator/INPUT/Declustered.csv'
-# CSV of Fault parameters
-rawFaults = 'C:/Users/HP/Downloads/SHADE Redesign Input, output/Recurrence Model Calculator/INPUT/Raw Faults.xlsx'
+# # CSV of EQ events (Declustered or not)
+# rawEQ = 'C:/Users/HP/Downloads/SHADE Redesign Input, output/Recurrence Model Calculator/INPUT/Declustered.csv'
+# # CSV of Fault parameters
+# rawFaults = 'C:/Users/HP/Downloads/SHADE Redesign Input, output/Recurrence Model Calculator/INPUT/Raw Faults.xlsx'
 
 def analyze_faults(output_file_path, gr_file_path, luzon_seismic_sources, rawEQ, rawFaults, Buffer_Size):
 
@@ -362,4 +362,4 @@ def analyze_faults(output_file_path, gr_file_path, luzon_seismic_sources, rawEQ,
 
     gr_loop(faults, rawEQ, rawFaults, luzon_df)
 
-analyze_faults(output_file_path, gr_file_path, luzon_seismic_sources, rawEQ, rawFaults, 20)
+# analyze_faults(output_file_path, gr_file_path, luzon_seismic_sources, rawEQ, rawFaults, 20)
