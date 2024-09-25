@@ -57,9 +57,10 @@
                             
                             <div class="form-content">
                                 <form id="recurrence-model-form">
+                                    {% csrf_token %}
                                     <div class="specific-sources-group">
                                         <label for="fault-file-path">Specific Sources Input File</label>
-                                        <input type="text" id="fault-file-path" name="fault_file_path" placeholder="C:/Users/SHADE/Luzon Seismic Sources.xlsx">
+                                        <input type="text" id="fault-file-path" name="fault_file_path" placeholder="C:/Users/SHADE/Specific Sources.xlsx">
                                     </div>
                                     <div class="raw-earthquake-group">
                                         <label for="raw-earthquake-file-path">Raw EQ Input File</label>
@@ -67,7 +68,7 @@
                                     </div>
                                     <div class="raw-faults-group">
                                         <label for="vertice-file-path">Raw Faults Input File</label>
-                                        <input type="text" id="vertice-file-path" name="vertice_file_path" placeholder="C:/Users/SHADE/Simple Fault Sources.xlsx">
+                                        <input type="text" id="vertice-file-path" name="vertice_file_path" placeholder="C:/Users/SHADE/Raw Fault Sources.xlsx">
                                     </div>
                                     <div class="buffer-size-group">
                                         <label for="buffer-size">Set  Buffer Size</label>
@@ -93,15 +94,16 @@
                                     document.getElementById('recurrence_button').addEventListener('click', function() {
                                         const form = document.getElementById('recurrence-model-form');
                                         const formData = new FormData(form);
-                                        
-                                        const bufferSize = parseInt(document.getElementById('buffer-size').value, 10);
-                                        formData.append('buffer_size', bufferSize);
 
                                         for (let [key, value] of formData.entries()) {
                                             console.log(key, value);
                                         }
 
-                                        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                                        const csrfToken = form.querySelector('[name=csrfmiddlewaretoken]').value; 
+                                        if (!csrfToken) {
+                                            console.error("CSRF token not found!");
+                                            return;
+                                        }
 
                                         fetch('/recurrence_model_tool/', {
                                             method: 'POST',
