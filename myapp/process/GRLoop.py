@@ -13,6 +13,10 @@ from pathlib import Path
 # output_file_path = 'C:/Users/HP/Downloads/SHADE Redesign Input, output/Recurrence Model Calculator/OUTPUT/'
 # gr_file_path = 'C:/Users/HP/Downloads/SHADE Redesign Input, output/Recurrence Model Calculator/OUTPUT/GR/'
 # luzon_seismic_sources = 'C:/Users/HP/Downloads/SHADE Redesign Input, output/Recurrence Model Calculator/INPUT/Specific Source.xlsx'
+# # # file paths
+# output_file_path = 'C:/Users/HP/Downloads/SHADE Redesign Input, output/Recurrence Model Calculator/OUTPUT/'
+# gr_file_path = 'C:/Users/HP/Downloads/SHADE Redesign Input, output/Recurrence Model Calculator/OUTPUT/GR/'
+# luzon_seismic_sources = 'C:/Users/HP/Downloads/SHADE Redesign Input, output/Recurrence Model Calculator/INPUT/Specific Source.xlsx'
 
 # # CSV of EQ events (Declustered or not)
 # rawEQ = 'C:/Users/HP/Downloads/SHADE Redesign Input, output/Recurrence Model Calculator/INPUT/Declustered.csv'
