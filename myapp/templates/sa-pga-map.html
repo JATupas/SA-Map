@@ -1,98 +1,124 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Interactive Map</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHADE Project PH</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/stylesheet-SA-PGA.css' %}">
+
+    <!-- Include Leaflet CSS for the map -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-    crossorigin=""/>
-    <style>
-        body {
-            display: flex;
-            height: 100vh;
-            margin: 0;
-        }
-        #map {
-            flex: 1;
-            height: 100%; /* Ensure map takes full height of parent (body) */
-        }
-        #info {
-            width: 300px;
-            padding: 10px;
-            background: #f9f9f9;
-            border-left: 1px solid #ccc;
-            box-shadow: -2px 0 5px rgba(0,0,0,0.1);
-            overflow-y: auto;
-        }
-        #coords {
-            position: fixed;
-            bottom: 10px;
-            left: 10px;
-            background: white;
-            padding: 5px;
-            z-index: 1000;
-        }
-        #popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: yellow;
-            padding: 20px;
-            border: 1px solid black;
-            z-index: 1001;
-        }
-        #popup button {
-            margin-top: 10px;
-        }
-        #back-button {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            z-index: 1002;
-        }
-        #back-button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 </head>
+
 <body>
-    <div id="map"></div>
-    <div id="info">
-        <h2>Closest Point</h2>
-        <div id="closest-point-info">
-            <p id="closest-point-coordinates"></p>
-            <p>Current Coordinates: 
-                <input type="text" id="current-lat" placeholder="Latitude">, 
-                <input type="text" id="current-lon" placeholder="Longitude">
-            </p>
-            <p id="additional-data"></p>
-            <button id="update-coords">Check Data</button>
+    <header>
+        <div class="header-container">
+            <div class="logo-container">
+                <img src="{% static 'images/SHADE LOGO.png' %}" alt="PHIVOLCS Logo" class="logo">
+                <div class="text-container">
+                    <h2>Philippine Institute of Volcanology and Seismology</h2>
+                    <h1>SHADE PH</h1>
+                </div>
+            </div>
+            <nav>
+                <a href="{% url 'shade_redesign' %}" class="nav-link">Home</a>
+                <a href="#About-section" class="nav-link">About</a>
+                <span class="separator">|</span>
+                <b href="#" class="nav-link">Register</b>
+                <a href="#" class="nav-button">Log In</a>
+            </nav>
         </div>
-    </div>
+    </header>
     
-    <div id="coords"></div>
+    <main>
+        <section class="Home" id="Home">
+            <div class="container1">
+                <div class="Title">
+                    <h1>SHADE Project PH</h1>
+                    <p>Seismic Hazard Assessment for Design Earthquake of the Philippines</p>
+                </div>
+                
+                <div class="container2">
+                    <div class="map-card">
+                        <div id="map" class="map"></div> <!-- Map placed inside card -->
+                    </div>
 
-    <form id="coordinate-form" method="post" style="display: none;">
-        {% csrf_token %}
-        <input type="hidden" id="id_lat" name="lat">
-        <input type="hidden" id="id_lon" name="lon">
-    </form>
+                    <div class="form">
+                        <div class="form-card">
+                            <div class="form-header">
+                                <img src="{% static 'images/ORC Header.svg' %}" class="card-icon">
+                                <h2>SA PGA Map</h2>
+                            </div>                                   
+                            
+                            <div class="form-content">
+                                <form id="occurrence-rates-form">
+                                    <!-- Current coordinates fields -->
+                                    <div class="mb-3">
+                                        <label for="longitude" class="form-label">Longitude</label>
+                                        <input type="text" id="current-lon" class="form-control" readonly value="0.0">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="latitude" class="form-label">Latitude</label>
+                                        <input type="text" id="current-lat" class="form-control" readonly value="0.0">
+                                    </div>
 
-    <div id="popup">
-        This point is outside of the Philippines. You may use these coordinates, but only the closest data from the Philippines will be used.
-        <button id="closePopup">Close</button>
-    </div>
+                                    <!-- Site information fields -->
+                                    <div class="mb-3">
+                                        <label for="sa1" class="form-label">SA₁</label>
+                                        <input type="text" id="sa1" class="form-control" readonly value="0.0">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="sa02" class="form-label">SA₀₂</label>
+                                        <input type="text" id="sa02" class="form-control" readonly value="0.0">
+                                    </div>
+                                </form>
+                            </div>
+                        
+                            <div class="button-group">
+                                <button type="button" id="calculate-button">Check Data</button>
+                            </div>
 
-    <button id="back-button">Back</button>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+
+        <section class="background">
+        </section>
+
+        <section class="Info_Section1">
+                <div class="Section1" id="About-section">
+                    <img src="{% static 'images/NO IMAGE DARK.svg' %}" alt="Img 1" class="img2">
+                    <div class="text">
+                        <!-- <h4>Section title</h4> -->
+                        <h5>Title</h5>
+                        <p>Nunc, mattis arcu eu ut quisque quam. Nunc rhoncus, arcu venenatis consectetur facilisis. Nibh nibh porttitor lectus sit porta vestibulum. Gravida ultricies ultrices velit adipiscing nec ultricies curabitur adipiscing non. Porttitor feugiat at duis aliquam, viverra et amet. Duis pellentesque integer sem sit. Nisl praesent aliquam tellus metus sem id. Feugiat maecenas sollicitudin sed fusce turpis vel hendrerit. Commodo massa ac justo faucibus faucibus ipsum amet. Arcu tincidunt mattis lectus pellentesque in.</p>
+                        <p>Nunc, mattis arcu eu ut quisque quam. Nunc rhoncus, arcu venenatis consectetur facilisis. Nibh nibh porttitor lectus sit porta vestibulum. Gravida ultricies ultrices velit adipiscing nec ultricies curabitur adipiscing non. Porttitor feugiat at duis aliquam, viverra et amet. Duis pellentesque integer sem sit. Nisl praesent aliquam tellus metus sem id. Feugiat maecenas sollicitudin sed fusce turpis vel hendrerit. Commodo massa ac justo faucibus faucibus ipsum amet. Arcu tincidunt mattis lectus pellentesque in.</p>
+                    </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <nav>
+            <a href="#">Our Vision</a>
+            <a href="#">Features</a>
+            <a href="#">Our Team</a>
+            <a href="#">Latest News</a>
+            <a href="#">Contact</a>
+        </nav>
+        <p>Copyright © SHADE PH 2024</p>
+    </footer>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
@@ -188,5 +214,6 @@
 });
 
     </script>
+    
 </body>
 </html>
