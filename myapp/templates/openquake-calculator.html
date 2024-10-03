@@ -42,10 +42,12 @@
                 </div>
                 
                 <div class="container2">
-                    <div class="about-card">
+                    <div class="about-card" id="about-card">
                         <img src="{% static 'images/NO IMAGE DARK.svg' %}" alt="Img 1" class="img1">
-                        <h2>About</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur. Vestibulum urna pulvinar aliquam volutpat. Sed libero egestas felis faucibus id nunc. Integer dui amet sagittis sed et consequat. Non tempus tempor aliquet lacus potenti aliquam.</p>
+                        <h2 id="about-title">About</h2>
+                        <p id="about-description">
+                            Lorem ipsum dolor sit amet consectetur. Vestibulum urna pulvinar aliquam volutpat. Sed libero egestas felis faucibus id nunc. Integer dui amet sagittis sed et consequat. Non tempus tempor aliquet lacus potenti aliquam.
+                        </p>
                     </div>
 
                     <div class="form">
@@ -56,7 +58,7 @@
                             </div>                                   
                             
                             <div class="form-content">
-                                <div class="ECC-input-group">
+                                <div class="OQC-input-group">
                                     <label for="input-file-path">Input Folder</label>
                                     <input type="text" id="input-file-path" placeholder="C:/Users/SHADE/Jobs/">
                                 </div>
@@ -94,6 +96,39 @@
                                     });
                                 });
                             </script>
+
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    const aboutTitle = document.getElementById('about-title');
+                                    const aboutDescription = document.getElementById('about-description');
+                                    
+                                    // OpenQuake Jobs Input
+                                    const oqInputFolder = document.querySelector('.OQC-input-group #input-file-path'); // OpenQuake Jobs Input Folder
+
+                                    const defaultTitle = 'About';
+                                    const defaultDescription = 'Lorem ipsum dolor sit amet consectetur. Vestibulum urna pulvinar aliquam volutpat. Sed libero egestas felis faucibus id nunc. Integer dui amet sagittis sed et consequat. Non tempus tempor aliquet lacus potenti aliquam.';
+
+                                    // Function to reset to default about content
+                                    function resetAboutCard() {
+                                        aboutTitle.textContent = defaultTitle;
+                                        aboutDescription.textContent = defaultDescription;
+                                    }
+
+                                    // OpenQuake Input Folder focus event
+                                    oqInputFolder.addEventListener('focus', function() {
+                                        aboutTitle.textContent = 'Input Folder Information (OpenQuake Jobs)';
+                                        aboutDescription.textContent = 'The input folder contains the necessary files for running OpenQuake engine jobs.';
+                                    });
+
+                                    // Reset to default when clicking outside the input field
+                                    document.addEventListener('click', function(e) {
+                                        if (!e.target.closest('.OQC-input-group')) {
+                                            resetAboutCard();
+                                        }
+                                    });
+                                });
+                            </script>
+
                             
                         </div>
                     </div>
