@@ -42,10 +42,12 @@
                 </div>
                 
                 <div class="container2">
-                    <div class="about-card">
+                    <div class="about-card" id="about-card">
                         <img src="{% static 'images/NO IMAGE DARK.svg' %}" alt="Img 1" class="img1">
-                        <h2>About</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur. Vestibulum urna pulvinar aliquam volutpat. Sed libero egestas felis faucibus id nunc. Integer dui amet sagittis sed et consequat. Non tempus tempor aliquet lacus potenti aliquam.</p>
+                        <h2 id="about-title">About</h2>
+                        <p id="about-description">
+                            Lorem ipsum dolor sit amet consectetur. Vestibulum urna pulvinar aliquam volutpat. Sed libero egestas felis faucibus id nunc. Integer dui amet sagittis sed et consequat. Non tempus tempor aliquet lacus potenti aliquam.
+                        </p>
                     </div>
 
                     <div class="form">
@@ -145,6 +147,60 @@
                                     });
                                 });
                             </script>
+
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    const aboutTitle = document.getElementById('about-title');
+                                    const aboutDescription = document.getElementById('about-description');
+                                    const inputFileField = document.getElementById('input-file-path');
+                                    const declusteringMethodField = document.querySelector('.declustering-method-group .dm-select');
+                                    const timeMethodField = document.querySelector('.time-method-group .tm-select');
+                                    const outputFolderField = document.getElementById('output-file-path');
+                                    const defaultTitle = 'About';
+                                    const defaultDescription = 'Lorem ipsum dolor sit amet consectetur. Vestibulum urna pulvinar aliquam volutpat. Sed libero egestas felis faucibus id nunc. Integer dui amet sagittis sed et consequat. Non tempus tempor aliquet lacus potenti aliquam.';
+
+                                    // Function to reset to default about content
+                                    function resetAboutCard() {
+                                        aboutTitle.textContent = defaultTitle;
+                                        aboutDescription.textContent = defaultDescription;
+                                    }
+
+                                    // Input file focus event
+                                    inputFileField.addEventListener('focus', function() {
+                                        aboutTitle.textContent = 'Input File Information';
+                                        aboutDescription.textContent = 'The input file contains seismic event data in CSV format that will be used for the declustering process.';
+                                    });
+
+                                    // Declustering method focus event
+                                    declusteringMethodField.addEventListener('focus', function() {
+                                        aboutTitle.textContent = 'Declustering Method Information';
+                                        aboutDescription.textContent = 'Select a method for declustering the earthquake catalog. Options include Gardner-Knopoff or Afteran.';
+                                    });
+
+                                    // Time-space window method focus event
+                                    timeMethodField.addEventListener('focus', function() {
+                                        aboutTitle.textContent = 'Time-Space Window Information';
+                                        aboutDescription.textContent = 'Select the time-space window method, such as Gardner-Knopoff, Urhammer, or Gruenthal, to determine the declustering parameters.';
+                                    });
+
+                                    // Output folder focus event
+                                    outputFolderField.addEventListener('focus', function() {
+                                        aboutTitle.textContent = 'Output Folder Information';
+                                        aboutDescription.textContent = 'The output folder will store the results of the declustering process.';
+                                    });
+
+                                    // Reset when clicking outside
+                                    document.addEventListener('click', function(e) {
+                                        if (!e.target.closest('.CDT-input-group') && 
+                                            !e.target.closest('.declustering-method-group') && 
+                                            !e.target.closest('.time-method-group') && 
+                                            !e.target.closest('.CDT-output-group')) {
+                                            resetAboutCard();
+                                        }
+                                    });
+                                });
+                            </script>
+
 
                         </div>
                     </div>
