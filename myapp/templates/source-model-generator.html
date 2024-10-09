@@ -133,8 +133,18 @@
 
                                     // Fault Input File focus event
                                     faultInput.addEventListener('focus', function() {
-                                        aboutTitle.textContent = 'Fault Input File';
-                                        aboutDescription.textContent = 'This file should contain specific seismic sources used in the model.';
+                                        aboutTitle.textContent = 'Specific Sources Input File';
+                                        aboutDescription.innerHTML = `
+                                            <p>The input file must contain basic information of each fault to be processed, the excel file must contain the following columns;</p>
+                                            <ul>
+                                                <li>name</li>
+                                                <li>segment</li>
+                                                <li>length (km)</li>
+                                                <li>dip</li>
+                                                <li>rake</li>
+                                                <li>maxmag</li>
+                                            </ul>
+                                        `;
                                     });
 
                                     // Earthquake Input File focus event

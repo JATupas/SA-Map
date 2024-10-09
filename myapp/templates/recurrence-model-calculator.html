@@ -153,6 +153,20 @@
                                         aboutTitle.textContent = 'Specific Sources Input File';
                                         aboutDescription.textContent = 'This file should contain the seismic sources you want to consider in the model.';
                                     });
+                                    specificSourcesInput.addEventListener('focus', function() {
+                                        aboutTitle.textContent = 'Specific Sources Input File';
+                                        aboutDescription.innerHTML = `
+                                            <p>The input file must contain basic information of each fault to be processed, the excel file must contain the following columns;</p>
+                                            <ul>
+                                                <li>name</li>
+                                                <li>segment</li>
+                                                <li>length (km)</li>
+                                                <li>dip</li>
+                                                <li>rake</li>
+                                                <li>maxmag</li>
+                                            </ul>
+                                        `;
+                                    });
 
                                     // Raw EQ Input File focus event
                                     rawEarthquakeInput.addEventListener('focus', function() {
@@ -163,7 +177,7 @@
                                     // Raw Faults Input File focus event
                                     rawFaultsInput.addEventListener('focus', function() {
                                         aboutTitle.textContent = 'Raw Faults Input File';
-                                        aboutDescription.textContent = 'This file should include raw fault data that will be used in the model.';
+                                        aboutDescription.textContent = 'This file should include multiple longitude and latitude vertices along the fault from one end to another.';
                                     });
 
                                     // Buffer Size focus event
