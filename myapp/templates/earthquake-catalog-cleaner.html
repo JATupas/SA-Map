@@ -43,7 +43,7 @@
                 
                 <div class="container2">
                     <div class="about-card" id="about-card">
-                        <img src="{% static 'images/NO IMAGE DARK.svg' %}" alt="Img 1" class="img1">
+                        <!-- <img src="{% static 'images/NO IMAGE DARK.svg' %}" alt="Img 1" class="img1"> -->
                         <h2 id="about-title">About</h2>
                         <p id="about-description">
                             Lorem ipsum dolor sit amet consectetur. Vestibulum urna pulvinar aliquam volutpat. Sed libero egestas felis faucibus id nunc. Integer dui amet sagittis sed et consequat. Non tempus tempor aliquet lacus potenti aliquam.
@@ -60,7 +60,7 @@
                             <div class="form-content">
                                 <form id="catalog-cleaning-form">
                                     <div class="ECC-input-group">
-                                        <label for="input-file-path">Input Folder</label>
+                                        <label for="input-file-path">Input Folder or File(s)</label>
                                         <input type="text" id="input-file-path" name="input_file_path" placeholder="C:/Users/SHADE/Raw-Data-Folder/">
                                     </div>
                                     <div class="ECC-output-group">
@@ -115,19 +115,31 @@
                                     // Function to reset to default about content
                                     function resetAboutCard() {
                                         aboutTitle.textContent = defaultTitle;
-                                        aboutDescription.textContent = defaultDescription;
+                                        aboutDescription.innerHTML = `<p>${defaultDescription}</p>`;
                                     }
 
                                     // Input field focus event
                                     inputField.addEventListener('focus', function() {
-                                        aboutTitle.textContent = 'Input Folder Information';
-                                        aboutDescription.textContent = 'The input folder contains the raw seismic data that will be processed and cleaned by the system.';
+                                        aboutTitle.textContent = 'Input Folder or File(s)';
+                                        aboutDescription.innerHTML = `
+                                            <p>The input will accept a folder, multiple files, or a single file. Each file may contain any number of columns, but it is necessary to pre-process them and retain the following important columns:</p>
+                                            <ul>
+                                                <li>AUTHOR</li>
+                                                <li>DATE</li>
+                                                <li>TIME</li>
+                                                <li>LAT</li>
+                                                <li>LON</li>
+                                                <li>DEPTH</li>
+                                                <li>MAG</li>
+                                                <li>TYPE</li>
+                                            </ul>
+                                        `;
                                     });
 
                                     // Output field focus event
                                     outputField.addEventListener('focus', function() {
                                         aboutTitle.textContent = 'Output Folder Information';
-                                        aboutDescription.textContent = 'The output folder will contain the processed data after cleaning the earthquake catalog.';
+                                        aboutDescription.innerHTML = '<p>The output folder will contain the processed data after cleaning the earthquake catalog.</p>';
                                     });
 
                                     // Reset when clicking outside
@@ -138,46 +150,6 @@
                                     });
                                 });
                             </script>
-
-                            <script>
-                                document.addEventListener('DOMContentLoaded', function() {
-                                    const aboutTitle = document.getElementById('about-title');
-                                    const aboutDescription = document.getElementById('about-description');
-                                    
-                                    // Catalog Cleaning Form Inputs
-                                    const cleaningInputFolder = document.querySelector('.ECC-input-group #input-file-path'); // Cleaning Input Folder
-                                    const cleaningOutputFolder = document.querySelector('.ECC-output-group #output-file-path'); // Cleaning Output Folder
-
-                                    const defaultTitle = 'About';
-                                    const defaultDescription = 'Lorem ipsum dolor sit amet consectetur. Vestibulum urna pulvinar aliquam volutpat. Sed libero egestas felis faucibus id nunc. Integer dui amet sagittis sed et consequat. Non tempus tempor aliquet lacus potenti aliquam.';
-
-                                    // Function to reset to default about content
-                                    function resetAboutCard() {
-                                        aboutTitle.textContent = defaultTitle;
-                                        aboutDescription.textContent = defaultDescription;
-                                    }
-
-                                    // Catalog Cleaning Input Folder focus event
-                                    cleaningInputFolder.addEventListener('focus', function() {
-                                        aboutTitle.textContent = 'Input Folder Information (Cleaning)';
-                                        aboutDescription.textContent = 'The input folder contains the raw seismic data that will be cleaned and processed by the system.';
-                                    });
-
-                                    // Catalog Cleaning Output Folder focus event
-                                    cleaningOutputFolder.addEventListener('focus', function() {
-                                        aboutTitle.textContent = 'Output Folder Information (Cleaning)';
-                                        aboutDescription.textContent = 'The output folder will contain the processed and cleaned seismic data after running the cleaning tool.';
-                                    });
-
-                                    // Reset to default when clicking outside the input fields
-                                    document.addEventListener('click', function(e) {
-                                        if (!e.target.closest('.ECC-input-group') && !e.target.closest('.ECC-output-group')) {
-                                            resetAboutCard();
-                                        }
-                                    });
-                                });
-</script>
-
 
                         </div>
                     </div>
