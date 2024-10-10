@@ -314,8 +314,9 @@ main {
 }
 
 .ECC-input-group input:focus, .ECC-output-group input:focus {
-    border: 2px solid #2874F4; /* Thinner border on focus with a slightly different color */
+    border: 2px solid #2874F4; /* Thinner border on focus with a slightly different color*/
     outline: none; /* Optional: Removes the default focus outline */
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.5); /* subtle shadow effect */
 }
 
 .button-group {
