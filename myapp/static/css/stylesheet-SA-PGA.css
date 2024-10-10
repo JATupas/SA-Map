@@ -199,7 +199,7 @@ main {
     background-color: white;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 30px 40px;
+    padding: 30px 30px;
     text-align: left;
     align-self: start;
     width: 420px;
@@ -262,11 +262,29 @@ main {
     padding: 24px;
 }
 
+.form-control{
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    padding: 8px;
+    font-size: 14px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 22px;
+}
+
+.form-control:focus {
+    border: 2px solid #2874F4; /* Thinner border on focus with a slightly different color*/
+    outline: none; /* Optional: Removes the default focus outline */
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.5); /* subtle shadow effect */
+} 
+
 .button-group {
+    margin-top: 15px;
     display: flex;
     justify-content: flex-end; /* Align buttons to the right */
     gap: 12px;
-    padding: 0px 24px 24px 24px;
+    margin-top: 15px;
 }
 
 .button-group button {
@@ -299,24 +317,6 @@ main {
     background-color: #52C41A;
     color: #fff;
     border: 1px solid #52C41A;
-    transition: background-color 0.3s;
-}
-
-.button-group button:nth-child(2) {
-    background-color: #0052D4;
-    color: #fff;
-    transition: background-color 0.3s;
-}
-
-.button-group button:nth-child(2):hover {
-    background-color: #003d99;
-    color: #fff;
-        transition: background-color 0.3s;
-}
-
-.button-group button:nth-child(2):active {
-    background-color: #52C41A;
-    color: #fff;
     transition: background-color 0.3s;
 }
 
@@ -426,3 +426,106 @@ footer p {
     border-radius: 4px;
 }
 
+.popup {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* semi-transparent background */
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup .card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* subtle drop shadow */
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+}
+
+.popup button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff; /* blue button */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.popup button:hover {
+    background-color: #0056b3; /* darker blue on hover */
+}
+
+.site-info {
+    margin-top: 20px;
+}
+
+.site-info h3 {
+    margin-bottom: 15px;
+    color: rgba(0, 0, 0, 0.85); /* Black color with 85% opacity */;
+    font-size: 14px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    line-height: 24px;
+    margin-bottom: 10px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; /* Ensures a stable width */
+}
+
+.table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+td.SA-title {
+    width: 30%; /* Adjust this percentage for a narrower width */
+    text-align: center; /* Optional: left-align the title */
+}
+
+td.SA-value {
+    width: 70%; /* The remaining space is for the SA values */
+    text-align: center; /* Optional: right-align the values */
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    line-height: 22px;
+}
+
+.SA-title{
+    font-size: 14px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    line-height: 22px;
+    width: 100px; /* Set a fixed width */
+    /* text-align: center; Optional: align the content */
+}
+
+.SA-value{
+    font-size: 14px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 22px;
+    width: 100px; /* Set a fixed width */
+    /* text-align: center; Optional: align the content */
+}
