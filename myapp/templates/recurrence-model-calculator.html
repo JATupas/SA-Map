@@ -42,10 +42,12 @@
                 </div>
                 
                 <div class="container2">
-                    <div class="about-card">
+                    <div class="about-card" id="about-card">
                         <img src="{% static 'images/NO IMAGE DARK.svg' %}" alt="Img 1" class="img1">
-                        <h2>About</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur. Vestibulum urna pulvinar aliquam volutpat. Sed libero egestas felis faucibus id nunc. Integer dui amet sagittis sed et consequat. Non tempus tempor aliquet lacus potenti aliquam.</p>
+                        <h2 id="about-title">About</h2>
+                        <p id="about-description">
+                            Lorem ipsum dolor sit amet consectetur. Vestibulum urna pulvinar aliquam volutpat. Sed libero egestas felis faucibus id nunc. Integer dui amet sagittis sed et consequat. Non tempus tempor aliquet lacus potenti aliquam.
+                        </p>
                     </div>
 
                     <div class="form">
@@ -70,6 +72,21 @@
                                         <label for="vertice-file-path">Raw Faults Input File</label>
                                         <input type="text" id="vertice-file-path" name="vertice_file_path" placeholder="C:/Users/SHADE/Raw Fault Sources.xlsx">
                                     </div>
+
+                                    <div class="seismic-source-group">
+                                        <label for="seismic-source">Seismic Source</label>
+                                        <div class="ss-select" tabindex="0">
+                                            <span class="select">Please Select</span>
+                                            <img src="{% static 'images/expand_more.svg' %}" class="arrow-down">
+                                        </div>
+                                        <div class="ss-option-list">
+                                            <div class="option" data-value="Simple">Simple</div>
+                                            <div class="option" data-value="Complex">Complex</div>
+                                            <div class="option" data-value="Area">Area</div>
+                                        </div>
+                                        <input type="hidden" id="seismic-source" name="seismic_source">
+                                    </div>
+
                                     <div class="buffer-size-group">
                                         <label for="buffer-size">Set  Buffer Size</label>
                                         <input type="number" id="buffer-size" name="buffer_size" value="1" min="1" max="100">
@@ -91,6 +108,13 @@
                             
                             <script>
                                 document.addEventListener('DOMContentLoaded', function() {
+                                    document.querySelectorAll('.ss-option-list .option').forEach(function(option) {
+                                        option.addEventListener('click', function() {
+                                            const selectedValue = option.getAttribute('data-value');
+                                            document.querySelector('.ss-select .select').textContent = selectedValue;
+                                            document.getElementById('seismic-source').value = selectedValue;
+                                        });
+                                    });
                                     document.getElementById('recurrence_button').addEventListener('click', function() {
                                         const form = document.getElementById('recurrence-model-form');
                                         const formData = new FormData(form);
@@ -123,6 +147,103 @@
                                     });
                                 });
                             </script>
+
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    const aboutTitle = document.getElementById('about-title');
+                                    const aboutDescription = document.getElementById('about-description');
+
+                                    // Recurrence Model Inputs
+                                    const specificSourcesInput = document.querySelector('.specific-sources-group #fault-file-path'); // Specific Sources Input File
+                                    const rawEarthquakeInput = document.querySelector('.raw-earthquake-group #earthquake-file-path'); // Raw EQ Input File
+                                    const rawFaultsInput = document.querySelector('.raw-faults-group #vertice-file-path'); // Raw Faults Input File
+                                    const seismicSourceField = document.querySelector('.seismic-source-group .ss-select');
+                                    const bufferSizeInput = document.querySelector('.buffer-size-group #buffer-size'); // Buffer Size
+                                    const outputFileInput = document.querySelector('.output-group #output-file-path'); // Output File
+                                    const grOutputFileInput = document.querySelector('.gr-output-group #gr-output-file-path'); // GR Output File
+
+                                    const defaultTitle = 'About';
+                                    const defaultDescription = 'Lorem ipsum dolor sit amet consectetur. Vestibulum urna pulvinar aliquam volutpat. Sed libero egestas felis faucibus id nunc. Integer dui amet sagittis sed et consequat. Non tempus tempor aliquet lacus potenti aliquam.';
+
+                                    // Function to reset to default about content
+                                    function resetAboutCard() {
+                                        aboutTitle.textContent = defaultTitle;
+                                        aboutDescription.textContent = defaultDescription;
+                                    }
+
+                                    // Specific Sources Input File focus event
+                                    specificSourcesInput.addEventListener('focus', function() {
+                                        aboutTitle.textContent = 'Specific Sources Input File';
+                                        aboutDescription.textContent = 'This file should contain the seismic sources you want to consider in the model.';
+                                    });
+                                    specificSourcesInput.addEventListener('focus', function() {
+                                        aboutTitle.textContent = 'Specific Sources Input File';
+                                        aboutDescription.innerHTML = `
+                                            <p>The input file must contain basic information of each fault to be processed, the excel file must contain the following columns;</p>
+                                            <ul>
+                                                <li>name</li>
+                                                <li>segment</li>
+                                                <li>length (km)</li>
+                                                <li>dip</li>
+                                                <li>rake</li>
+                                                <li>maxmag</li>
+                                            </ul>
+                                        `;
+                                    });
+
+                                    // Raw EQ Input File focus event
+                                    rawEarthquakeInput.addEventListener('focus', function() {
+                                        aboutTitle.textContent = 'Raw EQ Input File';
+                                        aboutDescription.textContent = 'Input file containing the raw earthquake data for processing.';
+                                    });
+
+                                    // Raw Faults Input File focus event
+                                    rawFaultsInput.addEventListener('focus', function() {
+                                        aboutTitle.textContent = 'Raw Faults Input File';
+                                        aboutDescription.textContent = 'This file should include multiple longitude and latitude vertices along the fault from one end to another.';
+                                    });
+
+                                    // Buffer Size focus event
+                                    bufferSizeInput.addEventListener('focus', function() {
+                                        aboutTitle.textContent = 'Buffer Size';
+                                        aboutDescription.textContent = 'Set the buffer size to define the extent of the analysis area.';
+                                    });
+
+                                    seismicSourceField.addEventListener('focus', function() {
+                                        aboutTitle.textContent = 'Seismic Source Classification';
+                                        aboutDescription.textContent = 'Select the appropriate Seismic Source Classification';
+                                    });
+
+
+                                    // Output File focus event
+                                    outputFileInput.addEventListener('focus', function() {
+                                        aboutTitle.textContent = 'Output File';
+                                        aboutDescription.textContent = 'Specify the location where the output results will be saved.';
+                                    });
+
+                                    // GR Output File focus event
+                                    grOutputFileInput.addEventListener('focus', function() {
+                                        aboutTitle.textContent = 'GR Output File';
+                                        aboutDescription.textContent = 'This file will contain the generated graphs based on the analysis.';
+                                    });
+
+                                    // Reset to default when clicking outside the input fields
+                                    document.addEventListener('click', function(e) {
+                                        if (
+                                            !e.target.closest('.specific-sources-group') && 
+                                            !e.target.closest('.raw-earthquake-group') && 
+                                            !e.target.closest('.raw-faults-group') && 
+                                            !e.target.closest('.seismic-source-group') && 
+                                            !e.target.closest('.buffer-size-group') && 
+                                            !e.target.closest('.output-group') && 
+                                            !e.target.closest('.gr-output-group')
+                                        ) {
+                                            resetAboutCard();
+                                        }
+                                    });
+                                });
+                            </script>
+
 
                         </div>
                     </div>
@@ -158,7 +279,34 @@
         </nav>
         <p>Copyright © SHADE PH 2024</p>
     </footer>
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let ssOptions = document.querySelectorAll('.seismic-source-group .option');
+            let ssSelectEle = document.querySelector('.seismic-source-group .select');
+            let ssOptionList = document.querySelector('.ss-option-list');
+            let ssDropdown = document.querySelector('.ss-select');
+        
+            function toggleDropdown(optionList) {
+                optionList.classList.toggle('active');
+            }
+        
+            function selectOption(selectEle, optionList, option) {
+                selectEle.innerText = option.innerText;
+                optionList.classList.toggle('active');
+            }
+        
+            ssDropdown.addEventListener('click', function() {
+                toggleDropdown(ssOptionList);
+            });
+        
+            ssOptions.forEach(function(option) {
+                option.addEventListener('click', function() {
+                    selectOption(ssSelectEle, ssOptionList, this);
+                });
+            });
+        });
+        
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 </body>

@@ -335,6 +335,108 @@ main {
     box-shadow: 0 0 5px rgba(52, 152, 219, 0.5); /* subtle shadow effect */
 }
 
+.CDT-input-group {
+    margin-bottom: 16px;
+}
+
+.seismic-source-group {
+    margin-bottom: 16px;
+}
+
+.CDT-output-group {
+    margin-bottom: 0px;
+}
+
+.CDT-input-group label, .seismic-source-group label, .time-method-group label, .CDT-output-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    line-height: 22px;
+}
+
+.CDT-input-group input, .CDT-output-group input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 22px;
+}
+
+.CDT-input-group input:focus, .ss-select:focus, .CDT-output-group input:focus {
+    border: 2px solid #2874F4; /* Thinner border on focus with a slightly different color */
+    outline: none; /* Optional: Removes the default focus outline */
+}
+
+.select {
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 22px;
+}
+
+.arrow-down {
+    color: rgba(0, 0, 0, 0.7); /* Separator color with 70% opacity */
+    width: 20px;
+    height: 20px;
+    float: right;
+}
+
+.ss-select {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 22px;
+}
+
+.ss-option-list {
+    background-color: white;
+    border-radius: 4px;
+    margin-top: 8px;
+    visibility: hidden;
+    position: absolute;
+    width: 785px;
+    border: 1px solid #ccc; /* Border for the options */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Drop shadow */
+    z-index: 1000; /* Ensure the options are above other content */
+    margin-top: 4px; /* Slight margin to separate from the select box */
+}
+
+.ss-option-list.active{ 
+    visibility: visible;
+}
+
+.option {
+    padding: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 22px;
+}
+
+.option:hover {
+    /* background-color: rgba(0, 82, 212, .85); Tang Blue with 85% opacity; */
+    background-color: #e3f8ff;
+    transition: background-color 0.3s;
+}
+
 .button-group {
     display: flex;
     justify-content: flex-end; /* Align buttons to the right */
