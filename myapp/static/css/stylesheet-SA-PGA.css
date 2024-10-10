@@ -167,7 +167,8 @@ main {
 .Home .container2 {
     display: flex;
     gap: 20px;
-    justify-content: start;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 
 .Title h1 {
@@ -194,16 +195,16 @@ main {
     text-align: center;
 }
 
-.about-card {
+.map-card {
     background-color: white;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 30px 40px;
+    padding: 30px 30px;
     text-align: left;
-    flex-basis: 30%;
     align-self: start;
     width: 420px;
-    height: max-content;
+    height: 600px;
+    flex: 1;
 }
 
 .img1 {
@@ -211,32 +212,11 @@ main {
     height: 343px;
 }
 
-.about-card h2 {
-    color: rgba(0, 0, 0, 0.85); /* Black color with 85% opacity */;
-    margin: 0px 0px 10px;
-    font-size: 20px;
-    font-family: "Roboto", sans-serif;
-    font-weight: 700;
-    font-style: normal;
-    line-height: 23px;
-}
-
-.about-card p {
-    color: rgba(0, 0, 0, 0.85); /* Black color with 85% opacity */;
-    margin: 0;
-    font-size: 14px;
-    font-family: "Roboto", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    line-height: 22px;
-    margin-bottom: 10px;
-}
-
 .form {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    flex-basis: 70%;
+    flex-basis: 35%;
     width: 833px;
 }
 
@@ -282,46 +262,10 @@ main {
     padding: 24px;
 }
 
-.specific-sources-group {
-    margin-bottom: 16px;
-}
-
-.raw-earthquake-group {
-    margin-bottom: 16px;
-}
-
-.raw-faults-group {
-    margin-bottom: 16px;
-}
-
-.buffer-size-group {
-    margin-bottom: 16px;
-}
-
-.output-group {
-    margin-bottom: 16px;
-}
-
-.gr-output-group {
-    margin-bottom: 0px;
-}
-
-.specific-sources-group label, .raw-earthquake-group label, .raw-faults-group label, .buffer-size-group, .output-group label, .gr-output-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-size: 14px;
-    font-family: "Roboto", sans-serif;
-    font-weight: 500;
-    font-style: normal;
-    line-height: 22px;
-}
-
-.specific-sources-group input, .raw-earthquake-group input, .raw-faults-group input, .buffer-size-group input, .output-group input, .gr-output-group input {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
+.form-control{
     border-radius: 4px;
+    border: 1px solid #ccc;
+    padding: 8px;
     font-size: 14px;
     font-family: "Roboto", sans-serif;
     font-weight: 400;
@@ -329,119 +273,18 @@ main {
     line-height: 22px;
 }
 
-.specific-sources-group input:focus, .raw-earthquake-group input:focus, .raw-faults-group input:focus, .buffer-size-group input:focus, .output-group input:focus, .gr-output-group input:focus {
-    border: 2px solid #2874F4; /* Thinner border on focus with a slightly different color */
+.form-control:focus {
+    border: 2px solid #2874F4; /* Thinner border on focus with a slightly different color*/
     outline: none; /* Optional: Removes the default focus outline */
     box-shadow: 0 0 5px rgba(52, 152, 219, 0.5); /* subtle shadow effect */
-}
-
-.CDT-input-group {
-    margin-bottom: 16px;
-}
-
-.seismic-source-group {
-    margin-bottom: 16px;
-}
-
-.CDT-output-group {
-    margin-bottom: 0px;
-}
-
-.CDT-input-group label, .seismic-source-group label, .time-method-group label, .CDT-output-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-size: 14px;
-    font-family: "Roboto", sans-serif;
-    font-weight: 500;
-    font-style: normal;
-    line-height: 22px;
-}
-
-.CDT-input-group input, .CDT-output-group input {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    font-family: "Roboto", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    line-height: 22px;
-}
-
-.CDT-input-group input:focus, .ss-select:focus, .CDT-output-group input:focus {
-    border: 2px solid #2874F4; /* Thinner border on focus with a slightly different color */
-    outline: none; /* Optional: Removes the default focus outline */
-}
-
-.select {
-    margin-bottom: 8px;
-    font-size: 14px;
-    font-family: "Roboto", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    line-height: 22px;
-}
-
-.arrow-down {
-    color: rgba(0, 0, 0, 0.7); /* Separator color with 70% opacity */
-    width: 20px;
-    height: 20px;
-    float: right;
-}
-
-.ss-select {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    font-family: "Roboto", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    line-height: 22px;
-}
-
-.ss-option-list {
-    background-color: white;
-    border-radius: 4px;
-    margin-top: 8px;
-    visibility: hidden;
-    position: absolute;
-    width: 785px;
-    border: 1px solid #ccc; /* Border for the options */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Drop shadow */
-    z-index: 1000; /* Ensure the options are above other content */
-    margin-top: 4px; /* Slight margin to separate from the select box */
-}
-
-.ss-option-list.active{ 
-    visibility: visible;
-}
-
-.option {
-    padding: 10px;
-    cursor: pointer;
-    font-size: 14px;
-    font-family: "Roboto", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    line-height: 22px;
-}
-
-.option:hover {
-    /* background-color: rgba(0, 82, 212, .85); Tang Blue with 85% opacity; */
-    background-color: #e3f8ff;
-    transition: background-color 0.3s;
-}
+} 
 
 .button-group {
+    margin-top: 15px;
     display: flex;
     justify-content: flex-end; /* Align buttons to the right */
     gap: 12px;
-    padding: 0px 24px 24px 24px;
+    margin-top: 15px;
 }
 
 .button-group button {
@@ -474,24 +317,6 @@ main {
     background-color: #52C41A;
     color: #fff;
     border: 1px solid #52C41A;
-    transition: background-color 0.3s;
-}
-
-.button-group button:nth-child(2) {
-    background-color: #0052D4;
-    color: #fff;
-    transition: background-color 0.3s;
-}
-
-.button-group button:nth-child(2):hover {
-    background-color: #003d99;
-    color: #fff;
-        transition: background-color 0.3s;
-}
-
-.button-group button:nth-child(2):active {
-    background-color: #52C41A;
-    color: #fff;
     transition: background-color 0.3s;
 }
 
@@ -577,7 +402,6 @@ footer nav a {
     font-weight: 400;
     font-style: normal;
     line-height: 20px;
-
 }
 
 footer nav a:hover {
@@ -592,4 +416,116 @@ footer p {
     font-style: normal;
     line-height: 14px;
     margin-bottom: 10px;
+}
+
+
+
+.map {
+    height: 550px; /* Adjust height as needed */
+    width: 100%; /* Ensure it takes full width of its container */
+    border-radius: 4px;
+}
+
+.popup {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* semi-transparent background */
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup .card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* subtle drop shadow */
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+}
+
+.popup button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff; /* blue button */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.popup button:hover {
+    background-color: #0056b3; /* darker blue on hover */
+}
+
+.site-info {
+    margin-top: 20px;
+}
+
+.site-info h3 {
+    margin-bottom: 15px;
+    color: rgba(0, 0, 0, 0.85); /* Black color with 85% opacity */;
+    font-size: 14px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    line-height: 24px;
+    margin-bottom: 10px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; /* Ensures a stable width */
+}
+
+.table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+td.SA-title {
+    width: 30%; /* Adjust this percentage for a narrower width */
+    text-align: center; /* Optional: left-align the title */
+}
+
+td.SA-value {
+    width: 70%; /* The remaining space is for the SA values */
+    text-align: center; /* Optional: right-align the values */
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    line-height: 22px;
+}
+
+.SA-title{
+    font-size: 14px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    line-height: 22px;
+    width: 100px; /* Set a fixed width */
+    /* text-align: center; Optional: align the content */
+}
+
+.SA-value{
+    font-size: 14px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 22px;
+    width: 100px; /* Set a fixed width */
+    /* text-align: center; Optional: align the content */
 }
