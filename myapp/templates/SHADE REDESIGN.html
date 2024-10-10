@@ -42,78 +42,62 @@
                 </div>
                 
                 <div class="container2">
-                    <div class="about-card">
+                                        
+                    <div class="about-card" id="about-card">
                         <h2>About</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur. Vestibulum urna pulvinar aliquam volutpat. Sed libero egestas felis faucibus id nunc. Integer dui amet sagittis sed et consequat. Non tempus tempor aliquet lacus potenti aliquam.</p>
-                        <p> Duis pellentesque integer sem sit. Nisl praesent aliquam tellus metus sem id. Feugiat maecenas sollicitudin sed fusce turpis vel hendrerit. Commodo massa ac justo faucibus faucibus ipsum amet. Arcu tincidunt mattis lectus pellentesque in.</p>
+                        <p class="default-text">An effective strategy in evaluating seismic hazards plays a very crucial role in efforts at disaster risk reduction and management within a very seismically active country. Techniques available - be it probabilistic or deterministic-rely on extensive datasets with respect to attenuation models for ground motion, models for seismic sources, and earthquake catalogs. The SHADE Project developed a Python-based application that simplifies the computing and visualization of ground motion parameters in assessing seismic hazard in the Philippines.</p>
                     </div>
 
                     <div class="tools">
-                        <a href="{% url 'earthquake_catalog_cleaner' %}" class="tool-card">
+                        <a href="{% url 'earthquake_catalog_cleaner' %}" class="tool-card" id="tool1" data-description="To develop an effective assessment, it is fundamentally crucial first that the data be clean and formatted. Usually, raw data is obtained from various sources. This often leads to different data arrangements. As with any type of assessment, foremost, the data needs to be combined and cleaned.">
                             <img src="{% static 'images/ECC.svg' %}" alt="Icon 1" class="card-icon">
                             <div class="card-text">
                                 <h3>Earthquake Catalog Cleaner</h3>
                                 <p>Perform Primary Data Cleaning on your Raw Data</p>
                             </div>
                         </a>
-    
-                        <a href="{% url 'source_model_generator' %}" class="tool-card">
+                
+                        <a href="{% url 'source_model_generator' %}" class="tool-card" id="tool2" data-description="OpenQuake requires a number of files for the calculator to process a job, one of which is the source model file. This file contains multiple information of each fault. Manual processing can be tedious, considering the number of faults and data tied to each one. This tool automates the creation of the source model.">
                             <img src="{% static 'images/SMG.svg' %}" alt="Icon 1" class="card-icon">
                             <div class="card-text">
                                 <h3>Source Model Generator</h3>
                                 <p>Generate a Source Model based on provided and calculated data</p>
                             </div>
                         </a>
-    
-                        <a href="{% url 'catalog_declustering_tool' %}" class="tool-card">
+                
+                        <a href="{% url 'catalog_declustering_tool' %}" class="tool-card" id="tool3" data-description="Earthquake catalogs typically contain event clusters that are triggered by mainshocks. Including both the foreshocks and aftershocks during processing can skew statistical analyses and hazard assessments. Declustering therefore enables the user to work with only the primary, independent seismic events, the accuracy of seismic hazard models are increased and more transparent insights into earthquake patterns and risks are obtained.">
                             <img src="{% static 'images/CDT.svg' %}" alt="Icon 1" class="card-icon">
                             <div class="card-text">
                                 <h3>Catalog Declustering Tool</h3>
                                 <p>Implement Declustering methods to filter only the Mainshocks in the catalog</p>
                             </div>
                         </a>
-    
-                        <!-- <a href="{% url 'openquake_calculator' %}" class="tool-card">
-                            <img src="{% static 'images/OQ.svg' %}" alt="Icon 1" class="card-icon">
-                            <div class="card-text">
-                                <h3>OpenQuake Calculator</h3>
-                                <p>Automatically run consecutive calculations on OpenQuake</p>
-                            </div>
-                        </a> -->
-
-                        <a href="{% url 'sa_pga_map' %}" class="tool-card">
+                
+                        <a href="{% url 'sa_pga_map' %}" class="tool-card" id="tool4" data-description="The SA-PGA Map module is designed for general use, allowing users to quickly assess seismic hazard at any specified location within the Philippines. This tool leverages the comprehensive data and values generated by SHADE Research, ensuring that the calculations are based on the latest seismic hazard models. It offers a user-friendly way for individuals, planners, and decision-makers to understand earthquake hazards in real time.">
                             <img src="{% static 'images/OQ.svg' %}" alt="Icon 1" class="card-icon">
                             <div class="card-text">
                                 <h3>SA PGA Map</h3>
                                 <p>Check detailed information on specific locations within the SA PGA Map</p>
                             </div>
                         </a>
-    
-                        <a href="{% url 'recurrence_model_calculator' %}" class="tool-card">
+                
+                        <a href="{% url 'recurrence_model_calculator' %}" class="tool-card" id="tool5" data-description="To estimate the probability of occurrence of future earthquakes, the Recurrence model must be utilized to analyze the frequency of magnitude of past events in specific locations. It assumes that earthquakes occur in a repeating pattern over time, allowing scientists to predict the probability of future events based on historical data.">
                             <img src="{% static 'images/RMC.svg' %}" alt="Icon 1" class="card-icon">
                             <div class="card-text">
                                 <h3>Recurrence Model Calculator</h3>
                                 <p>Calculate the Recurrence values of each fault</p>
                             </div>
                         </a>
-    
-                        <a href="{% url 'occurrence_rate_calculator' %}" class="tool-card">
+                
+                        <a href="{% url 'occurrence_rate_calculator' %}" class="tool-card" id="tool6" data-description="The calculation of Occurence rate is a crucial tool aimed to quantify the seismic activity along the fault by analyzing the frequency of earthquake within a specific range of magnitudes. This process relies on the Gutenberg-Richter relationship, using key parameters such as the fault's maximum magnitude, a-value, and b-value, which describe the overall earthquake productivity and the distribution of earthquake sizes.">
                             <img src="{% static 'images/SAPGA.svg' %}" alt="Icon 1" class="card-icon">
                             <div class="card-text">
                                 <h3>Occurrence Rate Calculator</h3>
                                 <p>Calculate the Occurrence Rate of each fault</p>
                             </div>
                         </a>
-
-
-                        <!-- <a href="{% url 'sa_pga_map' %}" class="tool-card">
-                            <img src="{% static 'images/SAPGA.svg' %}" alt="Icon 1" class="card-icon">
-                            <div class="card-text">
-                                <h3>SA PGA Map</h3>
-                                <p>Check info on specific sites</p>
-                            </div>
-                        </a> -->
                     </div>
+                    
                 </div>
                 
             </div>
@@ -127,9 +111,8 @@
                     <img src="{% static 'images/NO IMAGE DARK.svg' %}" alt="Img 1" class="img1">
                     <div class="text">
                         <!-- <h4>Section title</h4> -->
-                        <h5>Title</h5>
-                        <p>Nunc, mattis arcu eu ut quisque quam. Nunc rhoncus, arcu venenatis consectetur facilisis. Nibh nibh porttitor lectus sit porta vestibulum. Gravida ultricies ultrices velit adipiscing nec ultricies curabitur adipiscing non. Porttitor feugiat at duis aliquam, viverra et amet. Duis pellentesque integer sem sit. Nisl praesent aliquam tellus metus sem id. Feugiat maecenas sollicitudin sed fusce turpis vel hendrerit. Commodo massa ac justo faucibus faucibus ipsum amet. Arcu tincidunt mattis lectus pellentesque in.</p>
-                        <p>Nunc, mattis arcu eu ut quisque quam. Nunc rhoncus, arcu venenatis consectetur facilisis. Nibh nibh porttitor lectus sit porta vestibulum. Gravida ultricies ultrices velit adipiscing nec ultricies curabitur adipiscing non. Porttitor feugiat at duis aliquam, viverra et amet. Duis pellentesque integer sem sit. Nisl praesent aliquam tellus metus sem id. Feugiat maecenas sollicitudin sed fusce turpis vel hendrerit. Commodo massa ac justo faucibus faucibus ipsum amet. Arcu tincidunt mattis lectus pellentesque in.</p>
+                        <h5>OpenQuake Engine</h5>
+                        <p>The OpenQuake Engine is an open-source software developed for earthquake hazard and risk modeling by the GEM (Global Earthquake Model) Foundation and its collaborators. Written Primarily in python, the Openquake Engine provides developers with tools that they can integrate into other applications. By accessing and modifying the OpenQuake source code, the developers have a versatile framework that is customized for the specific types of seismic analysis needed, from small-scale tools for specific regions to large-scale, high-performance risk assessment systems.</p>
                     </div>
             </div>
         </section>
@@ -139,8 +122,27 @@
                 <img src="{% static 'images/NO IMAGE LIGHT.svg' %}" alt="Img 2" class="img2">
                 <div class="text">
                     <!-- <h4>Section title</h4> -->
-                    <p>Nunc, mattis arcu eu ut quisque quam. Nunc rhoncus, arcu venenatis consectetur facilisis. Nibh nibh porttitor lectus sit porta vestibulum. Gravida ultricies ultrices velit adipiscing nec ultricies curabitur adipiscing non. Porttitor feugiat at duis aliquam, viverra et amet. Duis pellentesque integer sem sit. Nisl praesent aliquam tellus metus sem id. Feugiat maecenas sollicitudin sed fusce turpis vel hendrerit. Commodo massa ac justo faucibus faucibus ipsum amet. Arcu tincidunt mattis lectus pellentesque in.</p>
-                    <p>Nunc, mattis arcu eu ut quisque quam. Nunc rhoncus, arcu venenatis consectetur facilisis. Nibh nibh porttitor lectus sit porta vestibulum. Gravida ultricies ultrices velit adipiscing nec ultricies curabitur adipiscing non. Porttitor feugiat at duis aliquam, viverra et amet. Duis pellentesque integer sem sit. Nisl praesent aliquam tellus metus sem id. Feugiat maecenas sollicitudin sed fusce turpis vel hendrerit. Commodo massa ac justo faucibus faucibus ipsum amet. Arcu tincidunt mattis lectus pellentesque in.</p>
+                    <p>Technologies such as geographic information systems like Quantum GIS and ESRI’s ArcGIS, and computational systems like MATLAB and GNU Octave can assist in processing extensive earthquake events and seismic sources for seismic hazard analysis. However, none of the aforementioned tools can perform every necessary function, and switching across different applications and formats can be a tedious process. Aside from the impracticality, handling large datasets manually can also lead to challenges with efficiency and accuracy, and introduce a higher probability of uncertainty. These challenges can be critical when dealing with hazard information as these can potentially affect data-driven decision-making in disaster mitigation. With this in mind, developing a software that can process all this data at once can prove to be more efficient and user-friendly.</p>
+                    <p>The SHADE Project developed a Python-based software to aid in the seismic hazard assessment of the Philippines. The application features an interactive map that is seamlessly integrated, utilizing earthquake catalogs and fault parameters of established predefined points,  essential for computing Spectral Acceleration (SA) and Peak Ground Acceleration (PGA) of specific locations. By utilizing this map, users have the ability to choose specific points and access SA (at 0.2s and 1.0s), PGA values, and the hazard curves for the chosen location. The application simplifies the process of ascertaining PGA and SA values, as users simply need to select a point on the map, with the results being automatically generated, eliminating the need for manual analysis and calculations. This streamlines the assessment of potential hazards in the area, providing a more dependable and efficient approach for individuals.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="Info_Section3">
+            <div class="Section3">
+                <img src="{% static 'images/NO IMAGE DARK.svg' %}" alt="Img 3" class="img3">
+                <div class="text">
+                    <!-- <h4>Section title</h4> -->
+                    <h5 class="center-title">Seismic Hazard Atlas for the Design Earthquake of the Philippines (SHADE PH)</h5>
+                    <p>The Department of Science and Technology Grants-In-Aid (DOST-GIA) funded project entitled, “Seismic Hazard Assessment for the Design Earthquake of the Philippines” or SHADE Project aimed to 
+                        prepare necessary data and parameters for conducting seismic hazard analysis, to develop Design Risk-Targeted Maximum Considered Earthquake (MCE) Maps for the Philippines, and to integrate 
+                        these outputs for seismic load design considerations. With the Department of Science and Technology - Philippine Institute on Volcanology and Seismology (DOST-PHIVOLCS) as its implementing 
+                        agency, the SHADE Project officially started its activities in March 2023. </p>
+                    <p>One of the primary activities of the SHADE Project is to conduct a comprehensive seismic hazard assessment of the country and to present the necessary ground motion hazard map outputs in 
+                        support to the possible transition of the National Structural Code of the Philippines (NSCP) from adopting the seismic structural provisions of the Uniform Building Code of 1997 (UBC 97) to the more 
+                        updated provisions of the American Society of Civil Engineers (ASCE) on seismic loading from 7-05, 7-10, and 7-16. With the Association of Structural Engineers of the Philippines (ASEP) as a project 
+                        partner and collaborator, these efforts to provide the necessary seismic hazard maps are to ensure accurate seismic loading design considerations for earthquake-resistant civil engineering structures 
+                        in the country. </p>
                 </div>
             </div>
         </section>
@@ -159,7 +161,18 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
+    <script>
+        document.querySelectorAll('.tool-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                const description = card.getAttribute('data-description');
+                document.querySelector('.about-card p.default-text').innerText = description;
+            });
+    
+            card.addEventListener('mouseleave', () => {
+                document.querySelector('.about-card p.default-text').innerText = 'An effective strategy in evaluating seismic hazards plays a very crucial role in efforts at disaster risk reduction and management within a very seismically active country. Techniques available - be it probabilistic or deterministic-rely on extensive datasets with respect to attenuation models for ground motion, models for seismic sources, and earthquake catalogs. The SHADE Project developed a Python-based application that simplifies the computing and visualization of ground motion parameters in assessing seismic hazard in the Philippines.';
+            });
+        });
+    </script>
 </body>
 </html>
 
