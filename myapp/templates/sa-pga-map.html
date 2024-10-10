@@ -58,31 +58,37 @@
                             </div>                                   
                             
                             <div class="form-content">
-                                <form id="occurrence-rates-form">
+                                <form id="coordinates-form" method="POST">
+                                    {% csrf_token %}
                                     <!-- Current coordinates fields -->
                                     <div class="mb-3">
                                         <label for="longitude" class="form-label">Longitude</label>
-                                        <input type="text" id="current-lon" class="form-control" readonly value="0.0">
+                                        <input type="text" id="current-lon" class="form-control" placeholder="0.0">
                                     </div>
                                     <div class="mb-3">
                                         <label for="latitude" class="form-label">Latitude</label>
-                                        <input type="text" id="current-lat" class="form-control" readonly value="0.0">
-                                    </div>
-
-                                    <!-- Site information fields -->
-                                    <div class="mb-3">
-                                        <label for="sa1" class="form-label">SA₁</label>
-                                        <input type="text" id="sa1" class="form-control" readonly value="0.0">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="sa02" class="form-label">SA₀₂</label>
-                                        <input type="text" id="sa02" class="form-control" readonly value="0.0">
+                                        <input type="text" id="current-lat" class="form-control" placeholder="0.0">
                                     </div>
                                 </form>
+
+                                <div class="site-info">
+                                    <h3>Site Information:</h3>
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td class="SA-title">SA₁</td>
+                                                <td id="sa1-value" class="SA-value">0.0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="SA-title">SA₀₂</td>
+                                                <td id="sa02-value" class="SA-value">0.0</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                             </div>
                         
                             <div class="button-group">
-                                <button type="button" id="calculate-button">Check Data</button>
+                                <button type="button" id="update-coords">Check Data</button>
                             </div>
 
                         </div>
@@ -90,6 +96,12 @@
                 </div>
                 
             </div>
+        
+            <div id="popup" class="popup" style="display: none;">
+                This point is outside of the Philippines. You may use these coordinates, but only the closest data from the Philippines will be used.
+                <button id="closePopup">Close</button>
+            </div>
+
         </section>
 
         <section class="background">
@@ -121,8 +133,7 @@
     </footer>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-    crossorigin=""></script>
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
@@ -146,72 +157,76 @@
             }
 
             function updateClosestPointInfo(data) {
-                var coordinatesElem = document.getElementById('closest-point-coordinates');
-                var additionalDataElem = document.getElementById('additional-data');
                 var latInput = document.getElementById('current-lat');
                 var lonInput = document.getElementById('current-lon');
-                var infoDiv = document.getElementById('closest-point-info');
+                var sa1Input = document.getElementById('sa1-value');
+                var sa02Input = document.getElementById('sa02-value');
 
                 if (data.current_coord) {
                     latInput.value = data.current_coord[0];
                     lonInput.value = data.current_coord[1];
-                    additionalDataElem.innerHTML  = 'Site Information: <br>SA1 = ' + data.sa1 + '<br>SA02 = ' + data.sa02;
-                } else {
-                    infoDiv.innerHTML = '<p>Click on the map to find the closest point.</p>';
+                    sa1Input.textContent  = data.sa1;
+                    sa02Input.textContent  = data.sa02;
                 }
-    }
-
-    function submitCoordinates(lat, lon) {
-        var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '{% url "sa_pga_map" %}', true);
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.setRequestHeader('X-CSRFToken', csrfToken);
-        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                var data = JSON.parse(xhr.responseText);
-                updateClosestPointInfo(data);
             }
-        };
 
-        xhr.send(`lat=${lat}&lon=${lon}`);
-    }
+            function submitCoordinates(lat, lon) {
+                var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '{% url "sa_pga_map" %}', true);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.setRequestHeader('X-CSRFToken', csrfToken);
+                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 
-    function checkAndSubmitCoordinates(lat, lon) {
-        if (lat < 4 || lat > 21 || lon < 116 || lon > 127) {
-            document.getElementById('popup').style.display = 'block';
-        } else {
-            submitCoordinates(lat, lon);
-        }
-    }
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        var data = JSON.parse(xhr.responseText);
+                        updateClosestPointInfo(data);
+                    }
+                };
 
-    document.getElementById('closePopup').addEventListener('click', function() {
-        document.getElementById('popup').style.display = 'none';
-    });
+                xhr.send(`lat=${lat}&lon=${lon}`);
+            }
 
-    map.on('click', function(e) {
-        var coord = e.latlng;
-        var lat = parseFloat(coord.lat.toFixed(5));
-        var lng = parseFloat(coord.lng.toFixed(5));
-        document.getElementById('coords').innerHTML = 'Clicked coordinates: ' + [lat, lng];
-        addOrUpdateMarker(lat, lng);
-        checkAndSubmitCoordinates(lat, lng);
-    });
+            function checkAndSubmitCoordinates(lat, lon) {
+                if (lat < 4 || lat > 21 || lon < 116 || lon > 127) {
+                    // Show the popup over the entire map
+                    document.getElementById('popup').style.display = 'flex';
+                    document.getElementById('popup').innerHTML = `
+                        <div class="card">
+                            <p>This point is outside of the Philippines.</p>
+                            <p>You may use these coordinates, but only the closest data from the Philippines will be used.</p>
+                            <button id="closePopup">Close</button>
+                        </div>`;
+                } else {
+                    submitCoordinates(lat, lon);
+                }
+            }
 
-    // Ensure the event listener is added only once
-    document.getElementById('update-coords').addEventListener('click', function(event) {
-        event.preventDefault();
-        var lat = parseFloat(document.getElementById('current-lat').value);
-        var lon = parseFloat(document.getElementById('current-lon').value);
-        checkAndSubmitCoordinates(lat, lon);
-    });
 
-    document.getElementById('back-button').addEventListener('click', function() {
-                window.location.href = "{% url 'shade_redesign' %}"; 
-    });
-});
+            // Close popup when the close button is clicked
+            document.addEventListener('click', function(event) {
+                if (event.target && event.target.id === 'closePopup') {
+                    document.getElementById('popup').style.display = 'none';
+                }
+            });
+
+            map.on('click', function(e) {
+                var coord = e.latlng;
+                var lat = parseFloat(coord.lat.toFixed(5));
+                var lng = parseFloat(coord.lng.toFixed(5));
+                addOrUpdateMarker(lat, lng);
+                checkAndSubmitCoordinates(lat, lng);
+            });
+
+            // Ensure the event listener is added only once
+            document.getElementById('update-coords').addEventListener('click', function(event) {
+                event.preventDefault();
+                var lat = parseFloat(document.getElementById('current-lat').value);
+                var lon = parseFloat(document.getElementById('current-lon').value);
+                checkAndSubmitCoordinates(lat, lon);
+            });
+        });
 
     </script>
     
