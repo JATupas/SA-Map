@@ -18,7 +18,7 @@ def create_model(text_file_path, fault_file_path, eq_file_path, vertice_file_pat
     text_file.writelines("<?xml version='1.0' encoding='utf-8'?>" + '\n')
     text_file.writelines('<nrml xmlns:gml="http://www.opengis.net/gml"' + '\n')
     text_file.writelines('\t' + 'xmlns="http://openquake.org/xmlns/nrml/0.4">' + '\n\n')
-    text_file.writelines('\t' + '<sourceModel name="Final_PSHA 2016 Philippines_011517">' + '\n\n\n')
+    text_file.writelines('\t' + '<sourceModel name="Seismic Hazard Assessment for Design Earthquake of the Philippines">' + '\n\n\n')
 
     fault_info_list = []
 
