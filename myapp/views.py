@@ -37,9 +37,11 @@ def sa_pga_map(request):
     points = df[['xcoord', 'ycoord']].values
     values_sa1 = df['Combined-SA1'].values
     values_sa02 = df['Combined-SA02'].values
+    values_tl = df['TL'].values
     
     sa1 = None
     sa02 = None
+    tl = None
     given_point = None
     
     if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
@@ -54,17 +56,21 @@ def sa_pga_map(request):
             # Perform interpolation to find the nearest values
             interpolated_sa1 = griddata(points, values_sa1, given_point, method='nearest')
             interpolated_sa02 = griddata(points, values_sa02, given_point, method='nearest')
+            interpolated_tl = griddata(points, values_tl, given_point, method='nearest')
 
             # Handle potential NaN values in interpolation results
             if np.isnan(interpolated_sa1):
                 interpolated_sa1 = None
             if np.isnan(interpolated_sa02):
                 interpolated_sa02 = None
+            if np.isnan(interpolated_tl):
+                interpolated_tl = None
 
             response_data = {
                 'current_coord': given_point,
                 'sa1': float(interpolated_sa1) if interpolated_sa1 is not None else None,
                 'sa02': float(interpolated_sa02) if interpolated_sa02 is not None else None,
+                'tl': float(interpolated_tl) if interpolated_tl is not None else None,
             }
             return JsonResponse(response_data)
         except Exception as e:
@@ -75,6 +81,7 @@ def sa_pga_map(request):
         'current_coord': given_point,
         'sa1': sa1,
         'sa02': sa02,
+        'tl': tl,
     }
     return render(request, 'sa-pga-map.html', context)
 # Add more views as needed
