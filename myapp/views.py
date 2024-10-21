@@ -54,8 +54,8 @@ def sa_pga_map(request):
             print("Received coordinates:", given_point)
 
             # Perform interpolation to find the nearest values
-            interpolated_sa1 = griddata(points, values_sa1, given_point, method='nearest')
-            interpolated_sa02 = griddata(points, values_sa02, given_point, method='nearest')
+            interpolated_sa1 = griddata(points, values_sa1, given_point, method='linear')
+            interpolated_sa02 = griddata(points, values_sa02, given_point, method='linear')
             interpolated_tl = griddata(points, values_tl, given_point, method='nearest')
 
             # Handle potential NaN values in interpolation results
