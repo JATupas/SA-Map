@@ -1,4 +1,4 @@
-#Import necessary packages
+# Import necessary packages
 import pandas as pd
 import numpy as np
 import os
@@ -7,11 +7,12 @@ from shapely.geometry import Point, Polygon
 
 def assign_depth(latitude, longitude):
     # Define the polygon with coordinates
-    polygon = Polygon([(14.8, 120.88), (14.8, 121.16), (14.3, 121.16), (14.3, 120.88)])
-    
+    polygon = Polygon([(14.8, 120.88), (14.8, 121.16),
+                      (14.3, 121.16), (14.3, 120.88)])
+
     # Create a point object for the given latitude and longitude
     point = Point(latitude, longitude)
-    
+
     # Check if the point falls within the polygon
     if polygon.contains(point):
         return 1  # Depth is 1 km
@@ -19,50 +20,48 @@ def assign_depth(latitude, longitude):
         return 5  # Depth is 5 km
 
 
-
 def clean_and_process_data(input_file_path, output_file_path):
 
-    #List all files in input directory
+    # List all files in input directory
     excel_file_list = os.listdir(input_file_path)
 
-    #Create dataframe
+    # Create dataframe
     df = pd.DataFrame()
 
     print("Combining the following raw data files into a single catalogue.")
 
-    #Stack all rows into a single file
+    # Stack all rows into a single file
     for excel_files in excel_file_list:
 
-    #check for .xlsx suffix files only
+        # check for .xlsx suffix files only
         if excel_files.endswith(".xlsx"):
 
             print(excel_files)
-            #create a new dataframe to read/open each Excel file from the list of files created above
+            # create a new dataframe to read/open each Excel file from the list of files created above
             df1 = pd.read_excel(input_file_path + excel_files)
-            
-            #append each file into the original empty dataframe
-            df = pd.concat([df,df1], ignore_index=True)
 
-    #Create a new file for the stacked catalogue with .xslx extension
+            # append each file into the original empty dataframe
+            df = pd.concat([df, df1], ignore_index=True)
+
+    # Create a new file for the stacked catalogue with .xslx extension
     df.to_excel(output_file_path + "Stacked_Catalogue.xlsx", index=False)
 
-    #print all the files stored in the folder, after defining the list
+    # print all the files stored in the folder, after defining the list
     print(excel_file_list)
 
-    #Remove Spaces in column Headers
+    # Remove Spaces in column Headers
     df.columns = df.columns.str.strip()
 
-    #Remove spaces in column TYPE
+    # Remove spaces in column TYPE
     df['TYPE'] = df['TYPE'].str.strip()
 
-    
-
-    #Strip all whitespaces from whole dataframe
+    # Strip all whitespaces from whole dataframe
     df = df.apply(lambda x: x.strip() if isinstance(x, str) else x)
 
-    #indicate needed columns
-    columns_to_keep = ['EVENTID', 'AUTHOR', 'DATE', 'TIME', 'LAT', 'LON', 'DEPTH', 'TYPE', 'MAG']
-    #drop all columns except stated above
+    # indicate needed columns
+    columns_to_keep = ['EVENTID', 'AUTHOR', 'DATE',
+                       'TIME', 'LAT', 'LON', 'DEPTH', 'TYPE', 'MAG']
+    # drop all columns except stated above
     df.drop(df.columns.difference(columns_to_keep), axis=1, inplace=True)
 
     df['AUTHOR'] = df['AUTHOR'].fillna('Unknown').astype(str)
@@ -90,8 +89,8 @@ def clean_and_process_data(input_file_path, output_file_path):
     df.reset_index(drop=True, inplace=True)
     after_rows_count = ("After: " + str(len(df.index)))
     after_rows_count
-    #add columns
-    df[['MAGCONV','TClass']] = ''
+    # add columns
+    df[['MAGCONV', 'TClass']] = ''
 
     # # Transfer MAG data based on TYPE column
     # conditions = {
@@ -99,7 +98,7 @@ def clean_and_process_data(input_file_path, output_file_path):
     #     'MB': 'mb',
     #     'MS': 'ms',
     #     'MW': 'mw'
-    # }  
+    # }
 
     # for type_value, target_column in conditions.items():
     #     mask = df['TYPE'] == type_value
@@ -126,11 +125,12 @@ def clean_and_process_data(input_file_path, output_file_path):
             return 'Intraslab'
 
     # Convert 'DEPTH' column to int or handle NaN/empty values
-    df['DEPTH'] = df['DEPTH'].apply(lambda x: x.strip() if isinstance(x, str) else x)
-    df['DEPTH'] = df['DEPTH'].fillna(0)
+    df['DEPTH'] = df['DEPTH'].apply(
+        lambda x: x.strip() if isinstance(x, str) else x)
+    df['DEPTH'] = df['DEPTH'].fillna(5)
 
     # Apply the assign_depth function to each row to get the depth value
-    df['DEPTH'] = df.apply(lambda row: assign_depth(row['LAT'], row['LON']) if pd.isnull(row['DEPTH']) or (isinstance(row['DEPTH'], str) and row['DEPTH'].strip() == '0') else row['DEPTH'], axis=1)
+    # df['DEPTH'] = df.apply(lambda row: assign_depth(row['LAT'], row['LON']) if pd.isnull(row['DEPTH']) or (isinstance(row['DEPTH'], str) and row['DEPTH'].strip() == '0') else row['DEPTH'], axis=1)
 
     # Apply categorization to each row
     df['TClass'] = df['DEPTH'].apply(categorize_depth)
@@ -138,7 +138,9 @@ def clean_and_process_data(input_file_path, output_file_path):
     # TClass_counts = df['TClass'].value_counts()
     def calculate_MAGCONV(df):
         # Ensure 'MAG' column is numeric
-        df['MAG'] = pd.to_numeric(df['MAG'], errors='coerce').fillna(0).astype(float)
+        df['MAG'] = pd.to_numeric(
+            df['MAG'], errors='coerce').fillna(0).astype(float)
+
         def isc_bulletin(row):
             if row['TYPE'] == 'MB':
                 return 1.084 * row['MAG'] - 0.142
@@ -204,7 +206,7 @@ def clean_and_process_data(input_file_path, output_file_path):
         df['MAGCONV'] = np.select(conditions, choices, default=df['MAG'])
         return df
     # print("Unique values in 'AUTHOR':", df['AUTHOR'].unique())
-    df=calculate_MAGCONV(df)
+    df = calculate_MAGCONV(df)
 
     df = df[df['MAGCONV'] != 0]
 
@@ -218,12 +220,14 @@ def clean_and_process_data(input_file_path, output_file_path):
     df['Second'] = df['Second'].replace('', '0')
 
     # Convert 'Hour', 'Minute', and 'Second' columns to integers
-    df[['Hour', 'Minute', 'Second']] = df[['Hour', 'Minute', 'Second']].fillna(0).astype(int)
+    df[['Hour', 'Minute', 'Second']] = df[[
+        'Hour', 'Minute', 'Second']].fillna(0).astype(int)
 
     df = df.drop(columns=['TIME'])
 
     # Concatenate whole row into an additional column named 'Concatenated'
-    df['Concatenated'] = df.apply(lambda row: '|'.join(row.astype(str)), axis=1)
+    df['Concatenated'] = df.apply(
+        lambda row: '|'.join(row.astype(str)), axis=1)
 
     # Drop duplicates based on the 'Concatenated' column
     df.drop_duplicates(subset='Concatenated', keep='first', inplace=True)
@@ -237,15 +241,18 @@ def clean_and_process_data(input_file_path, output_file_path):
     df['DATE'] = df['DATE'].str.replace('/', '-')
 
     # Assuming 'Date' column is in the format 'DD-MM-YYYY'
-    df[['Year', 'Month', 'Day']] = df['DATE'].str.split('-', expand=True).astype(float)
+    df[['Year', 'Month', 'Day']] = df['DATE'].str.split(
+        '-', expand=True).astype(float)
 
-    df = df[['AUTHOR', 'Year', 'Month', 'Day', 'Hour', 'Minute', 'Second', 'LAT', 'LON', 'DEPTH', 'MAGCONV', 'TClass']]
+    df = df[['AUTHOR', 'Year', 'Month', 'Day', 'Hour', 'Minute',
+             'Second', 'LAT', 'LON', 'DEPTH', 'MAGCONV', 'TClass']]
     df.rename(columns={'MAGCoNV': 'magW'}, inplace=True)
     df = df.dropna(subset=['DEPTH']).query("DEPTH != 0")
 
     columns_to_replace = ['Year', 'Month', 'Day', 'Hour', 'Minute', 'Second']
     df[columns_to_replace] = df[columns_to_replace].fillna(0)
-    df[['Year', 'Month', 'Day', 'Hour', 'Minute', 'Second']] = df[['Year', 'Month', 'Day', 'Hour', 'Minute', 'Second']]
+    df[['Year', 'Month', 'Day', 'Hour', 'Minute', 'Second']] = df[[
+        'Year', 'Month', 'Day', 'Hour', 'Minute', 'Second']]
 
     df['Year'] = df['Year'].astype(float).round(3)
     df['Month'] = df['Month'].astype(float).clip(lower=1, upper=12).round(3)
