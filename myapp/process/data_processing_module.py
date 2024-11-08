@@ -130,7 +130,8 @@ def clean_and_process_data(input_file_path, output_file_path):
     df['DEPTH'] = df['DEPTH'].fillna(5)
 
     # Apply the assign_depth function to each row to get the depth value
-    # df['DEPTH'] = df.apply(lambda row: assign_depth(row['LAT'], row['LON']) if pd.isnull(row['DEPTH']) or (isinstance(row['DEPTH'], str) and row['DEPTH'].strip() == '0') else row['DEPTH'], axis=1)
+    df['DEPTH'] = df.apply(lambda row: assign_depth(row['LAT'], row['LON']) if pd.isnull(row['DEPTH']) or (
+        isinstance(row['DEPTH'], str) and row['DEPTH'].strip() == '0') else row['DEPTH'], axis=1)
 
     # Apply categorization to each row
     df['TClass'] = df['DEPTH'].apply(categorize_depth)
