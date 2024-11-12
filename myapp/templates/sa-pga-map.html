@@ -69,6 +69,10 @@
                                         <label for="latitude" class="form-label">Latitude</label>
                                         <input type="text" id="current-lat" class="form-control" placeholder="0.0">
                                     </div>
+                                    <div class="mb-3">
+                                        <label for="site" class="form-label">Site Classification</label>
+                                        <input type="text" id="site" class="form-control" placeholder="A">
+                                    </div>
                                 </form>
 
                                 <div class="site-info">
@@ -94,6 +98,38 @@
                                             <tr>
                                                 <td class="SA-title">Tₗ</td>
                                                 <td id="tl-value" class="SA-value">0.0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="SA-title">Fa</td>
+                                                <td id="Fa-value" class="SA-value">0.0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="SA-title">Fv</td>
+                                                <td id="Fv-value" class="SA-value">0.0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="SA-title">SMS</td>
+                                                <td id="SMS-value" class="SA-value">0.0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="SA-title">SM1</td>
+                                                <td id="SM1-value" class="SA-value">0.0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="SA-title">SDS</td>
+                                                <td id="SDS-value" class="SA-value">0.0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="SA-title">SD1</td>
+                                                <td id="SD1-value" class="SA-value">0.0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="SA-title">Ts</td>
+                                                <td id="Ts-value" class="SA-value">0.0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="SA-title">To</td>
+                                                <td id="To-value" class="SA-value">0.0</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -147,112 +183,127 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
-            console.log("DOMContentLoaded event fired");
+        console.log("DOMContentLoaded event fired");
 
-            var map = L.map('map').setView([13.41, 122.56], 6);
-            map.options.minZoom = 4;
+        var map = L.map('map').setView([13.41, 122.56], 6);
+        map.options.minZoom = 4;
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
 
-            var marker;
+        var marker;
 
-            function addOrUpdateMarker(lat, lon) {
-                if (marker) {
-                    marker.setLatLng([lat, lon]).update();
-                } else {
-                    marker = L.marker([lat, lon]).addTo(map);
-                }
+        function addOrUpdateMarker(lat, lon) {
+            if (marker) {
+                marker.setLatLng([lat, lon]).update();
+            } else {
+                marker = L.marker([lat, lon]).addTo(map);
             }
+        }
 
-            function updateClosestPointInfo(data) {
-                var latInput = document.getElementById('current-lat');
-                var lonInput = document.getElementById('current-lon');
-                var latCell = document.getElementById('lat');
-                var lonCell = document.getElementById('long');
-                var sa1Input = document.getElementById('sa1-value');
-                var sa02Input = document.getElementById('sa02-value');
-                var tlInput = document.getElementById('tl-value');
-                
+        function updateClosestPointInfo(data) {
+            var latInput = document.getElementById('current-lat');
+            var lonInput = document.getElementById('current-lon');
+            var latCell = document.getElementById('lat');
+            var lonCell = document.getElementById('long');
+            var sa1Input = document.getElementById('sa1-value');
+            var sa02Input = document.getElementById('sa02-value');
+            var tlInput = document.getElementById('tl-value');
+            var FaInput = document.getElementById('Fa-value');
+            var FvInput = document.getElementById('Fv-value');
+            var SMSInput = document.getElementById('SMS-value');
+            var SM1Input = document.getElementById('SM1-value');
+            var SDSInput = document.getElementById('SDS-value');
+            var SD1Input = document.getElementById('SD1-value');
+            var TsInput = document.getElementById('Ts-value');
+            var ToInput = document.getElementById('To-value');
 
-                if (data.current_coord) {
-                    latInput.value = data.current_coord[0];
-                    lonInput.value = data.current_coord[1];
-                    sa1Input.textContent  = data.sa1;
-                    sa02Input.textContent  = data.sa02;
-                    tlInput.textContent = data.tl;
-                }
-                latCell.textContent = latInput.value;
-                lonCell.textContent = lonInput.value;
+            if (data.current_coord) {
+                latInput.value = data.current_coord[0];
+                lonInput.value = data.current_coord[1];
+                sa1Input.textContent  = data.sa1;
+                sa02Input.textContent  = data.sa02;
+                tlInput.textContent = data.tl;
+                FaInput.textContent = data.Fa;
+                FvInput.textContent = data.Fv;
+                SMSInput.textContent = data.SMS;
+                SM1Input.textContent = data.SM1;
+                SDSInput.textContent = data.SDS;
+                SD1Input.textContent = data.SD1;
+                TsInput.textContent = data.Ts;
+                ToInput.textContent = data.To;
             }
+            latCell.textContent = latInput.value;
+            lonCell.textContent = lonInput.value;
+        }
 
-            function submitCoordinates(lat, lon) {
-                var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-                var xhr = new XMLHttpRequest();
-                xhr.open('POST', '{% url "sa_pga_map" %}', true);
-                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                xhr.setRequestHeader('X-CSRFToken', csrfToken);
-                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        function submitCoordinates(lat, lon) {
+            var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '{% url "sa_pga_map" %}', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.setRequestHeader('X-CSRFToken', csrfToken);
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        var data = JSON.parse(xhr.responseText);
-                        updateClosestPointInfo(data);
-                    }
-                };
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var data = JSON.parse(xhr.responseText);
+                    updateClosestPointInfo(data);
+                }
+            };
 
-                xhr.send(`lat=${lat}&lon=${lon}`);
+            xhr.send(`lat=${lat}&lon=${lon}`);
+        }
+
+        function checkAndSubmitCoordinates(lat, lon) {
+            if (lat < 4 || lat > 21 || lon < 116 || lon > 127) {
+                // Show the popup over the entire map
+                document.getElementById('popup').style.display = 'flex';
+                document.getElementById('popup').innerHTML = `
+                    <div class="card">
+                        <p>This point is outside of the Philippines, there is no available data for the selected coordinates.</p>
+                        <button id="closePopup">Close</button>
+                    </div>`;
+            } else {
+                submitCoordinates(lat, lon);
             }
+        }
 
-            function checkAndSubmitCoordinates(lat, lon) {
-                if (lat < 4 || lat > 21 || lon < 116 || lon > 127) {
-                    // Show the popup over the entire map
-                    document.getElementById('popup').style.display = 'flex';
-                    document.getElementById('popup').innerHTML = `
-                        <div class="card">
-                            <p>This point is outside of the Philippines, there is no available data for the selected coordinates.</p>
-                            <button id="closePopup">Close</button>
-                        </div>`;
-                } else {
-                    submitCoordinates(lat, lon);
-                }
+        // Close popup when the close button is clicked
+        document.addEventListener('click', function(event) {
+            if (event.target && event.target.id === 'closePopup') {
+                document.getElementById('popup').style.display = 'none';
             }
-
-
-            // Close popup when the close button is clicked
-            document.addEventListener('click', function(event) {
-                if (event.target && event.target.id === 'closePopup') {
-                    document.getElementById('popup').style.display = 'none';
-                }
-            });
-
-            map.on('click', function(e) {
-                var coord = e.latlng;
-                var lat = parseFloat(coord.lat.toFixed(5));
-                var lng = parseFloat(coord.lng.toFixed(5));
-                addOrUpdateMarker(lat, lng);
-                checkAndSubmitCoordinates(lat, lng);
-            });
-
-            // Ensure the event listener is added only once
-            document.getElementById('update-coords').addEventListener('click', function(event) {
-                event.preventDefault();
-                var lat = parseFloat(document.getElementById('current-lat').value);
-                var lon = parseFloat(document.getElementById('current-lon').value);
-                
-                // Check if lat/lon are valid before proceeding
-                if (!isNaN(lat) && !isNaN(lon)) {
-                    // Add or update marker on the map based on the input coordinates
-                    addOrUpdateMarker(lat, lon);
-                    
-                    // Submit the coordinates for data checking
-                    checkAndSubmitCoordinates(lat, lon);
-                } else {
-                    alert("Please enter valid latitude and longitude values.");
-                }
-            });
         });
+
+        map.on('click', function(e) {
+            var coord = e.latlng;
+            var lat = parseFloat(coord.lat.toFixed(5));
+            var lng = parseFloat(coord.lng.toFixed(5));
+            addOrUpdateMarker(lat, lng);
+            checkAndSubmitCoordinates(lat, lng);
+        });
+
+        // Ensure the event listener is added only once
+        document.getElementById('update-coords').addEventListener('click', function(event) {
+            event.preventDefault();
+            var lat = parseFloat(document.getElementById('current-lat').value);
+            var lon = parseFloat(document.getElementById('current-lon').value);
+
+            // Check if lat/lon are valid before proceeding
+            if (!isNaN(lat) && !isNaN(lon)) {
+                // Add or update marker on the map based on the input coordinates
+                addOrUpdateMarker(lat, lon);
+
+                // Submit the coordinates for data checking
+                checkAndSubmitCoordinates(lat, lon);
+            } else {
+                alert("Please enter valid latitude and longitude values.");
+            }
+        });
+    });
+
 
     </script>
     
