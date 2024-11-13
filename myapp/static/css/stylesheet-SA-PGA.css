@@ -217,7 +217,7 @@ main {
     flex-wrap: wrap;
     gap: 20px;
     flex-basis: 35%;
-    width: 833px;
+    width: 833px;   
 }
 
 .form-card {

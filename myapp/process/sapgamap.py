@@ -84,7 +84,7 @@ def Fv_value(site, interpolated_sa1):
 
 def process_sa_pga_map(lat, lon, site):
     # Define the path to the CSV file
-    csv_file_path = "C:/Users/shade/ShadeApp/SHADEWebApp/myapp/data/points.csv"
+    csv_file_path = "C:/Users/Jedrek/Documents/GitHub/SHADEWebApp/myapp/data/points.csv"
     # csv_file_path = os.path.join(settings.BASE_DIR, 'myapp', 'data', 'points.csv')
     
     # Load the points and additional data from the CSV file
@@ -116,6 +116,22 @@ def process_sa_pga_map(lat, lon, site):
     SD1 = SM1 * (2/3)
     Ts = SD1 / SDS
     To = 0.2 * Ts
+    
+    print(lat)
+    print(lon)
+    print(site)
+    print(interpolated_sa1)
+    print(interpolated_sa02)
+    print(interpolated_tl)
+    print(Favalue)
+    print(Fvvalue)
+    print(SMS)
+    print(SM1)
+    print(SDS)
+    print(SD1)
+    print(Ts)
+    print(To)
+
 
     return {
         'current_coord': given_point,
@@ -135,7 +151,7 @@ def process_sa_pga_map(lat, lon, site):
 
 
 
-lat = 14.60388
-lon = 121.04986
-site = "D"
-process_sa_pga_map(lat, lon, site)
+# lat = 14.60388
+# lon = 121.04986
+# site = "D"
+# process_sa_pga_map(lat, lon, site)
