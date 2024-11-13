@@ -38,6 +38,7 @@ def sa_pga_map(request):
     # Initialize values
     sa1, sa02, tl, Favalue, Fvvalue, SMS, SM1, SDS, SD1, Ts, To = [None] * 11
     given_point = None
+    image_base64 = None
 
     if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
         try:
@@ -60,6 +61,7 @@ def sa_pga_map(request):
                 raise ValueError("No data returned from process_sa_pga_map")
             
             # Extract values from the response data
+            image_base64 = response_data.get('image_base64')
             sa1 = response_data.get('sa1')
             sa02 = response_data.get('sa02')
             tl = response_data.get('tl')
@@ -87,6 +89,7 @@ def sa_pga_map(request):
                 'SD1': float(SD1) if SD1 is not None else None,
                 'Ts': float(Ts) if Ts is not None else None,
                 'To': float(To) if To is not None else None,
+                'image_base64': image_base64,
             })
         except Exception as e:
             print(f"Error processing coordinates: {str(e)}")  # More detailed logging
