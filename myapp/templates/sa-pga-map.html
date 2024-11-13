@@ -81,11 +81,11 @@
                                     <table class="table">
                                         <tbody>
                                             <tr>
-                                                <td class="SA-title">Longitude</td>
+                                                <td class="SA-title">Latitude</td>
                                                 <td id="long" class="SA-value">{{ current_coord.lng|default:0.0 }}</td>
                                             </tr>
                                             <tr>
-                                                <td class="SA-title">Latitude</td>
+                                                <td class="SA-title">Longitude</td>
                                                 <td id="lat" class="SA-value">{{ current_coord.lat|default:0.0 }}</td>
                                             </tr>
                                             <tr>
@@ -138,6 +138,12 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                <div id="image-container">
+                                {% if image_base64 %}
+                                    <h3>ASCE 7-05 Plot</h3>
+                                    <img src="data:image/png;base64,{{ image_base64 }}" alt="Spectral Acceleration Plot">
+                                {% endif %}
+                                </div>
                             </div>
                         
                             <div class="button-group">
@@ -236,8 +242,8 @@
                             console.log(response);  // Handle the response from the server
                             // Optionally, you can handle any changes to the UI here (e.g., updating coordinates)
                             document.getElementById('long').textContent = response.current_coord.lon || lat;
-                        document.getElementById('lat').textContent = response.current_coord.lat || lon;
-                        document.getElementById('site-class-info').textContent = response.site || site;  // Assuming site class info is static for now
+                            document.getElementById('lat').textContent = response.current_coord.lat || lon;
+                            document.getElementById('site-class-info').textContent = response.site || site;  // Assuming site class info is static for now
         
                             // Optionally, populate other fields like SA₁, SMS, etc.
                             document.getElementById('sa1-value').textContent = response.sa1 || '0.0';
@@ -251,6 +257,10 @@
                             document.getElementById('SD1-value').textContent = response.SD1 || '0.0';
                             document.getElementById('Ts-value').textContent = response.Ts || '0.0';
                             document.getElementById('To-value').textContent = response.To || '0.0';
+
+                            if (response.image_base64) {
+                                document.getElementById('image-container').innerHTML = '<img src="data:image/png;base64,' + response.image_base64 + '" alt="SA-PGA Map Image">';
+                            }
                         },
                         error: function(xhr, status, error) {
                             console.error('Error occurred while updating data:', error);

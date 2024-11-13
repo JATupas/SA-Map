@@ -3,6 +3,9 @@ import numpy as np
 import pandas as pd
 from scipy.interpolate import griddata
 from django.conf import settings
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
 
 def Fa_value(site, interpolated_sa02):
     
@@ -117,20 +120,71 @@ def process_sa_pga_map(lat, lon, site):
     Ts = SD1 / SDS
     To = 0.2 * Ts
     
-    print(lat)
-    print(lon)
-    print(site)
-    print(interpolated_sa1)
-    print(interpolated_sa02)
-    print(interpolated_tl)
-    print(Favalue)
-    print(Fvvalue)
-    print(SMS)
-    print(SM1)
-    print(SDS)
-    print(SD1)
-    print(Ts)
-    print(To)
+    # Create initial dataframe
+    df = pd.DataFrame({
+        'Period': range(17)  # Period from 0 to 16
+    })
+
+    # Add additional points (To, Ts)
+    df_additional = pd.DataFrame({
+        'Period': [0.2, To, Ts]
+    })
+
+    # Concatenate and sort the DataFrame
+    df = pd.concat([df, df_additional]).sort_values(by='Period').reset_index(drop=True)
+
+    # Initialize the SA column
+    df['SA'] = None
+
+    # Define the function to apply conditions
+    def calculate_sa(row):
+        period = row['Period']
+        if period < To:
+            return SDS * (0.4 + (0.6 * (period / To)))
+        elif To <= period <= Ts:
+            return SDS
+        elif Ts < period <= interpolated_tl:
+            return SD1 / period
+        elif period > interpolated_tl:
+            return (SD1 * interpolated_tl) / (period ** 2)
+        return None  # Default case (optional)
+
+    # Apply the function to the DataFrame
+    df['SA'] = df.apply(calculate_sa, axis=1)
+
+    # Plotting the graph
+    plt.figure(figsize=(10, 6))
+    plt.plot(df['Period'], df['SA'], color='blue', marker='o', markersize=6, label="ASCE 7-05")
+
+    # Ensure interpolated_tl is a scalar (check if it's an int or float, even if it's numpy.int64)
+    if isinstance(interpolated_tl, (np.ndarray, np.generic)):
+         interpolated_tl = interpolated_tl.item() 
+
+    if isinstance(interpolated_tl, (int, float)):
+        interpolated_point = df.loc[df['Period'] == interpolated_tl]
+        if not interpolated_point.empty:
+            # Plot the interpolated point in orange
+            plt.scatter(interpolated_point['Period'], interpolated_point['SA'], color='orange', s=100, label='Tₗ', zorder=2)
+        else:
+            print(f"Warning: interpolated_tl value {interpolated_tl} not found in 'Period' column.")
+    else:
+        print(f"Error: interpolated_tl is not a scalar value. It is of type {type(interpolated_tl)}.")
+
+    # Title and labels
+    plt.title('ASCE 7-05')
+    plt.xlabel('Period, T')
+    plt.ylabel('Spectral Acceleration')
+    plt.ylim(0, 2)
+    plt.yticks([i * 0.2 for i in range(11)])
+    plt.xlim(0, 17)
+    plt.xticks(range(18))
+    plt.legend()
+    plt.grid(True)
+    buffer = BytesIO()
+    plt.savefig(buffer, format='png')
+    plt.close()
+    buffer.seek(0)
+    image_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
 
 
     return {
@@ -146,12 +200,13 @@ def process_sa_pga_map(lat, lon, site):
         'SD1': float(SD1) if SD1 is not None else None,
         'Ts': float(Ts) if Ts is not None else None,
         'To': float(To) if To is not None else None,
+        'image_base64': image_base64,
     }
 
 
 
 
-# lat = 14.60388
-# lon = 121.04986
+# lat = 10.1073
+# lon = 123.1452
 # site = "D"
 # process_sa_pga_map(lat, lon, site)
