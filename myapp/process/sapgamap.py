@@ -87,8 +87,8 @@ def Fv_value(site, interpolated_sa1):
 
 def process_sa_pga_map(lat, lon, site):
     # Define the path to the CSV file
-    csv_file_path = "C:/Users/Jedrek/Documents/GitHub/SHADEWebApp/myapp/data/points.csv"
-    # csv_file_path = os.path.join(settings.BASE_DIR, 'myapp', 'data', 'points.csv')
+    # csv_file_path = "C:/Users/Jedrek/Documents/GitHub/SHADEWebApp/myapp/data/points.csv"
+    csv_file_path = os.path.join(settings.BASE_DIR, 'myapp', 'data', 'points.csv')
     
     # Load the points and additional data from the CSV file
     df = pd.read_csv(csv_file_path)
