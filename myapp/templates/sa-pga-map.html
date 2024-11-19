@@ -74,78 +74,7 @@
                                         <label for="site" class="form-label">Site Classification</label>
                                         <input type="text" id="site" class="form-control" placeholder="A">
                                     </div>
-                                </form>                            
-
-                                <div class="site-info">
-                                    <h3>Site Information:</h3>
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td class="SA-title">Latitude</td>
-                                                <td id="long" class="SA-value">{{ current_coord.lng|default:0.0 }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="SA-title">Longitude</td>
-                                                <td id="lat" class="SA-value">{{ current_coord.lat|default:0.0 }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="SA-title">Site Class</td>
-                                                <td id="site-class-info" class="SA-value">A</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="SA-title">SA₁</td>
-                                                <td id="sa1-value" class="SA-value">0.0</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="SA-title">SA₀₂</td>
-                                                <td id="sa02-value" class="SA-value">0.0</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="SA-title">Tₗ</td>
-                                                <td id="tl-value" class="SA-value">0.0</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="SA-title">Fa</td>
-                                                <td id="Fa-value" class="SA-value">0.0</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="SA-title">Fv</td>
-                                                <td id="Fv-value" class="SA-value">0.0</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="SA-title">SMS</td>
-                                                <td id="SMS-value" class="SA-value">0.0</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="SA-title">SM1</td>
-                                                <td id="SM1-value" class="SA-value">0.0</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="SA-title">SDS</td>
-                                                <td id="SDS-value" class="SA-value">0.0</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="SA-title">SD1</td>
-                                                <td id="SD1-value" class="SA-value">0.0</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="SA-title">Ts</td>
-                                                <td id="Ts-value" class="SA-value">0.0</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="SA-title">To</td>
-                                                <td id="To-value" class="SA-value">0.0</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                <div id="image-container">
-                                {% if image_base64 %}
-                                    <h3>ASCE 7-05 Plot</h3>
-                                    <img src="data:image/png;base64,{{ image_base64 }}" alt="Spectral Acceleration Plot">
-                                {% endif %}
-                                </div>
-                            </div>
-                        
+                                </form>                          
                             <div class="button-group">
                                 <button type="button" id="check-data">Check Data</button>
                             </div>
@@ -156,6 +85,81 @@
                 
             </div>
         
+            <!-- Site Information and Graph Section -->
+        <section class="site-info-graph-section">
+            <div class="container3">
+                <div class="site-info">
+                    <h3>Site Information:</h3>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td class="SA-title">Latitude</td>
+                                <td id="long" class="SA-value">{{ current_coord.lng|default:0.0 }}</td>
+                            </tr>
+                            <tr>
+                                <td class="SA-title">Longitude</td>
+                                <td id="lat" class="SA-value">{{ current_coord.lat|default:0.0 }}</td>
+                            </tr>
+                            <tr>
+                                <td class="SA-title">Site Class</td>
+                                <td id="site-class-info" class="SA-value">A</td>
+                            </tr>
+                            <tr>
+                                <td class="SA-title">SA₁</td>
+                                <td id="sa1-value" class="SA-value">0.0</td>
+                            </tr>
+                            <tr>
+                                <td class="SA-title">SA₀₂</td>
+                                <td id="sa02-value" class="SA-value">0.0</td>
+                            </tr>
+                            <tr>
+                                <td class="SA-title">Tₗ</td>
+                                <td id="tl-value" class="SA-value">0.0</td>
+                            </tr>
+                            <tr>
+                                <td class="SA-title">Fa</td>
+                                <td id="Fa-value" class="SA-value">0.0</td>
+                            </tr>
+                            <tr>
+                                <td class="SA-title">Fv</td>
+                                <td id="Fv-value" class="SA-value">0.0</td>
+                            </tr>
+                            <tr>
+                                <td class="SA-title">SMS</td>
+                                <td id="SMS-value" class="SA-value">0.0</td>
+                            </tr>
+                            <tr>
+                                <td class="SA-title">SM1</td>
+                                <td id="SM1-value" class="SA-value">0.0</td>
+                            </tr>
+                            <tr>
+                                <td class="SA-title">SDS</td>
+                                <td id="SDS-value" class="SA-value">0.0</td>
+                            </tr>
+                            <tr>
+                                <td class="SA-title">SD1</td>
+                                <td id="SD1-value" class="SA-value">0.0</td>
+                            </tr>
+                            <tr>
+                                <td class="SA-title">Ts</td>
+                                <td id="Ts-value" class="SA-value">0.0</td>
+                            </tr>
+                            <tr>
+                                <td class="SA-title">To</td>
+                                <td id="To-value" class="SA-value">0.0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="image-container" class="graph-container">
+                    {% if image_base64 %}
+                        <h3>ASCE 7-05 Plot</h3>
+                        <img src="data:image/png;base64,{{ image_base64 }}" alt="Spectral Acceleration Plot">
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+
             <div id="popup" class="popup" style="display: none;">
             </div>
 
@@ -261,6 +265,8 @@
                             if (response.image_base64) {
                                 document.getElementById('image-container').innerHTML = '<img src="data:image/png;base64,' + response.image_base64 + '" alt="SA-PGA Map Image">';
                             }
+
+                            document.querySelector('.Home .container3').style.display = "flex";
                         },
                         error: function(xhr, status, error) {
                             console.error('Error occurred while updating data:', error);
