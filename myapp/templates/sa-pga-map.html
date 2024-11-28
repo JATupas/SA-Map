@@ -215,15 +215,21 @@
                 document.getElementById('current-lat').value = lat;
                 document.getElementById('current-lon').value = lon;
 
-                // if (lat < 4 || lat > 21 || lon < 116 || lon > 127) {
-                //     // Show the popup over the entire map
-                //     document.getElementById('popup').style.display = 'flex';
-                //     document.getElementById('popup').innerHTML = `
-                //         <div class="card">
-                //             <p>This point is outside of the Philippines, there is no available data for the selected coordinates.</p>
-                //             <button id="closePopup">Close</button>
-                //         </div>`;
-                // }
+                if (lat < 4 || lat > 21 || lon < 116 || lon > 127) {
+                    // Show the popup over the entire map
+                    document.getElementById('popup').style.display = 'flex';
+                    document.getElementById('popup').innerHTML = `
+                        <div class="card">
+                            <p>This point is outside of the Philippines, there is no available data for the selected coordinates.</p>
+                            <button id="closePopup">Close</button>
+                        </div>`;
+                }
+
+                document.addEventListener('click', function(event) {
+                if (event.target && event.target.id === 'closePopup') {
+                    document.getElementById('popup').style.display = 'none';
+                }
+                });
         
                 // If a marker exists, remove it
                 if (marker) {
