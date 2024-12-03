@@ -2,8 +2,10 @@ openquake.engine==3.20.1
 pandas==2.0.3
 scipy==1.11.4
 django==4.2.13
-matplotlib==3.7
+numpy>=1.26
+matplotlib>=3
 shapely==2.0.2
-scikit-learn==1.4.1
-fiona==1.9.5
-geopandas==0.14.2
+scikit-learn
+fiona
+geopandas
+numba
