@@ -6,6 +6,8 @@ from django.conf import settings
 import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
+from shapely.geometry import Point
+from shapely.geometry.polygon import Polygon
 
 def Fa_value(site, interpolated_sa02):
     
@@ -84,25 +86,57 @@ def Fv_value(site, interpolated_sa1):
             x0, x1 = col_values[i], col_values[i + 1]
             y0, y1 = Fvtable[row_index][i], Fvtable[row_index][i + 1]
             return y0 + (y1 - y0) * (interpolated_sa1 - x0) / (x1 - x0)
+        
+def load_polygon_data_from_csv():
+    # Path to the CSV file
+    tl_file_path = os.path.join(settings.BASE_DIR, 'myapp', 'data', 'TL_vertices.csv')
+    
+    # Read the CSV into a DataFrame
+    tl_df = pd.read_csv(tl_file_path)
+    
+    # Assuming that each polygon has multiple rows with same polygon_id (assuming polygon_id is the same for each polygon)
+    polygon_data = {}
+    
+    # Group by polygon_id to collect coordinates for each polygon
+    for polygon_id, group in tl_df.groupby('polygon_id'):
+        # Extract the coordinates (Latitude, Longitude)
+        coordinates = list(zip(group['Longitude'], group['Latitude']))  # (Longitude, Latitude)
+        # Get the TL value for the polygon (assuming it's the same for all rows of the same polygon)
+        tl_value = group['TL'].iloc[0]  
+        # Add the polygon's coordinates and TL value to the dictionary
+        polygon_data[polygon_id] = (coordinates, tl_value)
+    
+    return polygon_data
+
+def get_tl_value_from_polygon(lat, lon, polygon_data):
+    point = Point(lon, lat)  # Create a shapely Point object from lat/lon
+    
+    for polygon_id, (polygon_coords, tl_value) in polygon_data.items():
+        polygon = Polygon(polygon_coords)  # Create Polygon from coordinates
+        if polygon.contains(point):  # Check if the point is inside the polygon
+            return tl_value  # Return the TL value for the polygon containing the point
+    
+    return None  # Return None if no polygon contains the point
 
 def process_sa_pga_map(lat, lon, site):
     # Define the path to the CSV file
     # csv_file_path = "C:/Users/Jedrek/Documents/GitHub/SHADEWebApp/myapp/data/points.csv"
-    csv_file_path = os.path.join(settings.BASE_DIR, 'myapp', 'data', 'points.csv')
+    data_file_path = os.path.join(settings.BASE_DIR, 'myapp', 'data', 'points.csv')
+    
     
     # Load the points and additional data from the CSV file
-    df = pd.read_csv(csv_file_path)
+    df = pd.read_csv(data_file_path)
     points = df[['xcoord', 'ycoord']].values
     values_sa1 = df['Combined-SA1'].values
     values_sa02 = df['Combined-SA02'].values
-    values_tl = df['TL'].values
-    
     given_point = [lat, lon]
     
     # Perform interpolation to find the nearest values
     interpolated_sa1 = griddata(points, values_sa1, given_point, method='linear')
     interpolated_sa02 = griddata(points, values_sa02, given_point, method='linear')
-    interpolated_tl = griddata(points, values_tl, given_point, method='nearest')
+
+    polygon_data = load_polygon_data_from_csv()
+    interpolated_tl = get_tl_value_from_polygon(lat, lon, polygon_data)
     
     # Handle potential NaN values in interpolation results
     if np.isnan(interpolated_sa1):
@@ -185,6 +219,20 @@ def process_sa_pga_map(lat, lon, site):
     plt.close()
     buffer.seek(0)
     image_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
+
+    # Example code snippet to round the values to 5 decimal places
+    interpolated_sa1 = round(float(interpolated_sa1), 5)
+    interpolated_sa02 = round(float(interpolated_sa02), 5)
+    interpolated_tl = round(float(interpolated_tl), 5)
+    Favalue = round(float(Favalue), 5)
+    Fvvalue = round(float(Fvvalue), 5)
+    SMS = round(float(SMS), 5)
+    SM1 = round(float(SM1), 5)
+    SDS = round(float(SDS), 5)
+    SD1 = round(float(SD1), 5)
+    Ts = round(float(Ts), 5)
+    To = round(float(To), 5)
+
 
 
     return {
