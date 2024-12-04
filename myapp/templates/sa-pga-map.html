@@ -283,6 +283,13 @@
                             }
 
                             document.querySelector('.Home .container3').style.display = "flex";
+                            var newLat = response.current_coord.lat || lat;
+                            var newLon = response.current_coord.lon || lon;
+                            if (marker) {
+                                map.removeLayer(marker); // Remove any existing marker
+                            }
+                            marker = L.marker([newLat, newLon]).addTo(map);  // Add the new marker
+                            map.setView([newLat, newLon], 11);  // Zoom in to the new marker
                         },
                         error: function(xhr, status, error) {
                             console.error('Error occurred while updating data:', error);
