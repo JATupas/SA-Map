@@ -5,6 +5,9 @@ import sys
 
 
 def main():
+    # Add the SHADEWebApp directory to PYTHONPATH
+    sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+    
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'shadeproject.settings')
     try:
