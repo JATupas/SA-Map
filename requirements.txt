@@ -5,7 +5,7 @@ django==4.2.13
 numpy>=1.26
 matplotlib>=3
 shapely==2.0.2
-scikit-learn
-fiona
-geopandas
-numba
+scikit-learn==1.4.1.post1
+fiona==1.9.5
+geopandas==0.14.1
+numba==0.59.1
