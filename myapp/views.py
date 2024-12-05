@@ -5,7 +5,9 @@ import pandas as pd
 from scipy.interpolate import griddata
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponseBadRequest
+from django.views.decorators.csrf import csrf_exempt
 import numpy as np
+import sys
 
 def shade_redesign(request):
     return render(request, 'SHADE REDESIGN.html')
@@ -28,63 +30,87 @@ def recurrence_model_calculator(request):
 def source_model_generator(request):
     return render(request, 'source-model-generator.html')
 
+
+from .process.sapgamap import process_sa_pga_map  # Import the function from your external Python file
+
+@csrf_exempt
 def sa_pga_map(request):
-      # Define the path to the CSV file
-    csv_file_path = os.path.join(settings.BASE_DIR, 'myapp', 'data', 'points.csv')
-    
-    # Load the points and additional data from the CSV file
-    df = pd.read_csv(csv_file_path)
-    points = df[['xcoord', 'ycoord']].values
-    values_sa1 = df['Combined-SA1'].values
-    values_sa02 = df['Combined-SA02'].values
-    values_tl = df['TL'].values
-    
-    sa1 = None
-    sa02 = None
-    tl = None
+    # Initialize values
+    sa1, sa02, tl, Favalue, Fvvalue, SMS, SM1, SDS, SD1, Ts, To = [None] * 11
     given_point = None
-    
+    image_base64 = None
+
     if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
         try:
+            # Get latitude and longitude from the POST request
             lat = float(request.POST.get('lat'))
             lon = float(request.POST.get('lon'))
-            given_point = [lat, lon]
+            site = request.POST.get('site')
             
-            # Debugging information
-            print("Received coordinates:", given_point)
-
-            # Perform interpolation to find the nearest values
-            interpolated_sa1 = griddata(points, values_sa1, given_point, method='linear')
-            interpolated_sa02 = griddata(points, values_sa02, given_point, method='linear')
-            interpolated_tl = griddata(points, values_tl, given_point, method='nearest')
-
-            # Handle potential NaN values in interpolation results
-            if np.isnan(interpolated_sa1):
-                interpolated_sa1 = None
-            if np.isnan(interpolated_sa02):
-                interpolated_sa02 = None
-            if np.isnan(interpolated_tl):
-                interpolated_tl = None
-
-            response_data = {
+            # Log the received coordinates for debugging
+            print(f"Received coordinates: lat={lat}, lon={lon}, site={site}")
+            
+            # Process the map data using the given lat, lon
+            response_data = process_sa_pga_map(lat, lon, site)
+            
+            # Log the response data for debugging
+            print(f"Response data: {response_data}")
+            
+            # Check if response_data is valid
+            if not response_data:
+                raise ValueError("No data returned from process_sa_pga_map")
+            
+            # Extract values from the response data
+            image_base64 = response_data.get('image_base64')
+            sa1 = response_data.get('sa1')
+            sa02 = response_data.get('sa02')
+            tl = response_data.get('tl')
+            Favalue = response_data.get('Fa')
+            Fvvalue = response_data.get('Fv')
+            SMS = response_data.get('SMS')
+            SM1 = response_data.get('SM1')
+            SDS = response_data.get('SDS')
+            SD1 = response_data.get('SD1')
+            Ts = response_data.get('Ts')
+            To = response_data.get('To')
+            given_point = response_data.get('current_coord')
+            
+            # Return the processed data as a JSON response
+            return JsonResponse({
                 'current_coord': given_point,
-                'sa1': float(interpolated_sa1) if interpolated_sa1 is not None else None,
-                'sa02': float(interpolated_sa02) if interpolated_sa02 is not None else None,
-                'tl': float(interpolated_tl) if interpolated_tl is not None else None,
-            }
-            return JsonResponse(response_data)
+                'sa1': float(sa1) if sa1 is not None else None,
+                'sa02': float(sa02) if sa02 is not None else None,
+                'tl': float(tl) if tl is not None else None,
+                'Fa': float(Favalue) if Favalue is not None else None,
+                'Fv': float(Fvvalue) if Fvvalue is not None else None,
+                'SMS': float(SMS) if SMS is not None else None,
+                'SM1': float(SM1) if SM1 is not None else None,
+                'SDS': float(SDS) if SDS is not None else None,
+                'SD1': float(SD1) if SD1 is not None else None,
+                'Ts': float(Ts) if Ts is not None else None,
+                'To': float(To) if To is not None else None,
+                'image_base64': image_base64,
+            })
         except Exception as e:
-            print("Error processing coordinates:", str(e))
+            print(f"Error processing coordinates: {str(e)}")  # More detailed logging
             return HttpResponseBadRequest("Invalid data")
-
+    
+    # For the initial page load (GET request)
     context = {
         'current_coord': given_point,
         'sa1': sa1,
         'sa02': sa02,
         'tl': tl,
+        'Favalue': Favalue,
+        'Fvvalue': Fvvalue,
+        'SMS': SMS,
+        'SM1': SM1,
+        'SDS': SDS,
+        'SD1': SD1,
+        'Ts': Ts,
+        'To': To,
     }
     return render(request, 'sa-pga-map.html', context)
-# Add more views as needed
 
 from .process.OQ_Run import run_oq_jobs
 # from django.views.decorators.csrf import csrf_exempt
