@@ -1,4 +1,34 @@
 @echo off
+
+:: Set variables
+set EMBEDDED_PYTHON_URL=https://www.python.org/ftp/python/3.12.0/python-3.12.0-embed-amd64.zip
+set ZIP_FILE=python-embedded-3.12.zip
+set TARGET_DIR=%cd%\python-embedded
+
+:: Check if Python embedded is already set up
+if not exist "%TARGET_DIR%" (
+    echo Python embedded not found. Setting it up...
+
+    :: Download the zip file
+    echo Downloading Python embedded...
+    powershell -Command "Invoke-WebRequest -Uri '%EMBEDDED_PYTHON_URL%' -OutFile '%ZIP_FILE%'"
+
+    :: Check if download was successful
+    if not exist "%ZIP_FILE%" (
+        echo Error: Failed to download Python embedded zip file!
+        pause
+        exit /b 1
+    )
+
+    :: Extract the zip file
+    echo Extracting files...
+    powershell -Command "Expand-Archive -Path '%ZIP_FILE%' -DestinationPath '%TARGET_DIR%'"
+
+    :: Clean up the zip file
+    echo Cleaning up...
+    del "%ZIP_FILE%"
+)
+
 :: Set environment variables
 set PYTHONHOME=%cd%\python-embedded
 set PYTHONPATH=%cd%;%PYTHONHOME%\Lib;%PYTHONHOME%\Lib\site-packages;%PYTHONHOME%\DLLs
@@ -28,7 +58,9 @@ if not exist "%PYTHONHOME%\Scripts\pip.exe" (
         powershell -Command "& { (New-Object Net.WebClient).DownloadFile('https://bootstrap.pypa.io/get-pip.py', 'get-pip.py') }"
     )
     %PYTHONHOME%\python.exe get-pip.py
-    if %errorlevel% neq 0 (
+
+      :: Check if pip.exe exists to confirm installation
+    if not exist "%PYTHONHOME%\Scripts\pip.exe" (
         echo Failed to install pip. Exiting...
         pause
         exit /b
