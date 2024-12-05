@@ -13,8 +13,9 @@
     <link rel="stylesheet" href="{% static 'css/stylesheet-SA-PGA.css' %}">
 
     <!-- Include Leaflet CSS for the map -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 </head>
 
 <body>
@@ -69,46 +70,96 @@
                                         <label for="latitude" class="form-label">Latitude</label>
                                         <input type="text" id="current-lat" class="form-control" placeholder="0.0">
                                     </div>
-                                </form>
-
-                                <div class="site-info">
-                                    <h3>Site Information:</h3>
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td class="SA-title">Longitude</td>
-                                                <td id="long" class="SA-value">0.0</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="SA-title">Latitude</td>
-                                                <td id="lat" class="SA-value">0.0</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="SA-title">SA₁</td>
-                                                <td id="sa1-value" class="SA-value">0.0</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="SA-title">SA₀₂</td>
-                                                <td id="sa02-value" class="SA-value">0.0</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="SA-title">Tₗ</td>
-                                                <td id="tl-value" class="SA-value">0.0</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                            </div>
-                        
+                                    <div class="mb-3">
+                                        <label for="site" class="form-label">Site Classification</label>
+                                        <input type="text" id="site" class="form-control" placeholder="A">
+                                    </div>
+                                </form>                          
                             <div class="button-group">
-                                <button type="button" id="update-coords">Check Data</button>
+                                <button type="button" id="check-data">Check Data</button>
                             </div>
-
                         </div>
                     </div>
+
                 </div>
                 
             </div>
         
+            <!-- Site Information and Graph Section -->
+        <section class="site-info-graph-section">
+            <div class="container3">
+                <div class="site-info">
+                    <h3>Site Information:</h3>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td class="SA-title">Latitude</td>
+                                <td id="long" class="SA-value">{{ current_coord.lng|default:0.0 }}</td>
+                            </tr>
+                            <tr>
+                                <td class="SA-title">Longitude</td>
+                                <td id="lat" class="SA-value">{{ current_coord.lat|default:0.0 }}</td>
+                            </tr>
+                            <tr>
+                                <td class="SA-title">Site Class</td>
+                                <td id="site-class-info" class="SA-value">A</td>
+                            </tr>
+                            <tr>
+                                <td class="SA-title">SA₁</td>
+                                <td id="sa1-value" class="SA-value">0.0</td>
+                            </tr>
+                            <tr>
+                                <td class="SA-title">SA₀₂</td>
+                                <td id="sa02-value" class="SA-value">0.0</td>
+                            </tr>
+                            <tr>
+                                <td class="SA-title">Tₗ</td>
+                                <td id="tl-value" class="SA-value">0.0</td>
+                            </tr>
+                            <tr>
+                                <td class="SA-title">Fa</td>
+                                <td id="Fa-value" class="SA-value">0.0</td>
+                            </tr>
+                            <tr>
+                                <td class="SA-title">Fv</td>
+                                <td id="Fv-value" class="SA-value">0.0</td>
+                            </tr>
+                            <tr>
+                                <td class="SA-title">SMS</td>
+                                <td id="SMS-value" class="SA-value">0.0</td>
+                            </tr>
+                            <tr>
+                                <td class="SA-title">SM1</td>
+                                <td id="SM1-value" class="SA-value">0.0</td>
+                            </tr>
+                            <tr>
+                                <td class="SA-title">SDS</td>
+                                <td id="SDS-value" class="SA-value">0.0</td>
+                            </tr>
+                            <tr>
+                                <td class="SA-title">SD1</td>
+                                <td id="SD1-value" class="SA-value">0.0</td>
+                            </tr>
+                            <tr>
+                                <td class="SA-title">Ts</td>
+                                <td id="Ts-value" class="SA-value">0.0</td>
+                            </tr>
+                            <tr>
+                                <td class="SA-title">To</td>
+                                <td id="To-value" class="SA-value">0.0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="image-container" class="graph-container">
+                    {% if image_base64 %}
+                        <h3>ASCE 7-05 Plot</h3>
+                        <img src="data:image/png;base64,{{ image_base64 }}" alt="Spectral Acceleration Plot">
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+
             <div id="popup" class="popup" style="display: none;">
             </div>
 
@@ -117,7 +168,7 @@
         <section class="background">
         </section>
 
-        <section class="Info_Section1">
+        {% comment %} <section class="Info_Section1">
                 <div class="Section1" id="About-section">
                     <img src="{% static 'images/NO IMAGE DARK.svg' %}" alt="Img 1" class="img2">
                     <div class="text">
@@ -127,7 +178,7 @@
                         <p>Nunc, mattis arcu eu ut quisque quam. Nunc rhoncus, arcu venenatis consectetur facilisis. Nibh nibh porttitor lectus sit porta vestibulum. Gravida ultricies ultrices velit adipiscing nec ultricies curabitur adipiscing non. Porttitor feugiat at duis aliquam, viverra et amet. Duis pellentesque integer sem sit. Nisl praesent aliquam tellus metus sem id. Feugiat maecenas sollicitudin sed fusce turpis vel hendrerit. Commodo massa ac justo faucibus faucibus ipsum amet. Arcu tincidunt mattis lectus pellentesque in.</p>
                     </div>
             </div>
-        </section>
+        </section> {% endcomment %}
 
     </main>
 
@@ -142,70 +193,28 @@
         <p>Copyright © SHADE PH 2024</p>
     </footer>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function(event) {
-            console.log("DOMContentLoaded event fired");
-
-            var map = L.map('map').setView([13.41, 122.56], 6);
-            map.options.minZoom = 4;
-
+        $(document).ready(function() {
+            // Initialize the map after the page has fully loaded
+            var map = L.map('map').setView([13.41, 122.56], 6);  // Set initial coordinates
+        
+            var marker = null;  // Marker variable to store the current marker on the map
+    
+            // Add a tile layer to the map
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(map);
+        
+            // Event listener for click on the map (only for setting lat/lon, no immediate AJAX request)
+            map.on('click', function(e) {
+                var lat = e.latlng.lat;
+                var lon = e.latlng.lng;
+        
+                // Update the latitude and longitude input fields
+                document.getElementById('current-lat').value = lat;
+                document.getElementById('current-lon').value = lon;
 
-            var marker;
-
-            function addOrUpdateMarker(lat, lon) {
-                if (marker) {
-                    marker.setLatLng([lat, lon]).update();
-                } else {
-                    marker = L.marker([lat, lon]).addTo(map);
-                }
-            }
-
-            function updateClosestPointInfo(data) {
-                var latInput = document.getElementById('current-lat');
-                var lonInput = document.getElementById('current-lon');
-                var latCell = document.getElementById('lat');
-                var lonCell = document.getElementById('long');
-                var sa1Input = document.getElementById('sa1-value');
-                var sa02Input = document.getElementById('sa02-value');
-                var tlInput = document.getElementById('tl-value');
-                
-
-                if (data.current_coord) {
-                    latInput.value = data.current_coord[0];
-                    lonInput.value = data.current_coord[1];
-                    sa1Input.textContent  = data.sa1;
-                    sa02Input.textContent  = data.sa02;
-                    tlInput.textContent = data.tl;
-                }
-                latCell.textContent = latInput.value;
-                lonCell.textContent = lonInput.value;
-            }
-
-            function submitCoordinates(lat, lon) {
-                var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-                var xhr = new XMLHttpRequest();
-                xhr.open('POST', '{% url "sa_pga_map" %}', true);
-                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                xhr.setRequestHeader('X-CSRFToken', csrfToken);
-                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        var data = JSON.parse(xhr.responseText);
-                        updateClosestPointInfo(data);
-                    }
-                };
-
-                xhr.send(`lat=${lat}&lon=${lon}`);
-            }
-
-            function checkAndSubmitCoordinates(lat, lon) {
                 if (lat < 4 || lat > 21 || lon < 116 || lon > 127) {
                     // Show the popup over the entire map
                     document.getElementById('popup').style.display = 'flex';
@@ -214,47 +223,87 @@
                             <p>This point is outside of the Philippines, there is no available data for the selected coordinates.</p>
                             <button id="closePopup">Close</button>
                         </div>`;
-                } else {
-                    submitCoordinates(lat, lon);
                 }
-            }
 
-
-            // Close popup when the close button is clicked
-            document.addEventListener('click', function(event) {
+                document.addEventListener('click', function(event) {
                 if (event.target && event.target.id === 'closePopup') {
                     document.getElementById('popup').style.display = 'none';
                 }
+                });
+        
+                // If a marker exists, remove it
+                if (marker) {
+                    map.removeLayer(marker);
+                }
+        
+                // Add a new marker at the clicked location
+                marker = L.marker([lat, lon]).addTo(map);
             });
+    
+            // Add functionality to the "Check Data" button (for AJAX to update site information)
+            document.getElementById('check-data').addEventListener('click', function() {
+                var lat = document.getElementById('current-lat').value;
+                var lon = document.getElementById('current-lon').value;
+                var site = document.getElementById('site').value;  // Make sure this element exists
+    
+                // Make sure lat, lon, and site values are available before sending AJAX
+                if (lat && lon && site) {
+                    $.ajax({
+                        type: "POST",
+                        url: "{% url 'sa_pga_map' %}",  // Ensure this URL resolves correctly in Django
+                        data: {
+                            'lat': lat,
+                            'lon': lon,
+                            'site': site,  // Send the site value as well
+                            'csrfmiddlewaretoken': '{{ csrf_token }}',  // Include CSRF token if not exempted
+                        },
+                        success: function(response) {
+                            console.log('Data updated successfully');
+                            console.log(response);  // Handle the response from the server
+                            // Optionally, you can handle any changes to the UI here (e.g., updating coordinates)
+                            document.getElementById('long').textContent = response.current_coord.lon || lat;
+                            document.getElementById('lat').textContent = response.current_coord.lat || lon;
+                            document.getElementById('site-class-info').textContent = response.site || site;  // Assuming site class info is static for now
+        
+                            // Optionally, populate other fields like SA₁, SMS, etc.
+                            document.getElementById('sa1-value').textContent = response.sa1 || '0.0';
+                            document.getElementById('sa02-value').textContent = response.sa02 || '0.0';
+                            document.getElementById('tl-value').textContent = response.tl || '0.0';
+                            document.getElementById('Fa-value').textContent = response.Fa || '0.0';
+                            document.getElementById('Fv-value').textContent = response.Fv || '0.0';
+                            document.getElementById('SMS-value').textContent = response.SMS || '0.0';
+                            document.getElementById('SM1-value').textContent = response.SM1 || '0.0';
+                            document.getElementById('SDS-value').textContent = response.SDS || '0.0';
+                            document.getElementById('SD1-value').textContent = response.SD1 || '0.0';
+                            document.getElementById('Ts-value').textContent = response.Ts || '0.0';
+                            document.getElementById('To-value').textContent = response.To || '0.0';
 
-            map.on('click', function(e) {
-                var coord = e.latlng;
-                var lat = parseFloat(coord.lat.toFixed(5));
-                var lng = parseFloat(coord.lng.toFixed(5));
-                addOrUpdateMarker(lat, lng);
-                checkAndSubmitCoordinates(lat, lng);
-            });
+                            if (response.image_base64) {
+                                document.getElementById('image-container').innerHTML = '<img src="data:image/png;base64,' + response.image_base64 + '" alt="SA-PGA Map Image">';
+                            }
 
-            // Ensure the event listener is added only once
-            document.getElementById('update-coords').addEventListener('click', function(event) {
-                event.preventDefault();
-                var lat = parseFloat(document.getElementById('current-lat').value);
-                var lon = parseFloat(document.getElementById('current-lon').value);
-                
-                // Check if lat/lon are valid before proceeding
-                if (!isNaN(lat) && !isNaN(lon)) {
-                    // Add or update marker on the map based on the input coordinates
-                    addOrUpdateMarker(lat, lon);
-                    
-                    // Submit the coordinates for data checking
-                    checkAndSubmitCoordinates(lat, lon);
+                            document.querySelector('.Home .container3').style.display = "flex";
+                            var newLat = response.current_coord.lat || lat;
+                            var newLon = response.current_coord.lon || lon;
+                            if (marker) {
+                                map.removeLayer(marker); // Remove any existing marker
+                            }
+                            marker = L.marker([newLat, newLon]).addTo(map);  // Add the new marker
+                            map.setView([newLat, newLon], 11);  // Zoom in to the new marker
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error occurred while updating data:', error);
+                            console.log(xhr.responseText);
+                        }
+                    });
                 } else {
-                    alert("Please enter valid latitude and longitude values.");
+                    alert("Please fill in all required fields before submitting.");
                 }
             });
         });
-
     </script>
     
+    
+
 </body>
 </html>
