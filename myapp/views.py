@@ -43,9 +43,17 @@ def sa_pga_map(request):
     if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
         try:
             # Get latitude and longitude from the POST request
-            lat = float(request.POST.get('lat'))
-            lon = float(request.POST.get('lon'))
+            lat_str = request.POST.get('lat')
+            lon_str = request.POST.get('lon')
             site = request.POST.get('site')
+            
+            # Validate required fields
+            if not lat_str or not lon_str or not site:
+                return HttpResponseBadRequest("Missing required fields: latitude, longitude, and site.")
+            
+            # Convert strings to float
+            lat = float(lat_str)
+            lon = float(lon_str)
             
             # Log the received coordinates for debugging
             print(f"Received coordinates: lat={lat}, lon={lon}, site={site}")
@@ -111,6 +119,7 @@ def sa_pga_map(request):
         'To': To,
     }
     return render(request, 'sa-pga-map.html', context)
+
 
 from .process.OQ_Run import run_oq_jobs
 # from django.views.decorators.csrf import csrf_exempt
