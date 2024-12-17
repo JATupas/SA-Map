@@ -31,9 +31,9 @@
             <nav>
                 <a href="{% url 'shade_redesign' %}" class="nav-link">Home</a>
                 <a href="#About-section" class="nav-link">About</a>
-                <span class="separator">|</span>
+                <!-- <span class="separator">|</span>
                 <b href="#" class="nav-link">Register</b>
-                <a href="#" class="nav-button">Log In</a>
+                <a href="#" class="nav-button">Log In</a> -->
             </nav>
         </div>
     </header>
@@ -103,6 +103,43 @@
                                 <div class="button-group">
                                     <button type="button" id="check-data">Check Data</button>
                                 </div>
+                                <div id="loading-popup" style="display: none;" class="loading-popup ">
+                                    <div class="popup-content">
+                                        <p>Processing data, please wait...</p>
+                                        <img src="{% static 'images/SHADE_Loading.gif' %}" alt="Loading..." class="loading-animation">
+                                        <button id="done_button" style="display: none;">Done</button>
+                                    </div>
+                                </div>
+
+                                <style>
+                                    .loading-animation {
+                                        width: 125px;
+                                        height: 125px;
+                                    }
+    
+                                    #loading-popup {
+                                        position: fixed;
+                                        top: 0;
+                                        left: 0;
+                                        width: 100%;
+                                        height: 100%;
+                                        background-color: rgba(0, 0, 0, 0.5);
+                                        display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                    }
+                                
+                                    .popup-content {
+                                        background-color: white;
+                                        padding: 20px;
+                                        border-radius: 5px;
+                                        text-align: center;
+                                    }
+                                
+                                    button {
+                                        margin-top: 10px;
+                                    }
+                                </style>
                             </div>
                         </div>
 
@@ -118,11 +155,11 @@
                     <table class="table">
                         <tbody>
                             <tr>
-                                <td class="SA-title">Latitude</td>
+                                <td class="SA-title">Latitude (Decimal)</td>
                                 <td id="long" class="SA-value">{{ current_coord.lng|default:0.0 }}</td>
                             </tr>
                             <tr>
-                                <td class="SA-title">Longitude</td>
+                                <td class="SA-title">Longitude (Decimal)</td>
                                 <td id="lat" class="SA-value">{{ current_coord.lat|default:0.0 }}</td>
                             </tr>
                             <tr>
@@ -150,15 +187,15 @@
                                 <td id="site-class-info" class="SA-value">A</td>
                             </tr>
                             <tr>
-                                <td class="SA-title">SA₁</td>
+                                <td class="SA-title">SA<sub>1</sub></td>
                                 <td id="sa1-value" class="SA-value">0.0</td>
                             </tr>
                             <tr>
-                                <td class="SA-title">SA₀₂</td>
+                                <td class="SA-title">SA<sub>02</sub></td>
                                 <td id="sa02-value" class="SA-value">0.0</td>
                             </tr>
                             <tr>
-                                <td class="SA-title">Tₗ</td>
+                                <td class="SA-title">T<sub>L</sub></td>
                                 <td id="tl-value" class="SA-value">0.0</td>
                             </tr>
                             <tr>
@@ -239,6 +276,7 @@
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script>
         $(document).ready(function() {
             // Initialize the map after the page has fully loaded
@@ -331,6 +369,10 @@
     
                 // Make sure lat, lon, and site values are available before sending AJAX
                 if (lat && lon && site) {
+
+                    const popup = document.getElementById('loading-popup');
+                    popup.style.display = 'flex';
+
                     $.ajax({
                         type: "POST",
                         url: "{% url 'sa_pga_map' %}",  // Ensure this URL resolves correctly in Django
@@ -373,10 +415,13 @@
                             }
                             marker = L.marker([newLat, newLon]).addTo(map);  // Add the new marker
                             map.setView([newLat, newLon], 11);  // Zoom in to the new marker
+                            popup.style.display = 'none';  // Close the popup
                         },
                         error: function(xhr, status, error) {
                             console.error('Error occurred while updating data:', error);
                             console.log(xhr.responseText);
+                            alert('Error: ' + error.message);
+                            popup.style.display = 'none';  // Close the popup
                         }
                     });
                 } else {
