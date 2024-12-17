@@ -13,3 +13,11 @@ env/
 # Ignore system files (macOS, Windows)
 .DS_Store
 Thumbs.db
+
+#Ignore get-pip.py
+get-pip.py
+
+# Ignore Python embedded directory
+python-embedded/
+
+# 
