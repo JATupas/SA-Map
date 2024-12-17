@@ -26,9 +26,9 @@
             <nav>
                 <a href="{% url 'shade_redesign' %}" class="nav-link">Home</a>
                 <a href="#About-section" class="nav-link">About</a>
-                <span class="separator">|</span>
+                <!-- <span class="separator">|</span>
                 <b href="#" class="nav-link">Register</b>
-                <a href="#" class="nav-button">Log In</a>
+                <a href="#" class="nav-button">Log In</a> -->
             </nav>
         </div>
     </header>
@@ -173,8 +173,7 @@
                             
                                         // Show the loading popup
                                         popup.style.display = 'flex';
-                                        loadingSpinner.style.display = 'block';
-                                        doneButton.style.display = 'none';
+                                        processing = true;
                             
                                         fetch('/catalog_declustering_tool/', {
                                             method: 'POST',
@@ -187,23 +186,17 @@
                                         .then(data => {
                                             if (data.status === 'success') {
                                                 alert('Calculation completed successfully!');
+                                                popup.style.display = 'none';  // Close the popup
                                             } else {
                                                 alert('Error: ' + data.message);
+                                                popup.style.display = 'none';  // Close the popup
                                             }
-                                            // Show the "Done" button and hide the loading spinner
-                                            loadingSpinner.style.display = 'none';
-                                            doneButton.style.display = 'block';
                                         })
                                         .catch(error => {
                                             console.error('Error:', error);
                                             alert('An error occurred.');
-                                            loadingSpinner.style.display = 'none';
-                                            doneButton.style.display = 'block';
+                                            popup.style.display = 'none';  // Close the popup
                                         });
-                                    });
-                            
-                                    doneButton.addEventListener('click', function() {
-                                        popup.style.display = 'none';  // Close the popup
                                     });
                                 });
                             </script>
