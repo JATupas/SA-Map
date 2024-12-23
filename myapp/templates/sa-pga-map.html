@@ -99,6 +99,14 @@
                                         <label for="site" class="form-label">Site Classification</label>
                                         <input type="text" id="site" class="form-control" placeholder="A">
                                     </div>
+                                    <div class="mb-3" style="display: none;">
+                                        <label for="fainput" class="form-label">Fa</label>
+                                        <input type="text" id="fainput" class="form-control" value="0">
+                                    </div>
+                                    <div class="mb-3" style="display: none;">
+                                        <label for="fvinput" class="form-label">Fv</label>
+                                        <input type="text" id="fvinput" class="form-control" value="0">
+                                    </div>
                                 </form>                          
                                 <div class="button-group">
                                     <button type="button" id="check-data">Check Data</button>
@@ -112,6 +120,7 @@
                                 </div>
 
                                 <style>
+
                                     .loading-animation {
                                         width: 125px;
                                         height: 125px;
@@ -278,6 +287,27 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const siteInput = document.getElementById("site");
+            const faDiv = document.getElementById("fainput").parentElement;
+            const fvDiv = document.getElementById("fvinput").parentElement;
+    
+            // Add an input event listener to the site field
+            siteInput.addEventListener("input", function () {
+                // Check if the value is "F" (case-insensitive)
+                if (siteInput.value.trim().toUpperCase() === "F") {
+                    faDiv.style.display = "block";
+                    fvDiv.style.display = "block";
+                } else {
+                    faDiv.style.display = "none";
+                    fvDiv.style.display = "none";
+                }
+            });
+        });
+    </script>
+    
+
+    <script>
         $(document).ready(function() {
             // Initialize the map after the page has fully loaded
             var map = L.map('map').setView([13.41, 122.56], 6);  // Set initial coordinates
@@ -351,6 +381,8 @@
                 var lat = document.getElementById('current-lat').value;
                 var lon = document.getElementById('current-lon').value;
                 var site = document.getElementById('site').value;  
+                var fainput = document.getElementById('fainput').value;  
+                var fvinput = document.getElementById('fvinput').value;  
                 var latDegrees = document.getElementById('lat-degrees').value;
                 var latMinutes = document.getElementById('lat-minutes').value;
                 var latSeconds = document.getElementById('lat-seconds').value;
@@ -380,6 +412,8 @@
                             'lat': lat,
                             'lon': lon,
                             'site': site,  // Send the site value as well
+                            'fainput': fainput,
+                            'fvinput': fvinput,
                             'csrfmiddlewaretoken': '{{ csrf_token }}',  // Include CSRF token if not exempted
                         },
                         success: function(response) {
