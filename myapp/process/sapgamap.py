@@ -116,7 +116,7 @@ def get_tl_value_from_polygon(lat, lon, polygon_data):
         if polygon.contains(point):  # Check if the point is inside the polygon
             return tl_value  # Return the TL value for the polygon containing the point
     
-    return None  # Return None if no polygon contains the point
+    return 0  # Return None if no polygon contains the point
 
 def process_sa_pga_map(lat, lon, site):
     # Define the path to the CSV file
