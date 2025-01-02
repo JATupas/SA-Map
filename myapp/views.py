@@ -46,6 +46,8 @@ def sa_pga_map(request):
             lat_str = request.POST.get('lat')
             lon_str = request.POST.get('lon')
             site = request.POST.get('site')
+            fainput = request.POST.get('fainput')
+            fvinput = request.POST.get('fvinput')
             
             # Validate required fields
             if not lat_str or not lon_str or not site:
@@ -54,12 +56,14 @@ def sa_pga_map(request):
             # Convert strings to float
             lat = float(lat_str)
             lon = float(lon_str)
+            fainput = float(fainput)
+            fvinput = float(fvinput)
             
             # Log the received coordinates for debugging
-            print(f"Received coordinates: lat={lat}, lon={lon}, site={site}")
+            print(f"Received coordinates: lat={lat}, lon={lon}, site={site}, fa={fainput}, fv={fvinput}")
             
             # Process the map data using the given lat, lon
-            response_data = process_sa_pga_map(lat, lon, site)
+            response_data = process_sa_pga_map(lat, lon, site, fainput, fvinput)
             
             # Log the response data for debugging
             print(f"Response data: {response_data}")
