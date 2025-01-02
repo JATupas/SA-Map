@@ -116,8 +116,8 @@
                                             <div class="option" data-value="B">B</div>
                                             <div class="option" data-value="C">C</div>
                                             <div class="option" data-value="D">D</div>
-                                            <div class="option" data-value="D">E</div>
-                                            <div class="option" data-value="D">F</div>
+                                            <div class="option" data-value="E">E</div>
+                                            <div class="option" data-value="F">F</div>
                                             <!-- Add more options as needed -->
                                         </div>
                                         <input type="hidden" id="site" name="site">
@@ -283,26 +283,35 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const siteInput = document.getElementById("site");
+            const inputElement = document.getElementById('site');
             const faDiv = document.getElementById("fainput").parentElement;
             const fvDiv = document.getElementById("fvinput").parentElement;
     
-            // Add an input event listener to the site field
-            siteInput.addEventListener("input", function () {
-                // Check if the value is "F" (case-insensitive)
-                if (siteInput.value.trim().toUpperCase() === "F") {
+            // Function to handle display of `faDiv` and `fvDiv` based on input value
+            function updateVisibility() {
+                if (inputElement.value.trim().toUpperCase() === "F") {
                     faDiv.style.display = "block";
                     fvDiv.style.display = "block";
                 } else {
                     faDiv.style.display = "none";
                     fvDiv.style.display = "none";
                 }
+                
+            }
+            document.querySelectorAll('.site-option-list .option').forEach(option => {
+                option.addEventListener('click', function () {
+                    inputElement.value = option.dataset.value; // Update the hidden input
+                    updateVisibility(); // Update the visibility of faDiv and fvDiv
+                });
             });
+    
+            // Run once on page load to set initial visibility
+            updateVisibility();
         });
     </script>
-    
 
     <script>
         $(document).ready(function() {
@@ -582,7 +591,7 @@
         });
 
     </script>
-
+    
     <script> // script for Auto Scroll to Site Information Result 
         document.addEventListener('DOMContentLoaded', () => {
             const loadingPopup = document.getElementById('loading-popup');
