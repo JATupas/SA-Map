@@ -232,6 +232,8 @@ def process_sa_pga_map(lat, lon, site):
     SD1 = round(float(SD1), 5)
     Ts = round(float(Ts), 5)
     To = round(float(To), 5)
+    given_point = [round(lat, 5), round(lon, 5)]
+
 
 
 
