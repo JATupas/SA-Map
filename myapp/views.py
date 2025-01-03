@@ -30,6 +30,44 @@ def recurrence_model_calculator(request):
 def source_model_generator(request):
     return render(request, 'source-model-generator.html')
 
+from django.shortcuts import render, redirect
+from .process.forms import validate_registration_form
+from .email_utils import send_custom_email
+
+def register(request):
+    if request.method == "POST":
+        form_data = {
+            'full_name': request.POST.get('full_name'),
+            'birthdate': request.POST.get('birthdate'),
+            'email': request.POST.get('email'),
+            'prc_license': request.POST.get('prc_license'),
+            'profession': request.POST.get('profession'),
+        }
+        errors = validate_registration_form(form_data)
+        
+        if errors:
+            return render(request, 'register.html', {'errors': errors, 'form_data': form_data})
+        
+        # Prepare the email content
+        subject = "New User Registration"
+        message = f"""
+        Full Name: {form_data['full_name']}
+        Birthdate: {form_data['birthdate']}
+        Email Address: {form_data['email']}
+        PRC License: {form_data['prc_license']}
+        Profession: {form_data['profession']}
+        """
+        recipient_list = ['jatupas.shadeproject@gmail.com']  # Replace with your email address
+
+        # Send the email
+        send_custom_email(subject, message, recipient_list)
+
+        # Process valid data (e.g., save to database)
+        return redirect('sa_pga_map')
+    
+    return render(request, 'register.html')
+
+
 
 from .process.sapgamap import process_sa_pga_map  # Import the function from your external Python file
 
