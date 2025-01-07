@@ -285,6 +285,15 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
+        // Get the registration data from the template context
+        var registrationData = JSON.parse('{{ registration_data|escapejs }}');
+        
+        // Log the registration data to the console
+        console.log("Registration Data: ", registrationData);
+    </script>
+
+
+    <script>
         // Get the input element and error message element
         const faInput = document.getElementById("fainput");
         const errorMessage = document.getElementById("error-message");
@@ -308,7 +317,7 @@
         // Call the validation function when the input value changes
         faInput.addEventListener('input', validateInput);
     </script>
-    
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const inputElement = document.getElementById('site');

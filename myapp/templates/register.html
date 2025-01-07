@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -71,7 +73,7 @@
             <input type="text" id="prc_license" name="prc_license" required>
             
             <label for="profession">Profession</label>
-            <select id="profession" name="profession" required>
+            <select id="profession" name="profession" required required onchange="handleProfessionChange()">
                 <option value="" disabled selected>Select Profession</option>
                 <option value="Accountancy">Accountancy</option>
                 <option value="Aeronautical Engineering">Aeronautical Engineering</option>
@@ -118,10 +120,21 @@
                 <option value="Social Work">Social Work</option>
                 <option value="Speech-Language Pathology">Speech-Language Pathology</option>
                 <option value="Veterinary Medicine">Veterinary Medicine</option>
+                <option value="Others">Other, please Specify</option>
             </select>
+
+            <div id="otherProfessionContainer" style="display: none; margin-top: 10px;">
+                <label for="otherProfession">Specify Profession</label>
+                <input type="text" id="otherProfession" name="otherProfession" />
+            </div>
+
+            <label for="affiliation">Affiliated Agency</label>
+            <input type="affiliation" id="affiliation" name="affiliation" required>
             
             <button type="submit">Register</button>
         </form>
     </div>
+
+    <script src="{% static 'js/register.js' %}"></script>
 </body>
 </html>
