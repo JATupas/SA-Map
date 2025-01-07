@@ -272,6 +272,6 @@ def process_sa_pga_map(lat, lon, site, fainput, fvinput):
 # lat = 10.1073
 # lon = 123.1452
 # site = "F"
-# fainput = 2
+# fainput = 0
 # fvinput = 3
 # process_sa_pga_map(lat, lon, site, fainput, fvinput)
