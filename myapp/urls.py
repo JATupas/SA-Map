@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     path('', views.shade_redesign, name='shade_redesign'),
+    path('register/', views.register, name='register'),
     path('occurrence-rate-calculator/', views.occurrence_rate_calculator, name='occurrence_rate_calculator'),
     path('openquake-calculator/', views.openquake_calculator, name='openquake_calculator'),
     path('catalog-declustering-tool/', views.catalog_declustering_tool, name='catalog_declustering_tool'),

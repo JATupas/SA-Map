@@ -125,11 +125,12 @@
 
                                     <div class="mb-3" style="display: none;">
                                         <label for="fainput" class="form-label">Fa</label>
-                                        <input type="text" id="fainput" class="form-control" value="0">
+                                        <input type="text" id="fainput" class="form-control" value="1">
+                                        <span id="error-message" style="color: red; display: none;">Error: Value cannot be 0</span>
                                     </div>
                                     <div class="mb-3" style="display: none;">
                                         <label for="fvinput" class="form-label">Fv</label>
-                                        <input type="text" id="fvinput" class="form-control" value="0">
+                                        <input type="text" id="fvinput" class="form-control" value="1">
                                     </div>
 
                                 </form>                          
@@ -283,6 +284,39 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    <script>
+        // Get the registration data from the template context
+        var registrationData = JSON.parse('{{ registration_data|escapejs }}');
+        
+        // Log the registration data to the console
+        console.log("Registration Data: ", registrationData);
+    </script>
+
+
+    <script>
+        // Get the input element and error message element
+        const faInput = document.getElementById("fainput");
+        const errorMessage = document.getElementById("error-message");
+    
+        // Function to check if the value is 0
+        function validateInput() {
+            const value = faInput.value;
+    
+            // Check if the value is 0
+            if (value == 0) {
+                errorMessage.style.display = 'inline';  // Show the error message
+                faInput.style.borderColor = 'red';      // Change the border color to red
+                return false;  // Prevent further actions
+            } else {
+                errorMessage.style.display = 'none';   // Hide the error message
+                faInput.style.borderColor = '';        // Reset the border color
+                return true;  // Allow further actions
+            }
+        }
+    
+        // Call the validation function when the input value changes
+        faInput.addEventListener('input', validateInput);
+    </script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
