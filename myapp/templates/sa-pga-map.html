@@ -286,11 +286,25 @@
 
     <script>
         // Get the registration data from the template context
-        var registrationData = JSON.parse('{{ registration_data|escapejs }}');
+        var registrationData = null;
         
-        // Log the registration data to the console
-        console.log("Registration Data: ", registrationData);
+        // Try to parse the registration data if it exists in the template context
+        try {
+            registrationData = JSON.parse('{{ registration_data|escapejs }}');
+        } catch (e) {
+            console.log("No registration data found.");
+        }
+    
+        // If registration data is not present, redirect to the registration page
+        if (!registrationData) {
+            console.log("Redirecting to registration page...");
+            window.location.href = "{% url 'register' %}";
+        } else {
+            // Log the registration data to the console
+            console.log("Registration Data: ", registrationData);
+        }
     </script>
+    
 
 
     <script>
