@@ -31,41 +31,37 @@ def source_model_generator(request):
     return render(request, 'source-model-generator.html')
 
 from django.shortcuts import render, redirect
-from .process.forms import validate_registration_form
-from .email_utils import send_custom_email
 
 def register(request):
-    if request.method == "POST":
-        form_data = {
-            'full_name': request.POST.get('full_name'),
-            'birthdate': request.POST.get('birthdate'),
-            'email': request.POST.get('email'),
-            'prc_license': request.POST.get('prc_license'),
-            'profession': request.POST.get('profession'),
+    if request.method == 'POST':
+        # Extract data from the form
+        full_name = request.POST.get('full_name')
+        birthdate = request.POST.get('birthdate')
+        email = request.POST.get('email')
+        prc_license = request.POST.get('prc_license')
+        profession = request.POST.get('profession')
+        affiliation = request.POST.get('affiliation')
+
+        # Validate required fields
+        if not full_name or not email:
+            return HttpResponseBadRequest("Full Name and Email are required.")
+
+        # Save the data to the session
+        request.session['registration_data'] = {
+            'full_name': full_name,
+            'birthdate': birthdate,
+            'email': email,
+            'prc_license': prc_license,
+            'profession': profession,
+            'affiliation': affiliation,
         }
-        errors = validate_registration_form(form_data)
-        
-        if errors:
-            return render(request, 'register.html', {'errors': errors, 'form_data': form_data})
-        
-        # Prepare the email content
-        subject = "New User Registration"
-        message = f"""
-        Full Name: {form_data['full_name']}
-        Birthdate: {form_data['birthdate']}
-        Email Address: {form_data['email']}
-        PRC License: {form_data['prc_license']}
-        Profession: {form_data['profession']}
-        """
-        recipient_list = ['jatupas.shadeproject@gmail.com']  # Replace with your email address
 
-        # Send the email
-        send_custom_email(subject, message, recipient_list)
-
-        # Process valid data (e.g., save to database)
+        # Redirect to the SA-PGA Map page
         return redirect('sa_pga_map')
-    
+
+    # For GET requests, render the registration form
     return render(request, 'register.html')
+
 
 
 
@@ -77,6 +73,7 @@ def sa_pga_map(request):
     sa1, sa02, tl, Favalue, Fvvalue, SMS, SM1, SDS, SD1, Ts, To = [None] * 11
     given_point = None
     image_base64 = None
+    registration_data = request.session.get('registration_data', None)
 
     if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
         try:
@@ -159,6 +156,7 @@ def sa_pga_map(request):
         'SD1': SD1,
         'Ts': Ts,
         'To': To,
+        'registration_data': json.dumps(registration_data),
     }
     return render(request, 'sa-pga-map.html', context)
 
