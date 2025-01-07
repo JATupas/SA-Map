@@ -490,6 +490,20 @@
                             marker = L.marker([newLat, newLon]).addTo(map);  // Add the new marker
                             map.setView([newLat, newLon], 11);  // Zoom in to the new marker
                             popup.style.display = 'none';  // Close the popup
+
+                            $.ajax({
+                                url: "{% url 'send_email' %}",
+                                type: 'POST',
+                                headers: {
+                                    'X-CSRFToken': '{{ csrf_token }}', // Add CSRF token to the request headers
+                                },
+                                success: function (response) {
+                                    console.log('Email sent successfully:', response);
+                                },
+                                error: function (xhr, status, error) {
+                                    console.error('Error sending email:', error);
+                                }
+                            });
                         },
                         error: function(xhr, status, error) {
                             console.error('Error occurred while updating data:', error);
