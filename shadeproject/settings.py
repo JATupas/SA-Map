@@ -133,4 +133,4 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'montytoft.shadeproject@gmail.com'  # Your Gmail address
-EMAIL_HOST_PASSWORD = 'shademonty123!'    # Your Gmail password or App Password
+EMAIL_HOST_PASSWORD = 'trmx plpc ojaq apwi'    # Your Gmail password or App Password
