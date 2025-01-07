@@ -19,5 +19,6 @@ urlpatterns = [
     path('catalog_cleaning_tool/', views.clean_and_process_view, name='clean_and_process_data'),
     path('source_model_tool/', views.source_model, name='source_model'),
     path('recurrence_model_tool/', views.recurrence_model, name='recurrence_model'),
+    path('send_email/', views.send_email, name='send_email')
     # Add more paths as needed
 ]
