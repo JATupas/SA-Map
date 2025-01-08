@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SHADE Project PH</title>
+    <link rel="icon" href="{% static 'images/SHADE-Circle.ico' %}" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
@@ -31,9 +32,9 @@
             <nav>
                 <a href="{% url 'shade_redesign' %}" class="nav-link">Home</a>
                 <a href="#About-section" class="nav-link">About</a>
-                <!-- <span class="separator">|</span>
+                <span class="separator">|</span>
                 <b href="#" class="nav-link">Register</b>
-                <a href="#" class="nav-button">Log In</a> -->
+                <a href="#" class="nav-button">Log In</a>
             </nav>
         </div>
     </header>
@@ -61,10 +62,8 @@
                             <div class="form-content">
                                 <form id="coordinates-form" method="POST">
                                     {% csrf_token %}
+
                                     <!-- Current coordinates fields -->
-
-                                    <!-- <button id="toggle-view" type="button" class="btn btn-primary">Switch to DMS</button> -->
-
                                     <div class="toggle-buttons">
                                         <input type="radio" id="toggle-decimal" name="view-toggle" value="decimal-degrees" checked>
                                         <label for="toggle-decimal">Decimal Degrees</label>
@@ -155,35 +154,35 @@
         <!-- Site Information and Graph Section -->
         <section class="site-info-graph-section" id="site-info-section">
             <div class="container3">
-                <div class="site-info">
+                <div class="site-info-1">
                     <h3>Site Information:</h3>
                     <table class="table">
                         <tbody>
                             <tr>
                                 <td class="SA-title">Latitude (Decimal)</td>
-                                <td id="long" class="SA-value">{{ current_coord.lng|default:0.0 }}</td>
+                                <td id="long" class="SA-value"></td>
                             </tr>
                             <tr>
                                 <td class="SA-title">Longitude (Decimal)</td>
-                                <td id="lat" class="SA-value">{{ current_coord.lat|default:0.0 }}</td>
+                                <td id="lat" class="SA-value"></td>
                             </tr>
                             <tr>
                                 <td class="SA-title">Latitude (DMS)</td>
-                                <td id="lat-dms">
-                                    <div class="d-flex">
-                                        <input type="text" id="lat-degrees" class="form-control" placeholder="0°" value="{{ current_coord.lat_degrees|default:0 }}" readonly>°
-                                        <input type="text" id="lat-minutes" class="form-control" placeholder="0'" value="{{ current_coord.lat_minutes|default:0 }}" readonly>'
-                                        <input type="text" id="lat-seconds" class="form-control" placeholder="0''" value="{{ current_coord.lat_seconds|default:0 }}" readonly>''
+                                <td id="lat-dms" class="SA-value">
+                                    <div class="dms-container">
+                                        <span id="lat-degrees"></span><span class="dms-symbol">°</span>
+                                        <span id="lat-minutes"></span><span class="dms-symbol">'</span>
+                                        <span id="lat-seconds"></span><span class="dms-symbol">''</span>        
                                     </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="SA-title">Longitude (DMS)</td>
-                                <td id="lon-dms">
-                                    <div class="d-flex">
-                                        <input type="text" id="lon-degrees" class="form-control" placeholder="0°" value="{{ current_coord.lon_degrees|default:0 }}" readonly>°
-                                        <input type="text" id="lon-minutes" class="form-control" placeholder="0'" value="{{ current_coord.lon_minutes|default:0 }}" readonly>'
-                                        <input type="text" id="lon-seconds" class="form-control" placeholder="0''" value="{{ current_coord.lon_seconds|default:0 }}" readonly>''
+                                <td id="lon-dms" class="SA-value">
+                                    <div class="dms-container">
+                                        <span id="lon-degrees"></span><span class="dms-symbol">°</span>
+                                        <span id="lon-minutes"></span><span class="dms-symbol">'</span>
+                                        <span id="lon-seconds"></span><span class="dms-symbol">''</span>
                                     </div>
                                 </td>
                             </tr>
@@ -238,11 +237,49 @@
                         </tbody>
                     </table>
                 </div>
-                <div id="image-container" class="graph-container">
-                    {% if image_base64 %}
-                        <h3>ASCE 7-05 Plot</h3>
-                        <img src="data:image/png;base64,{{ image_base64 }}" alt="Spectral Acceleration Plot">
-                    {% endif %}
+
+                <div class="site-info-2">
+                    <div id="image-container" class="graph-container">
+                        {% if image_base64 %}
+                            <h3>ASCE 7-05 Plot</h3>
+                            <img src="data:image/png;base64,{{ image_base64 }}" alt="Spectral Acceleration Plot">
+                        {% endif %}
+                    </div>
+
+                    <!-- <div class="latitude-longitude-info">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td class="SA-title">Latitude (Decimal)</td>
+                                    <td id="long" class="SA-value"></td>
+                                </tr>
+                                <tr>
+                                    <td class="SA-title">Longitude (Decimal)</td>
+                                    <td id="lat" class="SA-value"></td>
+                                </tr>
+                                <tr>
+                                    <td class="SA-title">Latitude (DMS)</td>
+                                    <td id="lat-dms">
+                                        <div class="dms-container">
+                                            <span id="lat-degrees"></span><span class="dms-symbol">°</span>
+                                            <span id="lat-minutes"></span><span class="dms-symbol">'</span>
+                                            <span id="lat-seconds"></span><span class="dms-symbol">''</span>        
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="SA-title">Longitude (DMS)</td>
+                                    <td id="lon-dms">
+                                        <div class="dms-container">
+                                            <span id="lon-degrees"></span><span class="dms-symbol">°</span>
+                                            <span id="lon-minutes"></span><span class="dms-symbol">'</span>
+                                            <span id="lon-seconds"></span><span class="dms-symbol">''</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div> -->
                 </div>
 
             </div>
@@ -445,13 +482,13 @@
                 var lonMinutes = document.getElementById('lon-minutes').value;
                 var lonSeconds = document.getElementById('lon-seconds').value;
 
-                document.getElementById('lat-dms').querySelector('#lat-degrees').value = latDegrees;
-                document.getElementById('lat-dms').querySelector('#lat-minutes').value = latMinutes;
-                document.getElementById('lat-dms').querySelector('#lat-seconds').value = latSeconds;
+                document.getElementById('lat-dms').querySelector('#lat-degrees').textContent = latDegrees;
+                document.getElementById('lat-dms').querySelector('#lat-minutes').textContent = latMinutes;
+                document.getElementById('lat-dms').querySelector('#lat-seconds').textContent = latSeconds;
 
-                document.getElementById('lon-dms').querySelector('#lon-degrees').value = lonDegrees;
-                document.getElementById('lon-dms').querySelector('#lon-minutes').value = lonMinutes;
-                document.getElementById('lon-dms').querySelector('#lon-seconds').value = lonSeconds;
+                document.getElementById('lon-dms').querySelector('#lon-degrees').textContent = lonDegrees;
+                document.getElementById('lon-dms').querySelector('#lon-minutes').textContent = lonMinutes;
+                document.getElementById('lon-dms').querySelector('#lon-seconds').textContent = lonSeconds;
     
                 // Make sure lat, lon, and site values are available before sending AJAX
                 if (lat && lon && site) {
@@ -552,14 +589,14 @@
         // Update DMS fields when Decimal Degrees change
         function updateDMSFields(lat, lon) {
             const latDMS = convertToDMS(lat);
-            document.getElementById('lat-degrees').value = latDMS.degrees;
-            document.getElementById('lat-minutes').value = latDMS.minutes;
-            document.getElementById('lat-seconds').value = latDMS.seconds;
+            document.getElementById('lat-degrees').textContent = latDMS.degrees;
+            document.getElementById('lat-minutes').textContent = latDMS.minutes;
+            document.getElementById('lat-seconds').textContent = latDMS.seconds;
     
             const lonDMS = convertToDMS(lon);
-            document.getElementById('lon-degrees').value = lonDMS.degrees;
-            document.getElementById('lon-minutes').value = lonDMS.minutes;
-            document.getElementById('lon-seconds').value = lonDMS.seconds;
+            document.getElementById('lon-degrees').textContent = lonDMS.degrees;
+            document.getElementById('lon-minutes').textContent = lonDMS.minutes;
+            document.getElementById('lon-seconds').textContent = lonDMS.seconds;
         }
     
         // Update Decimal Degrees when DMS fields change
