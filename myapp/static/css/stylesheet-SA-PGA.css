@@ -174,16 +174,15 @@ main {
 .Home .container3 {
     display: none;
     gap: 20px;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     align-items: flex-start;
-
     background-color: white;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 30px 30px;
     text-align: left;
     width: 1273px;
-    height: 640px;
+    height: auto;
     flex: 1;
 } 
 
@@ -219,7 +218,6 @@ main {
     text-align: left;
     align-self: start;
     width: 420px;
-    height: 600px;
     flex: 1;
 }
 
@@ -338,7 +336,7 @@ main {
 
 .background {
     background-color: #E9EBEE;
-    height: 1300px;
+    height: 1400px;
 }
 
 .Section1 {
@@ -480,10 +478,10 @@ footer p {
     background-color: #0056b3; /* darker blue on hover */
 }
 
-.site-info h3 {
+.site-info-1 h3 {
     margin-bottom: 15px;
     color: rgba(0, 0, 0, 0.85); /* Black color with 85% opacity */;
-    font-size: 14px;
+    font-size: 16px;
     font-family: "Roboto", sans-serif;
     font-weight: 500;
     font-style: normal;
@@ -495,6 +493,7 @@ footer p {
     width: 100%;
     border-collapse: collapse;
     table-layout: fixed; /* Ensures a stable width */
+    height: auto;
 }
 
 .table td {
@@ -503,12 +502,12 @@ footer p {
 }
 
 td.SA-title {
-    width: 30%; /* Adjust this percentage for a narrower width */
+    width: 40%; /* Adjust this percentage for a narrower width */
     text-align: center; /* Optional: left-align the title */
 }
 
 td.SA-value {
-    width: 70%; /* The remaining space is for the SA values */
+    width: 60%; /* The remaining space is for the SA values */
     text-align: center; /* Optional: right-align the values */
 }
 
@@ -549,20 +548,39 @@ td.SA-value {
     gap: 20px; /* Add some spacing between elements */
 }
 
-.site-info {
-    flex: 1; /* Adjust the width of the table section */
-    max-width: 50%; /* Optional: Limit max width */
+.site-info-1, .site-info-1 *, .site-info-2, .site-info-2 * {
+    margin: 0;
+    padding: 0;
 }
 
-.graph-container {
-    flex: 1; /* Adjust the width of the graph section */
-    max-width: 50%; /* Optional: Limit max width */
-    text-align: center; /* Center-align the graph image */
+.site-info-1 {
+    /* flex: 1; Adjust the width of the table section */
+    max-width: 40%; /* Optional: Limit max width */
+    height: auto;
+}
+
+.site-info-2 {
+    flex: 1; /* Adjust the width of the table section */
+    max-width: 60%; /* Optional: Limit max width */
+    height: auto;
+}
+
+.latitude-longitude-info {
+    margin-top: 20px; /* Adjust spacing as needed */
 }
 
 .graph-container img {
-    max-width: 100%; /* Ensure the image fits within the container */
+    max-width: 707.81px; /* Ensure the image fits within the container */
     height: auto; /* Maintain aspect ratio */
+    display: flex;
+}
+
+.graph-container {
+    justify-content: center;
+    align-items: center;
+    flex: 1; /* Adjust the width of the graph section */
+    max-width: 50%; /* Optional: Limit max width */
+    text-align: center; /* Center-align the graph image */
 }
 
 .table {
@@ -712,4 +730,30 @@ button {
     border: 2px solid #2874F4; /* Thinner border on focus with a slightly different color */
     outline: none; /* Optional: Removes the default focus outline */
     box-shadow: 0 0 5px rgba(52, 152, 219, 0.5); /* subtle shadow effect */
+}
+
+
+/* Style the DMS container */
+.dms-container {
+    display: flex; /* Align items horizontally */
+    justify-content: center;
+    align-items: center; /* Vertically center the items */
+}
+
+/* Style for degrees, minutes, and seconds */
+#lat-degrees, #lon-degrees,
+#lat-minutes, #lon-minutes,
+#lat-seconds, #lon-seconds {
+    font-size: 14px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 22px;
+    /* width: auto; Set a fixed width */
+    margin-right: 2px; /* Add small spacing to the right of each element */
+}
+
+/* Optional: Style the symbols for better spacing */
+.dms-symbol {
+    margin-right: 10px; /* Add space after °, ' and '' symbols */
 }
