@@ -5,6 +5,7 @@ import pandas as pd
 from scipy.interpolate import griddata
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponseBadRequest
+from django.core.mail import send_mail
 from django.views.decorators.csrf import csrf_exempt
 import numpy as np
 import sys
@@ -30,6 +31,40 @@ def recurrence_model_calculator(request):
 def source_model_generator(request):
     return render(request, 'source-model-generator.html')
 
+from django.shortcuts import render, redirect
+
+def register(request):
+    if request.method == 'POST':
+        # Extract data from the form
+        full_name = request.POST.get('full_name')
+        birthdate = request.POST.get('birthdate')
+        email = request.POST.get('email')
+        prc_license = request.POST.get('prc_license')
+        profession = request.POST.get('profession')
+        affiliation = request.POST.get('affiliation')
+
+        # Validate required fields
+        if not full_name or not email:
+            return HttpResponseBadRequest("Full Name and Email are required.")
+
+        # Save the data to the session
+        request.session['registration_data'] = {
+            'full_name': full_name,
+            'birthdate': birthdate,
+            'email': email,
+            'prc_license': prc_license,
+            'profession': profession,
+            'affiliation': affiliation,
+        }
+
+        # Redirect to the SA-PGA Map page
+        return redirect('sa_pga_map')
+
+    # For GET requests, render the registration form
+    return render(request, 'register.html')
+
+
+
 
 from .process.sapgamap import process_sa_pga_map  # Import the function from your external Python file
 
@@ -39,19 +74,32 @@ def sa_pga_map(request):
     sa1, sa02, tl, Favalue, Fvvalue, SMS, SM1, SDS, SD1, Ts, To = [None] * 11
     given_point = None
     image_base64 = None
+    registration_data = request.session.get('registration_data', None)
 
     if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
         try:
             # Get latitude and longitude from the POST request
-            lat = float(request.POST.get('lat'))
-            lon = float(request.POST.get('lon'))
+            lat_str = request.POST.get('lat')
+            lon_str = request.POST.get('lon')
             site = request.POST.get('site')
+            fainput = request.POST.get('fainput')
+            fvinput = request.POST.get('fvinput')
+            
+            # Validate required fields
+            if not lat_str or not lon_str or not site:
+                return HttpResponseBadRequest("Missing required fields: latitude, longitude, and site.")
+            
+            # Convert strings to float
+            lat = float(lat_str)
+            lon = float(lon_str)
+            fainput = float(fainput)
+            fvinput = float(fvinput)
             
             # Log the received coordinates for debugging
-            print(f"Received coordinates: lat={lat}, lon={lon}, site={site}")
+            print(f"Received coordinates: lat={lat}, lon={lon}, site={site}, fa={fainput}, fv={fvinput}")
             
             # Process the map data using the given lat, lon
-            response_data = process_sa_pga_map(lat, lon, site)
+            response_data = process_sa_pga_map(lat, lon, site, fainput, fvinput)
             
             # Log the response data for debugging
             print(f"Response data: {response_data}")
@@ -109,8 +157,10 @@ def sa_pga_map(request):
         'SD1': SD1,
         'Ts': Ts,
         'To': To,
+        'registration_data': json.dumps(registration_data),
     }
     return render(request, 'sa-pga-map.html', context)
+
 
 from .process.OQ_Run import run_oq_jobs
 # from django.views.decorators.csrf import csrf_exempt
@@ -210,3 +260,16 @@ def recurrence_model(request):
             return JsonResponse({'status': 'error', 'message': str(e)})
 
     return JsonResponse({'status': 'invalid request'})
+
+def send_email(request):
+    try:
+        send_mail(
+            "Sample Email",
+            "Hello World",
+            "montytoft.shadeproject@gmail.com",
+            ["montgomery.toft@gmail.com"],
+            fail_silently=False
+        )
+        return JsonResponse({'status': 'success'})
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)})

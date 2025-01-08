@@ -115,18 +115,27 @@
                                             <div class="option" data-value="B">B</div>
                                             <div class="option" data-value="C">C</div>
                                             <div class="option" data-value="D">D</div>
-                                            <div class="option" data-value="D">E</div>
-                                            <div class="option" data-value="D">F</div>
+                                            <div class="option" data-value="E">E</div>
+                                            <div class="option" data-value="F">F</div>
                                             <!-- Add more options as needed -->
                                         </div>
                                         <input type="hidden" id="site" name="site">
                                     </div>
-            
+
+                                    <div class="mb-3" style="display: none;">
+                                        <label for="fainput" class="form-label">Fa</label>
+                                        <input type="text" id="fainput" class="form-control" value="1">
+                                        <span id="error-message" style="color: red; display: none;">Error: Value cannot be 0</span>
+                                    </div>
+                                    <div class="mb-3" style="display: none;">
+                                        <label for="fvinput" class="form-label">Fv</label>
+                                        <input type="text" id="fvinput" class="form-control" value="1">
+                                    </div>
+
                                 </form>                          
                                 <div class="button-group">
                                     <button type="button" id="check-data">Check Data</button>
                                 </div>
-
                                 <div id="loading-popup" style="display: none;" class="loading-popup ">
                                     <div class="popup-content">
                                         <p>Processing data, please wait...</p>
@@ -313,6 +322,83 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
+        // Get the registration data from the template context
+        var registrationData = null;
+        
+        // Try to parse the registration data if it exists in the template context
+        try {
+            registrationData = JSON.parse('{{ registration_data|escapejs }}');
+        } catch (e) {
+            console.log("No registration data found.");
+        }
+    
+        // If registration data is not present, redirect to the registration page
+        if (!registrationData) {
+            console.log("Redirecting to registration page...");
+            window.location.href = "{% url 'register' %}";
+        } else {
+            // Log the registration data to the console
+            console.log("Registration Data: ", registrationData);
+        }
+    </script>
+    
+
+
+    <script>
+        // Get the input element and error message element
+        const faInput = document.getElementById("fainput");
+        const errorMessage = document.getElementById("error-message");
+    
+        // Function to check if the value is 0
+        function validateInput() {
+            const value = faInput.value;
+    
+            // Check if the value is 0
+            if (value == 0) {
+                errorMessage.style.display = 'inline';  // Show the error message
+                faInput.style.borderColor = 'red';      // Change the border color to red
+                return false;  // Prevent further actions
+            } else {
+                errorMessage.style.display = 'none';   // Hide the error message
+                faInput.style.borderColor = '';        // Reset the border color
+                return true;  // Allow further actions
+            }
+        }
+    
+        // Call the validation function when the input value changes
+        faInput.addEventListener('input', validateInput);
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const inputElement = document.getElementById('site');
+            const faDiv = document.getElementById("fainput").parentElement;
+            const fvDiv = document.getElementById("fvinput").parentElement;
+    
+            // Function to handle display of `faDiv` and `fvDiv` based on input value
+            function updateVisibility() {
+                if (inputElement.value.trim().toUpperCase() === "F") {
+                    faDiv.style.display = "block";
+                    fvDiv.style.display = "block";
+                } else {
+                    faDiv.style.display = "none";
+                    fvDiv.style.display = "none";
+                }
+                
+            }
+            document.querySelectorAll('.site-option-list .option').forEach(option => {
+                option.addEventListener('click', function () {
+                    inputElement.value = option.dataset.value; // Update the hidden input
+                    updateVisibility(); // Update the visibility of faDiv and fvDiv
+                });
+            });
+    
+            // Run once on page load to set initial visibility
+            updateVisibility();
+        });
+    </script>
+
+    <script>
         $(document).ready(function() {
             // Initialize the map after the page has fully loaded
             var map = L.map('map').setView([13.41, 122.56], 6);  // Set initial coordinates
@@ -386,6 +472,8 @@
                 var lat = document.getElementById('current-lat').value;
                 var lon = document.getElementById('current-lon').value;
                 var site = document.getElementById('site').value;  
+                var fainput = document.getElementById('fainput').value;  
+                var fvinput = document.getElementById('fvinput').value;  
                 var latDegrees = document.getElementById('lat-degrees').value;
                 var latMinutes = document.getElementById('lat-minutes').value;
                 var latSeconds = document.getElementById('lat-seconds').value;
@@ -415,6 +503,8 @@
                             'lat': lat,
                             'lon': lon,
                             'site': site,  // Send the site value as well
+                            'fainput': fainput,
+                            'fvinput': fvinput,
                             'csrfmiddlewaretoken': '{{ csrf_token }}',  // Include CSRF token if not exempted
                         },
                         success: function(response) {
@@ -451,6 +541,20 @@
                             marker = L.marker([newLat, newLon]).addTo(map);  // Add the new marker
                             map.setView([newLat, newLon], 11);  // Zoom in to the new marker
                             popup.style.display = 'none';  // Close the popup
+
+                            $.ajax({
+                                url: "{% url 'send_email' %}",
+                                type: 'POST',
+                                headers: {
+                                    'X-CSRFToken': '{{ csrf_token }}', // Add CSRF token to the request headers
+                                },
+                                success: function (response) {
+                                    console.log('Email sent successfully:', response);
+                                },
+                                error: function (xhr, status, error) {
+                                    console.error('Error sending email:', error);
+                                }
+                            });
                         },
                         error: function(xhr, status, error) {
                             console.error('Error occurred while updating data:', error);
@@ -586,7 +690,7 @@
         });
 
     </script>
-
+    
     <script> // script for Auto Scroll to Site Information Result 
         document.addEventListener('DOMContentLoaded', () => {
             const loadingPopup = document.getElementById('loading-popup');
