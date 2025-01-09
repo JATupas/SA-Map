@@ -22,26 +22,29 @@ function handleFormSubmission(event) {
     console.log("Affiliated Agency:", affiliation);
 }
 
-document.addEventListener("DOMContentLoaded", function() {
+function handleProfessionChange() {
     const professionSelect = document.getElementById("profession");
     const otherProfessionContainer = document.getElementById("otherProfessionContainer");
     const otherProfessionInput = document.getElementById("otherProfession");
 
-    // Initial call to handle profession change if needed
-    handleProfessionChange(); 
-
-    professionSelect.addEventListener("change", handleProfessionChange);
-
-    function handleProfessionChange() {
-        if (professionSelect.value === "Others") {
-            otherProfessionContainer.style.display = "block"; // Show container
-            otherProfessionInput.required = true; // Make input required
-        } else {
-            otherProfessionContainer.style.display = "none"; // Hide container
-            otherProfessionInput.required = false; // Remove required attribute
-            otherProfessionInput.value = ""; // Clear input value
-        }
+    if (professionSelect.value === "Others") {
+        otherProfessionContainer.style.display = "block"; // Show container
+        otherProfessionInput.required = true; // Make input required
+    } else {
+        otherProfessionContainer.style.display = "none"; // Hide container
+        otherProfessionInput.required = false; // Remove required attribute
+        otherProfessionInput.value = ""; // Clear input value
     }
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    const professionSelect = document.getElementById("profession");
+
+    // Call handleProfessionChange initially to set the correct state
+    handleProfessionChange();
+
+    // Add event listener for the profession select element
+    professionSelect.addEventListener("change", handleProfessionChange);
 
     // Handle form submission
     document.getElementById('register-form').addEventListener('submit', function(event) {
@@ -59,3 +62,4 @@ document.addEventListener("DOMContentLoaded", function() {
         console.log("Register Form Data:", formData);
     });
 });
+
