@@ -8,6 +8,7 @@ from django.http import JsonResponse, HttpResponseBadRequest
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
 from django.views.decorators.csrf import csrf_exempt
+from utils import extract_data
 import numpy as np
 import sys
 
@@ -263,20 +264,28 @@ def recurrence_model(request):
     return JsonResponse({'status': 'invalid request'})
 
 def send_email(request):
+    if request.method == "POST":
+        # Code for data to be put at email template
+        
+        data =  extract_data(request.body)
 
-    # Code for data to be put at email template
+        if(data != None):
 
-    # Render html email template
-    html_content = render_to_string('email-template.html')
+            context = {"data": data}
+            # Render html email template
+            html_content = render_to_string('email-template.html')
 
-    subject = "Email Template"
-    from_email = settings.DEFAULT_FROM_EMAIL
-    recipient_list = ['montgomery.toft@gmail.com']
-    
-    email = EmailMultiAlternatives(subject, '', from_email, recipient_list)
-    email.attach_alternative(html_content, "text/html")
-    try:
-        email.send()
-        return JsonResponse({'status': 'success'})
-    except Exception as e:
-        return JsonResponse({'status': 'error', 'message': str(e)})
+            subject = "Email Template"
+            from_email = settings.DEFAULT_FROM_EMAIL
+            recipient_list = ['montgomery.toft@gmail.com']
+            
+            email = EmailMultiAlternatives(subject, '', from_email, recipient_list)
+            email.attach_alternative(html_content, "text/html")
+            try:
+                email.send()
+                return JsonResponse({'status': 'success'})
+            except Exception as e:
+                return JsonResponse({'status': 'error', 'message': str(e)})
+        else:
+            return JsonResponse({'status': 'error', 'message': "There is no registration data"})
+        
