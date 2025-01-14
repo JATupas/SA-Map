@@ -5,7 +5,8 @@ import pandas as pd
 from scipy.interpolate import griddata
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponseBadRequest
-from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
 from django.views.decorators.csrf import csrf_exempt
 import numpy as np
 import sys
@@ -262,14 +263,20 @@ def recurrence_model(request):
     return JsonResponse({'status': 'invalid request'})
 
 def send_email(request):
+
+    # Code for data to be put at email template
+
+    # Render html email template
+    html_content = render_to_string('email-template.html')
+
+    subject = "Email Template"
+    from_email = settings.DEFAULT_FROM_EMAIL
+    recipient_list = ['montgomery.toft@gmail.com']
+    
+    email = EmailMultiAlternatives(subject, '', from_email, recipient_list)
+    email.attach_alternative(html_content, "text/html")
     try:
-        send_mail(
-            "Sample Email",
-            "Hello World",
-            settings.DEFAULT_EMAIL_ADDRESS,
-            ["montgomery.toft@gmail.com"],
-            fail_silently=False
-        )
+        email.send()
         return JsonResponse({'status': 'success'})
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)})
