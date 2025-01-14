@@ -5,6 +5,7 @@ import pandas as pd
 from scipy.interpolate import griddata
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponseBadRequest
+from django.core.mail import send_mail
 from django.views.decorators.csrf import csrf_exempt
 import numpy as np
 import sys
@@ -259,3 +260,16 @@ def recurrence_model(request):
             return JsonResponse({'status': 'error', 'message': str(e)})
 
     return JsonResponse({'status': 'invalid request'})
+
+def send_email(request):
+    try:
+        send_mail(
+            "Sample Email",
+            "Hello World",
+            settings.DEFAULT_EMAIL_ADDRESS,
+            ["montgomery.toft@gmail.com"],
+            fail_silently=False
+        )
+        return JsonResponse({'status': 'success'})
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)})
