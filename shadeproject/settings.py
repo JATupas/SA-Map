@@ -133,4 +133,4 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'montytoft.shadeproject@gmail.com'  # Your Gmail address
 EMAIL_HOST_PASSWORD = 'trmx plpc ojaq apwi'    # Your Gmail password or App Password
-DEFAULT_EMAIL_ADDRESS = 'montytoft.shadeproject@gmail.com'
+DEFAULT_FROM_EMAIL = 'montytoft.shadeproject@gmail.com'
