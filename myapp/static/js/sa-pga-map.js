@@ -150,14 +150,14 @@ $(document).ready(function() {
 
             $.ajax({
                 type: "POST",
-                url: "{% url 'sa_pga_map' %}",  // Ensure this URL resolves correctly in Django
+                url: saPgaMapUrl,  // Ensure this URL resolves correctly in Django
                 data: {
                     'lat': lat,
                     'lon': lon,
                     'site': site,  // Send the site value as well
                     'fainput': fainput,
                     'fvinput': fvinput,
-                    'csrfmiddlewaretoken': '{{ csrf_token }}',  // Include CSRF token if not exempted
+                    'csrfmiddlewaretoken': csrfToken,  // Include CSRF token if not exempted
                 },
                 success: function(response) {
                     console.log('Data updated successfully');
@@ -193,18 +193,25 @@ $(document).ready(function() {
                     marker = L.marker([newLat, newLon]).addTo(map);  // Add the new marker
                     map.setView([newLat, newLon], 11);  // Zoom in to the new marker
                     popup.style.display = 'none';  // Close the popup
-                    const regData =  JSON.parse('{{ registration_data|escapejs }}')
+                    let userData = {
+                        full_name: "",
+                        birthdate: "",
+                        email: "",
+                        prc_license: "",
+                        profession: "",
+                        affiliation: "",
+                    }
 
-                    if(regData){
-                        userData = {...regData}
+                    if(registrationData){
+                        userData = {...registrationData}
                     }
 
                     $.ajax({
-                        url: "{% url 'send_email' %}",
+                        url: emailUrl,
                         type: 'POST',
                         data: {...userData},
                         headers: {
-                            'X-CSRFToken': '{{ csrf_token }}', // Add CSRF token to the request headers
+                            'X-CSRFToken': csrfToken, // Add CSRF token to the request headers
                         },
                         success: function (response) {
                             if(response.status === "error"){

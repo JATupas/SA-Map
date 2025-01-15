@@ -284,6 +284,31 @@
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <script>
+        // Get the registration data from the template context
+        var registrationData = null;
+        
+        // Try to parse the registration data if it exists in the template context
+        try {
+            registrationData = JSON.parse('{{ registration_data|escapejs }}');
+        } catch (e) {
+            console.log("No registration data found.");
+        }
+    
+        // If registration data is not present, redirect to the registration page
+        if (!registrationData) {
+            console.log("Redirecting to registration page...");
+            window.location.href = "{% url 'register' %}";
+        } else {
+            // Log the registration data to the console
+            console.log("Registration Data: ", registrationData);
+        }
+
+        const saPgaMapUrl = "{% url 'sa_pga_map' %}"
+        const csrfToken = '{{ csrf_token }}'
+        const emailUrl = "{% url 'send_email' %}"
+    </script>
     <script src="{% static 'js/sa-pga-map.js' %}"></script>
 </body>
 </html>
