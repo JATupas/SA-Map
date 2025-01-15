@@ -275,13 +275,13 @@ def send_email(request):
     if request.method == "POST":
         # Code for data to be put at email template
         
-        data =  extract_data(request.body)
+        data =  extract_data(request.body, request.method)
 
         if(data != None):
 
             context = {"data": data}
             # Render html email template
-            html_content = render_to_string('email-template.html')
+            html_content = render_to_string('email-template.html', context)
 
             subject = "Email Template"
             from_email = settings.DEFAULT_FROM_EMAIL
