@@ -556,13 +556,13 @@ td.SA-value {
 
 .site-info-1 {
     /* flex: 1; Adjust the width of the table section */
-    max-width: 40%; /* Optional: Limit max width */
+    max-width: 30%; /* Optional: Limit max width */
     height: auto;
 }
 
 .site-info-2 {
     flex: 1; /* Adjust the width of the table section */
-    max-width: 60%; /* Optional: Limit max width */
+    max-width: 70%; /* Optional: Limit max width */
     height: auto;
 }
 
