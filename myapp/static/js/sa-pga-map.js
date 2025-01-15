@@ -193,23 +193,26 @@ $(document).ready(function() {
                     marker = L.marker([newLat, newLon]).addTo(map);  // Add the new marker
                     map.setView([newLat, newLon], 11);  // Zoom in to the new marker
                     popup.style.display = 'none';  // Close the popup
-                    let userData = {
-                        full_name: "",
-                        birthdate: "",
-                        email: "",
-                        prc_license: "",
-                        profession: "",
-                        affiliation: "",
-                    }
+                    console.log("user registration data:", registrationData)
+                    // let userData = {
+                    //     full_name: "",
+                    //     birthdate: "",
+                    //     email: "",
+                    //     prc_license: "",
+                    //     profession: "",
+                    //     affiliation: "",
+                    // }
 
-                    if(registrationData){
-                        userData = {...registrationData}
-                    }
+                    // if(registrationData){
+                    //     userData = {...registrationData}
+                    // }
 
                     $.ajax({
                         url: emailUrl,
                         type: 'POST',
-                        data: {...userData},
+                        data: JSON.stringify(registrationData),
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
                         headers: {
                             'X-CSRFToken': csrfToken, // Add CSRF token to the request headers
                         },

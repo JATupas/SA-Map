@@ -262,39 +262,52 @@ def recurrence_model(request):
 
     return JsonResponse({'status': 'invalid request'})
 
-def extract_data(body, method):
-    if method == "POST":
-        try:
-            data = json.loads(body)  # Parse JSON from the bodys
-            return data
-        except json.JSONDecodeError:
-            return JsonResponse({'error': 'Invalid JSON format'}, status=400)
+# def extract_data(body, method):
+#     print("Data body:", body)
+#     if method == "POST":
+#         try:
+#             data = json.loads(body)  # Parse JSON from the bodys
+#             print("json data:", data)
+#             return data
+#         except json.JSONDecodeError:
+#             return None
 
 def send_email(request):
-
     if request.method == "POST":
-        # Code for data to be put at email template
-        
-        data =  extract_data(request.body, request.method)
-
-        if(data != None):
-
-            context = {"data": data}
-            # Render html email template
-            html_content = render_to_string('email-template.html', context)
-
-            subject = "Email Template"
-            from_email = settings.DEFAULT_FROM_EMAIL
-            recipient_list = ['montgomery.toft@gmail.com']
-            
-            email = EmailMultiAlternatives(subject, '', from_email, recipient_list)
-            email.attach_alternative(html_content, "text/html")
+        print(request.body)
+        if request.body:
             try:
-                email.send()
-                return JsonResponse({'status': 'success'})
-            except Exception as e:
-                return JsonResponse({'status': 'error', 'message': str(e)})
+                # Parse JSON from the request body
+                data = json.loads(request.body.decode('utf-8'))
+
+                # Pass data to the template
+                context = {
+                    'data': data,
+                    'has_data': True
+                }
+            except json.JSONDecodeError:
+                # Handle invalid JSON format
+                return JsonResponse({'error': 'Invalid JSON format'}, status=400)
         else:
-            return JsonResponse({'status': 'error', 'message': "There is no registration data"})
+            # Handle empty body
+            context = {
+                'data': None,
+                'has_data': False
+            }
+        
+        # Render html email template
+        html_content = render_to_string('email-template.html', context)
+
+        subject = "Email Template"
+        from_email = settings.DEFAULT_FROM_EMAIL
+        recipient_list = ['montgomery.toft@gmail.com']
+        
+        email = EmailMultiAlternatives(subject, '', from_email, recipient_list)
+        email.attach_alternative(html_content, "text/html")
+        try:
+            email.send()
+            return JsonResponse({'status': 'success'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)})
         
 
