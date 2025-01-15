@@ -13,20 +13,30 @@
             margin: 5px;
         }
 
-        .email-title{
+        .email-header{
             text-align: center;
-            color: blue;
         }
 
-        .email-txt{
-            font-style: italic;
+        .field-name{
+            font-weight: bold;
+            margin: 5px;
+            padding: 5px;
         }
     </style>
 </head>
 <body>
     <div class="email-content-container">
-        <h4 class="email-header">Email Template</h4>
-        <p class="email-txt">Hello this is an email template</p>
+        <h2 class="email-header">User Logs</h2>
+        {% if has_data %}
+        <p><strong>User Data:</strong></p>
+        <ul>
+            {% for key, value in data.items %}
+                <li><b class="field-name">{{ key }}</b>: {{ value }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+            <p>No data received in the request body.</p>
+        {% endif %}
     </div>
 </body>
 </html>
