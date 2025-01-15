@@ -1,3 +1,20 @@
+function handleProfessionChange() {
+    // Get elements
+    const professionSelect = document.getElementById("profession");
+    const otherProfessionContainer = document.getElementById("otherProfessionContainer");
+    const otherProfessionInput = document.getElementById("otherProfession");
+
+    // Check if "Others" is selected
+    if (professionSelect.value === "Others") {
+        otherProfessionContainer.style.display = "block"; // Show container
+        otherProfessionInput.required = true; // Make input required
+    } else {
+        otherProfessionContainer.style.display = "none"; // Hide container
+        otherProfessionInput.required = false; // Remove required attribute
+        otherProfessionInput.value = ""; // Clear input value
+    }
+}
+
 function handleFormSubmission(event) {
     event.preventDefault(); // Prevent default form submission
 
@@ -22,44 +39,21 @@ function handleFormSubmission(event) {
     console.log("Affiliated Agency:", affiliation);
 }
 
-function handleProfessionChange() {
-    const professionSelect = document.getElementById("profession");
-    const otherProfessionContainer = document.getElementById("otherProfessionContainer");
-    const otherProfessionInput = document.getElementById("otherProfession");
+// // Attach event listeners
+// document.addEventListener("DOMContentLoaded", function () {
+//     document.getElementById('registerForm').addEventListener('submit', function(event) {
+//         // Get form data
+//         var formData = {
+//             'full_name': document.getElementById('full_name').value,
+//             'birthdate': document.getElementById('birthdate').value,
+//             'email': document.getElementById('email').value,
+//             'profession': document.getElementById('profession').value,
+//             'affiliation': document.getElementById('affiliation').value
+//         };
 
-    if (professionSelect.value === "Others") {
-        otherProfessionContainer.style.display = "block"; // Show container
-        otherProfessionInput.required = true; // Make input required
-    } else {
-        otherProfessionContainer.style.display = "none"; // Hide container
-        otherProfessionInput.required = false; // Remove required attribute
-        otherProfessionInput.value = ""; // Clear input value
-    }
-}
-
-document.addEventListener("DOMContentLoaded", function() {
-    const professionSelect = document.getElementById("profession");
-
-    // Call handleProfessionChange initially to set the correct state
-    handleProfessionChange();
-
-    // Add event listener for the profession select element
-    professionSelect.addEventListener("change", handleProfessionChange);
-
-    // Handle form submission
-    document.getElementById('register-form').addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        const formData = {
-            'full_name': document.getElementById('full_name').value,
-            'birthdate': document.getElementById('birthdate').value,
-            'email': document.getElementById('email').value,
-            'prc_license': document.getElementById('prc_license').value,
-            'profession': document.getElementById('profession').value,
-            'affiliation': document.getElementById('affiliation').value
-        };
-
-        console.log("Register Form Data:", formData);
-    });
-});
-
+//         // Log the data to the console
+//         console.log("Register Form Data:", formData);
+        
+//         // You can do additional logging or validation here if needed
+//     });
+// });
