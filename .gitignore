@@ -20,4 +20,5 @@ get-pip.py
 # Ignore Python embedded directory
 python-embedded/
 
-# 
+# sqlite
+db.sqlite3
