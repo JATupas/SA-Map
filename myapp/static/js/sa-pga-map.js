@@ -193,14 +193,23 @@ $(document).ready(function() {
                     marker = L.marker([newLat, newLon]).addTo(map);  // Add the new marker
                     map.setView([newLat, newLon], 11);  // Zoom in to the new marker
                     popup.style.display = 'none';  // Close the popup
+                    const regData =  JSON.parse('{{ registration_data|escapejs }}')
+
+                    if(regData){
+                        userData = {...regData}
+                    }
 
                     $.ajax({
                         url: "{% url 'send_email' %}",
                         type: 'POST',
+                        data: {...userData},
                         headers: {
                             'X-CSRFToken': '{{ csrf_token }}', // Add CSRF token to the request headers
                         },
                         success: function (response) {
+                            if(response.status === "error"){
+                                alert(response.message)
+                            }
                             console.log('Email sent successfully:', response);
                         },
                         error: function (xhr, status, error) {
