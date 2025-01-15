@@ -264,6 +264,7 @@ def recurrence_model(request):
     return JsonResponse({'status': 'invalid request'})
 
 def send_email(request):
+
     if request.method == "POST":
         # Code for data to be put at email template
         
@@ -288,4 +289,3 @@ def send_email(request):
                 return JsonResponse({'status': 'error', 'message': str(e)})
         else:
             return JsonResponse({'status': 'error', 'message': "There is no registration data"})
-        
