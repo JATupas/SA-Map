@@ -162,29 +162,29 @@
                         <tbody>
                             <tr>
                                 <td class="SA-title">Latitude (Decimal)</td>
-                                <td id="long" class="SA-value">{{ current_coord.lng|default:0.0 }}</td>
+                                <td id="long" class="SA-value"></td>
                             </tr>
                             <tr>
                                 <td class="SA-title">Longitude (Decimal)</td>
-                                <td id="lat" class="SA-value">{{ current_coord.lat|default:0.0 }}</td>
+                                <td id="lat" class="SA-value"></td>
                             </tr>
                             <tr>
                                 <td class="SA-title">Latitude (DMS)</td>
-                                <td id="lat-dms">
-                                    <div class="d-flex">
-                                        <input type="text" id="lat-degrees" class="form-control" placeholder="0°" value="{{ current_coord.lat_degrees|default:0 }}" readonly>°
-                                        <input type="text" id="lat-minutes" class="form-control" placeholder="0'" value="{{ current_coord.lat_minutes|default:0 }}" readonly>'
-                                        <input type="text" id="lat-seconds" class="form-control" placeholder="0''" value="{{ current_coord.lat_seconds|default:0 }}" readonly>''
+                                <td id="lat-dms" class="SA-value">
+                                    <div class="dms-container">
+                                        <span id="lat-degrees"></span><span class="dms-symbol">°</span>
+                                        <span id="lat-minutes"></span><span class="dms-symbol">'</span>
+                                        <span id="lat-seconds"></span><span class="dms-symbol">''</span>        
                                     </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="SA-title">Longitude (DMS)</td>
-                                <td id="lon-dms">
-                                    <div class="d-flex">
-                                        <input type="text" id="lon-degrees" class="form-control" placeholder="0°" value="{{ current_coord.lon_degrees|default:0 }}" readonly>°
-                                        <input type="text" id="lon-minutes" class="form-control" placeholder="0'" value="{{ current_coord.lon_minutes|default:0 }}" readonly>'
-                                        <input type="text" id="lon-seconds" class="form-control" placeholder="0''" value="{{ current_coord.lon_seconds|default:0 }}" readonly>''
+                                <td id="lon-dms" class="SA-value">
+                                    <div class="dms-container">
+                                        <span id="lon-degrees"></span><span class="dms-symbol">°</span>
+                                        <span id="lon-minutes"></span><span class="dms-symbol">'</span>
+                                        <span id="lon-seconds"></span><span class="dms-symbol">''</span>
                                     </div>
                                 </td>
                             </tr>
