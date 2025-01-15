@@ -183,7 +183,7 @@ main {
     padding: 30px 30px;
     text-align: left;
     width: 1273px;
-    height: 640px;
+    height: auto;
     flex: 1;
 } 
 
@@ -547,6 +547,33 @@ td.SA-value {
     justify-content: space-between; /* Adjust spacing between the table and graph */
     align-items: flex-start; /* Align items to the top */
     gap: 20px; /* Add some spacing between elements */
+}
+
+.site-info, .site-info *{
+    margin: 0;
+    padding: 0;
+}
+
+.site-info-1, .site-info-1 *, 
+.site-info-2, .site-info-2 * {
+    margin: 0;
+    padding: 0;
+}
+
+.site-info-1 {
+    /* flex: 1; Adjust the width of the table section */
+    max-width: 30%; /* Optional: Limit max width */
+    height: auto;
+}
+
+.site-info-2 {
+    flex: 1; /* Adjust the width of the table section */
+    max-width: 70%; /* Optional: Limit max width */
+    height: auto;
+}
+
+.latitude-longitude-info {
+    margin-top: 20px; /* Adjust spacing as needed */
 }
 
 .site-info {
