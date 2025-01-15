@@ -8,7 +8,6 @@ from django.http import JsonResponse, HttpResponseBadRequest
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
 from django.views.decorators.csrf import csrf_exempt
-from utils import extract_data
 import numpy as np
 import sys
 
@@ -263,6 +262,14 @@ def recurrence_model(request):
 
     return JsonResponse({'status': 'invalid request'})
 
+def extract_data(body, method):
+    if method == "POST":
+        try:
+            data = json.loads(body)  # Parse JSON from the bodys
+            return data
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON format'}, status=400)
+
 def send_email(request):
 
     if request.method == "POST":
@@ -289,3 +296,5 @@ def send_email(request):
                 return JsonResponse({'status': 'error', 'message': str(e)})
         else:
             return JsonResponse({'status': 'error', 'message': "There is no registration data"})
+        
+
