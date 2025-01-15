@@ -184,6 +184,7 @@ main {
     width: 1273px;
     height: auto;
     flex: 1;
+    align-items: center;
 } 
 
 .Title h1 {
