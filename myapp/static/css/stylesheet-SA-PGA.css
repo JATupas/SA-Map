@@ -173,7 +173,7 @@ main {
 
 .Home .container3 {
     display: none;
-    gap: 20px;
+    /* gap: 20px; */
     /* justify-content: space-between; */
     align-items: flex-start;
     background-color: white;
@@ -479,7 +479,7 @@ footer p {
     background-color: #0056b3; /* darker blue on hover */
 }
 
-.site-info-1 h3 {
+.site-info h3 {
     margin-bottom: 15px;
     color: rgba(0, 0, 0, 0.85); /* Black color with 85% opacity */;
     font-size: 16px;
@@ -494,7 +494,7 @@ footer p {
     width: 100%;
     border-collapse: collapse;
     table-layout: fixed; /* Ensures a stable width */
-    height: auto;
+    /* height: auto; */
 }
 
 .table td {
@@ -503,12 +503,12 @@ footer p {
 }
 
 td.SA-title {
-    width: 40%; /* Adjust this percentage for a narrower width */
+    width: 30%; /* Adjust this percentage for a narrower width */
     text-align: center; /* Optional: left-align the title */
 }
 
 td.SA-value {
-    width: 60%; /* The remaining space is for the SA values */
+    width: 70%; /* The remaining space is for the SA values */
     text-align: center; /* Optional: right-align the values */
 }
 
@@ -549,7 +549,13 @@ td.SA-value {
     gap: 20px; /* Add some spacing between elements */
 }
 
-.site-info-1, .site-info-1 *, .site-info-2, .site-info-2 * {
+.site-info, .site-info *{
+    margin: 0;
+    padding: 0;
+}
+
+.site-info-1, .site-info-1 *, 
+.site-info-2, .site-info-2 * {
     margin: 0;
     padding: 0;
 }
@@ -573,15 +579,28 @@ td.SA-value {
 .graph-container img {
     max-width: 707.81px; /* Ensure the image fits within the container */
     height: auto; /* Maintain aspect ratio */
-    display: flex;
+    /* display: flex; */
 }
 
 .graph-container {
-    justify-content: center;
+    display: flex;
+    /* justify-content: center; */
     align-items: center;
     flex: 1; /* Adjust the width of the graph section */
     max-width: 50%; /* Optional: Limit max width */
     text-align: center; /* Center-align the graph image */
+    height: 100%;
+}
+
+.site-info-1 h3 {
+    margin-bottom: 15px;
+    color: rgba(0, 0, 0, 0.85); /* Black color with 85% opacity */;
+    font-size: 16px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    line-height: 24px;
+    margin-bottom: 10px;
 }
 
 .table {
