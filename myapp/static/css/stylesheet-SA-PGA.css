@@ -174,8 +174,8 @@ main {
 .Home .container3 {
     display: none;
     /* gap: 20px; */
-    /* justify-content: space-between; */
-    align-items: flex-start;
+    justify-content: space-between;
+    /* align-items: flex-start; */
     background-color: white;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -183,7 +183,6 @@ main {
     text-align: left;
     width: 1273px;
     height: auto;
-    flex: 1;
     align-items: center;
 } 
 
@@ -503,12 +502,12 @@ footer p {
 }
 
 td.SA-title {
-    width: 30%; /* Adjust this percentage for a narrower width */
+    width: 40%; /* Adjust this percentage for a narrower width */
     text-align: center; /* Optional: left-align the title */
 }
 
 td.SA-value {
-    width: 70%; /* The remaining space is for the SA values */
+    width: 60%; /* The remaining space is for the SA values */
     text-align: center; /* Optional: right-align the values */
 }
 
@@ -549,6 +548,11 @@ td.SA-value {
     gap: 20px; /* Add some spacing between elements */
 }
 
+.site-info {
+    flex: 1; /* Adjust the width of the table section */
+    max-width: 45%; /* Optional: Limit max width */
+}
+
 .site-info, .site-info *{
     margin: 0;
     padding: 0;
@@ -562,13 +566,13 @@ td.SA-value {
 
 .site-info-1 {
     /* flex: 1; Adjust the width of the table section */
-    max-width: 30%; /* Optional: Limit max width */
+    max-width: 40%; /* Optional: Limit max width */
     height: auto;
 }
 
 .site-info-2 {
     flex: 1; /* Adjust the width of the table section */
-    max-width: 70%; /* Optional: Limit max width */
+    max-width: 60%; /* Optional: Limit max width */
     height: auto;
 }
 
@@ -576,20 +580,17 @@ td.SA-value {
     margin-top: 20px; /* Adjust spacing as needed */
 }
 
-.graph-container img {
-    max-width: 707.81px; /* Ensure the image fits within the container */
-    height: auto; /* Maintain aspect ratio */
-    /* display: flex; */
-}
-
 .graph-container {
-    display: flex;
-    /* justify-content: center; */
     align-items: center;
     flex: 1; /* Adjust the width of the graph section */
-    max-width: 50%; /* Optional: Limit max width */
+    max-width: 55%; /* Optional: Limit max width */
     text-align: center; /* Center-align the graph image */
-    height: 100%;
+}
+
+.graph-container img {
+    width: 100%; /* Make the graph responsive to the container */
+    max-width: 100%; /* Ensure the image fits within the container */
+    height: auto; /* Maintain aspect ratio */
 }
 
 .site-info-1 h3 {
