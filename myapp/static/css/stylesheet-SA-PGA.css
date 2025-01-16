@@ -214,7 +214,7 @@ main {
     background-color: white;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 30px 30px;
+    padding: 30px 30px 15px 30px; /* top, right, bottom, left */
     text-align: left;
     align-self: start;
     width: 420px;
@@ -781,4 +781,15 @@ button {
 /* Optional: Style the symbols for better spacing */
 .dms-symbol {
     margin-right: 10px; /* Add space after °, ' and '' symbols */
+}
+
+
+/* Style for the map disclaimer */
+.map-disclaimer {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #555;
+    font-style: italic; /* Makes the text italic */
+    margin: 0;
+    padding-top: 8px;
 }
