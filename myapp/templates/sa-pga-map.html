@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SHADE Project PH</title>
+    <link rel="icon" href="{% static 'images/SHADE-Circle.ico' %}" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
@@ -116,13 +117,23 @@
                                             <div class="option" data-value="B">B</div>
                                             <div class="option" data-value="C">C</div>
                                             <div class="option" data-value="D">D</div>
-                                            <div class="option" data-value="D">E</div>
-                                            <div class="option" data-value="D">F</div>
+                                            <div class="option" data-value="E">E</div>
+                                            <div class="option" data-value="F">F</div>
                                             <!-- Add more options as needed -->
                                         </div>
                                         <input type="hidden" id="site" name="site">
                                     </div>
-            
+
+                                    <div class="mb-3" style="display: none;">
+                                        <label for="fainput" class="form-label">Fa</label>
+                                        <input type="text" id="fainput" class="form-control" value="1">
+                                        <span id="error-message" style="color: red; display: none;">Error: Value cannot be 0</span>
+                                    </div>
+                                    <div class="mb-3" style="display: none;">
+                                        <label for="fvinput" class="form-label">Fv</label>
+                                        <input type="text" id="fvinput" class="form-control" value="1">
+                                    </div>
+
                                 </form>                          
                                 <div class="button-group">
                                     <button type="button" id="check-data">Check Data</button>
@@ -134,6 +145,7 @@
                                         <button id="done_button" style="display: none;">Done</button>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
 
@@ -272,311 +284,31 @@
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+    
     <script>
-        $(document).ready(function() {
-            // Initialize the map after the page has fully loaded
-            var map = L.map('map').setView([13.41, 122.56], 6);  // Set initial coordinates
-            
-            var marker = null;  // Marker variable to store the current marker on the map
-    
-            // Add a tile layer to the map
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
-    
-            // Function to convert Decimal Degrees to DMS
-            function convertToDMS(decimalDegree) {
-                const degrees = Math.floor(decimalDegree); // Extract degrees
-                const minutesDecimal = Math.abs((decimalDegree - degrees) * 60); // Convert remaining to minutes
-                const minutes = Math.floor(minutesDecimal); // Extract whole minutes
-                const seconds = ((minutesDecimal - minutes) * 60).toFixed(5); // Convert remaining to seconds with 5 decimals
-                return { degrees, minutes, seconds };
-            }
-    
-            // Map click event
-            map.on('click', function(e) {
-                var lat = e.latlng.lat;
-                var lon = e.latlng.lng;
-    
-                // Update the latitude and longitude input fields
-                document.getElementById('current-lat').value = lat;
-                document.getElementById('current-lon').value = lon;
-    
-                // Update DMS fields for Latitude
-                const latDMS = convertToDMS(lat);
-                document.getElementById('lat-degrees').value = latDMS.degrees;
-                document.getElementById('lat-minutes').value = latDMS.minutes;
-                document.getElementById('lat-seconds').value = latDMS.seconds;
-    
-                // Update DMS fields for Longitude
-                const lonDMS = convertToDMS(lon);
-                document.getElementById('lon-degrees').value = lonDMS.degrees;
-                document.getElementById('lon-minutes').value = lonDMS.minutes;
-                document.getElementById('lon-seconds').value = lonDMS.seconds;
-    
-                // Check if the point is outside the Philippines
-                if (lat < 4 || lat > 21 || lon < 116 || lon > 127) {
-                    // Show the popup over the entire map
-                    document.getElementById('popup').style.display = 'flex';
-                    document.getElementById('popup').innerHTML = `
-                        <div class="card">
-                            <p>This point is outside of the Philippines, there is no available data for the selected coordinates.</p>
-                            <button id="closePopup">Close</button>
-                        </div>`;
-    
-                    // Close popup event listener
-                    document.addEventListener('click', function(event) {
-                        if (event.target && event.target.id === 'closePopup') {
-                            document.getElementById('popup').style.display = 'none';
-                        }
-                    });
-                }
-    
-                // If a marker exists, remove it
-                if (marker) {
-                    map.removeLayer(marker);
-                }
-    
-                // Add a new marker at the clicked location
-                marker = L.marker([lat, lon]).addTo(map);
-            });
-    
-            // Add functionality to the "Check Data" button (for AJAX to update site information)
-            document.getElementById('check-data').addEventListener('click', function() {
-                var lat = document.getElementById('current-lat').value;
-                var lon = document.getElementById('current-lon').value;
-                var site = document.getElementById('site').value;  
-                var latDegrees = document.getElementById('lat-degrees').value;
-                var latMinutes = document.getElementById('lat-minutes').value;
-                var latSeconds = document.getElementById('lat-seconds').value;
-
-                var lonDegrees = document.getElementById('lon-degrees').value;
-                var lonMinutes = document.getElementById('lon-minutes').value;
-                var lonSeconds = document.getElementById('lon-seconds').value;
-
-                document.getElementById('lat-dms').querySelector('#lat-degrees').value = latDegrees;
-                document.getElementById('lat-dms').querySelector('#lat-minutes').value = latMinutes;
-                document.getElementById('lat-dms').querySelector('#lat-seconds').value = latSeconds;
-
-                document.getElementById('lon-dms').querySelector('#lon-degrees').value = lonDegrees;
-                document.getElementById('lon-dms').querySelector('#lon-minutes').value = lonMinutes;
-                document.getElementById('lon-dms').querySelector('#lon-seconds').value = lonSeconds;
-    
-                // Make sure lat, lon, and site values are available before sending AJAX
-                if (lat && lon && site) {
-
-                    const popup = document.getElementById('loading-popup');
-                    popup.style.display = 'flex';
-
-                    $.ajax({
-                        type: "POST",
-                        url: "{% url 'sa_pga_map' %}",  // Ensure this URL resolves correctly in Django
-                        data: {
-                            'lat': lat,
-                            'lon': lon,
-                            'site': site,  // Send the site value as well
-                            'csrfmiddlewaretoken': '{{ csrf_token }}',  // Include CSRF token if not exempted
-                        },
-                        success: function(response) {
-                            console.log('Data updated successfully');
-                            console.log(response);  // Handle the response from the server
-                            // Optionally, you can handle any changes to the UI here (e.g., updating coordinates)
-                            document.getElementById('long').textContent = response.current_coord.lon || lat;
-                            document.getElementById('lat').textContent = response.current_coord.lat || lon;
-                            document.getElementById('site-class-info').textContent = response.site || site;  // Assuming site class info is static for now
-    
-                            // Optionally, populate other fields like SA₁, SMS, etc.
-                            document.getElementById('sa1-value').textContent = response.sa1 || '0.0';
-                            document.getElementById('sa02-value').textContent = response.sa02 || '0.0';
-                            document.getElementById('tl-value').textContent = response.tl || '0.0';
-                            document.getElementById('Fa-value').textContent = response.Fa || '0.0';
-                            document.getElementById('Fv-value').textContent = response.Fv || '0.0';
-                            document.getElementById('SMS-value').textContent = response.SMS || '0.0';
-                            document.getElementById('SM1-value').textContent = response.SM1 || '0.0';
-                            document.getElementById('SDS-value').textContent = response.SDS || '0.0';
-                            document.getElementById('SD1-value').textContent = response.SD1 || '0.0';
-                            document.getElementById('Ts-value').textContent = response.Ts || '0.0';
-                            document.getElementById('To-value').textContent = response.To || '0.0';
-    
-                            if (response.image_base64) {
-                                document.getElementById('image-container').innerHTML = '<img src="data:image/png;base64,' + response.image_base64 + '" alt="SA-PGA Map Image">';
-                            }
-    
-                            document.querySelector('.Home .container3').style.display = "flex";
-                            var newLat = response.current_coord.lat || lat;
-                            var newLon = response.current_coord.lon || lon;
-                            if (marker) {
-                                map.removeLayer(marker); // Remove any existing marker
-                            }
-                            marker = L.marker([newLat, newLon]).addTo(map);  // Add the new marker
-                            map.setView([newLat, newLon], 11);  // Zoom in to the new marker
-                            popup.style.display = 'none';  // Close the popup
-                        },
-                        error: function(xhr, status, error) {
-                            console.error('Error occurred while updating data:', error);
-                            console.log(xhr.responseText);
-                            alert('Error: ' + error.message);
-                            popup.style.display = 'none';  // Close the popup
-                        }
-                    });
-                } else {
-                    alert("Please fill in all required fields before submitting.");
-                }
-            });
-        });
-    </script>
-
-    <script>
-        // Function to convert Decimal Degrees to DMS
-        function convertToDMS(decimalDegree) {
-            const degrees = Math.floor(decimalDegree); // Extract degrees
-            const minutesDecimal = Math.abs((decimalDegree - degrees) * 60); // Convert remaining to minutes
-            const minutes = Math.floor(minutesDecimal); // Extract whole minutes
-            const seconds = ((minutesDecimal - minutes) * 60).toFixed(5); // Convert remaining to seconds with 5 decimals
-            return { degrees, minutes, seconds };
+        // Get the registration data from the template context
+        var registrationData = null;
+        
+        // Try to parse the registration data if it exists in the template context
+        try {
+            registrationData = JSON.parse('{{ registration_data|escapejs }}');
+        } catch (e) {
+            console.log("No registration data found.");
         }
     
-        // Function to convert DMS to Decimal Degrees
-        function convertToDecimalDegrees(degrees, minutes, seconds) {
-            const decimalDegrees = Math.abs(degrees) + (minutes / 60) + (seconds / 3600); // Convert DMS to decimal
-            return degrees < 0 ? -decimalDegrees : decimalDegrees; // Handle negative degrees
+        // If registration data is not present, redirect to the registration page
+        if (!registrationData) {
+            console.log("Redirecting to registration page...");
+            window.location.href = "{% url 'register' %}";
+        } else {
+            // Log the registration data to the console
+            console.log("Registration Data: ", registrationData);
         }
-    
-        // Update DMS fields when Decimal Degrees change
-        function updateDMSFields(lat, lon) {
-            const latDMS = convertToDMS(lat);
-            document.getElementById('lat-degrees').value = latDMS.degrees;
-            document.getElementById('lat-minutes').value = latDMS.minutes;
-            document.getElementById('lat-seconds').value = latDMS.seconds;
-    
-            const lonDMS = convertToDMS(lon);
-            document.getElementById('lon-degrees').value = lonDMS.degrees;
-            document.getElementById('lon-minutes').value = lonDMS.minutes;
-            document.getElementById('lon-seconds').value = lonDMS.seconds;
-        }
-    
-        // Update Decimal Degrees when DMS fields change
-        function updateDecimalFields() {
-            const latDegrees = parseInt(document.getElementById('lat-degrees').value || 0, 10);
-            const latMinutes = parseFloat(document.getElementById('lat-minutes').value || 0);
-            const latSeconds = parseFloat(document.getElementById('lat-seconds').value || 0);
-            const latDecimal = convertToDecimalDegrees(latDegrees, latMinutes, latSeconds);
-            document.getElementById('current-lat').value = latDecimal.toFixed(6);
-    
-            const lonDegrees = parseInt(document.getElementById('lon-degrees').value || 0, 10);
-            const lonMinutes = parseFloat(document.getElementById('lon-minutes').value || 0);
-            const lonSeconds = parseFloat(document.getElementById('lon-seconds').value || 0);
-            const lonDecimal = convertToDecimalDegrees(lonDegrees, lonMinutes, lonSeconds);
-            document.getElementById('current-lon').value = lonDecimal.toFixed(6);
-        }
-    
-        // Event Listeners for Decimal Degrees Fields
-        document.getElementById('current-lat').addEventListener('input', () => {
-            const lat = parseFloat(document.getElementById('current-lat').value || 0);
-            const lon = parseFloat(document.getElementById('current-lon').value || 0);
-            updateDMSFields(lat, lon);
-        });
-    
-        document.getElementById('current-lon').addEventListener('input', () => {
-            const lat = parseFloat(document.getElementById('current-lat').value || 0);
-            const lon = parseFloat(document.getElementById('current-lon').value || 0);
-            updateDMSFields(lat, lon);
-        });
-    
-        // Event Listeners for DMS Fields
-        const dmsFields = ['lat-degrees', 'lat-minutes', 'lat-seconds', 'lon-degrees', 'lon-minutes', 'lon-seconds'];
-        dmsFields.forEach(fieldId => {
-            document.getElementById(fieldId).addEventListener('input', updateDecimalFields);
-        });
-    
-        // Select radio buttons
-        const toggleDms = document.getElementById('toggle-dms');  // For DMS radio button
-        const toggleDecimal = document.getElementById('toggle-decimal');  // For Decimal Degrees radio button
 
-    
-        // Select elements for the fields
-        const decimalFields = document.getElementById('decimal-degrees-fields');
-        const degminsecFields = document.getElementById('dms-fields');
-    
-        // Set initial state based on the default checked radio button
-        decimalFields.style.display = 'block'; // Display decimal degrees fields by default
-        degminsecFields.style.display = 'none'; // Hide DMS fields initially
-    
-        // Toggle functionality when radio button changes
-        toggleDms.addEventListener('change', () => {
-            if (toggleDms.checked) {
-                decimalFields.style.display = 'none'; // Hide decimal degrees fields
-                degminsecFields.style.display = 'block'; // Show DMS fields
-            }
-        });
-    
-        toggleDecimal.addEventListener('change', () => {
-            if (toggleDecimal.checked) {
-                degminsecFields.style.display = 'none'; // Hide DMS fields
-                decimalFields.style.display = 'block'; // Show decimal degrees fields
-            }
-        });
+        const saPgaMapUrl = "{% url 'sa_pga_map' %}"
+        const csrfToken = '{{ csrf_token }}'
+        const emailUrl = "{% url 'send_email' %}"
     </script>
-
-    <script> // script for Site Classification Dropdown
-        document.addEventListener("DOMContentLoaded", function() {
-            const selectElement = document.querySelector('.site-select'); 
-            const optionsList = document.querySelector('.site-option-list');
-            const selectedValue = document.querySelector('.select');
-            const inputElement = document.getElementById('site');
-
-            selectElement.addEventListener('click', function() {
-                optionsList.classList.toggle('show');
-            });
-
-            document.querySelectorAll('.site-option-list .option').forEach(option => {
-                option.addEventListener('click', function() {
-                    selectedValue.textContent = option.textContent;
-                    inputElement.value = option.dataset.value;
-                    optionsList.classList.remove('show');
-                });
-            });
-
-            // Close the dropdown if clicking outside
-            document.addEventListener('click', function(event) {
-                if (!selectElement.contains(event.target)) {
-                    optionsList.classList.remove('show');
-                }
-            });
-        });
-
-    </script>
-
-    <script> // script for Auto Scroll to Site Information Result 
-        document.addEventListener('DOMContentLoaded', () => {
-            const loadingPopup = document.getElementById('loading-popup');
-            const siteInfoSection = document.getElementById('site-info-section');
-            const checkDataButton = document.getElementById('check-data');
-    
-            // Function to trigger auto-scroll after loading popup is hidden
-            
-            const observer = new MutationObserver(() => {
-                if (loadingPopup.style.display === 'none') {
-                    // Auto-scroll to the "Site Information" section
-                    if (siteInfoSection) {
-                        siteInfoSection.scrollIntoView({ behavior: 'smooth' });
-                    }
-                    observer.disconnect(); // Stop observing after the popup is hidden
-                }
-            });
-    
-            // Add click event listener to "Check Data" button
-            checkDataButton.addEventListener('click', () => {
-
-                // Observe changes to the style attribute of the loading popup
-                observer.observe(loadingPopup, { attributes: true, attributeFilter: ['style'] });
-            });
-        });
-    </script>
-    
-    
-    
-
+    <script src="{% static 'js/sa-pga-map.js' %}"></script>
 </body>
 </html>

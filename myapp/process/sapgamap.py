@@ -9,7 +9,7 @@ import base64
 from shapely.geometry import Point
 from shapely.geometry.polygon import Polygon
 
-def Fa_value(site, interpolated_sa02):
+def Fa_value(site, interpolated_sa02, fainput):
     
     # TABLE 11.4-1 SITE COEFFICIENT, Fa
     Fatable = [
@@ -17,11 +17,12 @@ def Fa_value(site, interpolated_sa02):
         [1.00, 1.00, 1.00, 1.00, 1.00],
         [1.20, 1.20, 1.10, 1.00, 1.00],
         [1.60, 1.40, 1.20, 1.10, 1.00],
-        [2.50, 1.70, 1.20, 0.90, 0.90]
+        [2.50, 1.70, 1.20, 0.90, 0.90],
+        [fainput,fainput,fainput,fainput,fainput]
     ]
 
     # Mapping of site rows and columns
-    row_map = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4}
+    row_map = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5}
     col_values = [0.25, 0.5, 0.75, 1, 1.25]
 
     # Check if the interpolated_sa02 value is None
@@ -31,7 +32,7 @@ def Fa_value(site, interpolated_sa02):
     # Find the row index for the site
     row_index = row_map.get(site.upper())
     if row_index is None:
-        raise ValueError(f"Invalid site value: {site}. Choose from A, B, C, D, E.")
+        raise ValueError(f"Invalid site value: {site}. Choose from A, B, C, D, E, F.")
 
     # Boundary conditions for column
     if interpolated_sa02 <= 0.25:
@@ -51,7 +52,7 @@ def Fa_value(site, interpolated_sa02):
 
 
 
-def Fv_value(site, interpolated_sa1):
+def Fv_value(site, interpolated_sa1, fvinput):
 
     # TABLE 11.4-2 SITE COEFFICIENT, Fv
     Fvtable = [
@@ -59,17 +60,18 @@ def Fv_value(site, interpolated_sa1):
         [1.00, 1.00, 1.00, 1.00, 1.00],
         [1.70, 1.60, 1.50, 1.40, 1.30],
         [2.40, 2.00, 1.80, 1.60, 1.50],
-        [3.50, 3.20, 2.80, 2.40, 2.40]
+        [3.50, 3.20, 2.80, 2.40, 2.40],
+        [fvinput,fvinput,fvinput,fvinput,fvinput]
     ]
 
     # Mapping of site rows and columns
-    row_map = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4}
+    row_map = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5}
     col_values = [0.1, 0.2, 0.3, 0.4, 0.5]
 
     # Find the row index for the site
     row_index = row_map.get(site.upper())
     if row_index is None:
-        raise ValueError(f"Invalid site value: {site}. Choose from A, B, C, D, E.")
+        raise ValueError(f"Invalid site value: {site}. Choose from A, B, C, D, E, F.")
 
     # Boundary conditions for column
     if interpolated_sa1 <= 0.1:
@@ -89,6 +91,7 @@ def Fv_value(site, interpolated_sa1):
         
 def load_polygon_data_from_csv():
     # Path to the CSV file
+    # tl_file_path = "C:/Users/shade/ShadeApp/SHADEWebApp/myapp/data/TL_vertices.csv"
     tl_file_path = os.path.join(settings.BASE_DIR, 'myapp', 'data', 'TL_vertices.csv')
     
     # Read the CSV into a DataFrame
@@ -118,9 +121,9 @@ def get_tl_value_from_polygon(lat, lon, polygon_data):
     
     return 0  # Return None if no polygon contains the point
 
-def process_sa_pga_map(lat, lon, site):
+def process_sa_pga_map(lat, lon, site, fainput, fvinput):
     # Define the path to the CSV file
-    # csv_file_path = "C:/Users/Jedrek/Documents/GitHub/SHADEWebApp/myapp/data/points.csv"
+    # data_file_path = "C:/Users/shade/ShadeApp/SHADEWebApp/myapp/data/points.csv"
     data_file_path = os.path.join(settings.BASE_DIR, 'myapp', 'data', 'points.csv')
     
     
@@ -145,8 +148,8 @@ def process_sa_pga_map(lat, lon, site):
         interpolated_sa02 = None
     if np.isnan(interpolated_tl):
         interpolated_tl = None
-    Favalue = Fa_value(site, interpolated_sa02)
-    Fvvalue = Fv_value(site, interpolated_sa1)
+    Favalue = Fa_value(site, interpolated_sa02, fainput)
+    Fvvalue = Fv_value(site, interpolated_sa1, fvinput)
     SMS = Favalue * interpolated_sa02
     SM1 = Fvvalue * interpolated_sa1
     SDS = SMS * (2 / 3)
@@ -232,6 +235,20 @@ def process_sa_pga_map(lat, lon, site):
     SD1 = round(float(SD1), 5)
     Ts = round(float(Ts), 5)
     To = round(float(To), 5)
+    given_point = [round(lat, 5), round(lon, 5)]
+
+
+    # print("Interpolated Sa1:", interpolated_sa1)
+    # print("Interpolated Sa0.2:", interpolated_sa02)
+    # print("Interpolated TL:", interpolated_tl)
+    # print("Fa value:", Favalue)
+    # print("Fv value:", Fvvalue)
+    # print("SMS:", SMS)
+    # print("SM1:", SM1)
+    # print("SDS:", SDS)
+    # print("SD1:", SD1)
+    # print("Ts:", Ts)
+    # print("To:", To)
 
 
 
@@ -256,5 +273,7 @@ def process_sa_pga_map(lat, lon, site):
 
 # lat = 10.1073
 # lon = 123.1452
-# site = "D"
-# process_sa_pga_map(lat, lon, site)
+# site = "F"
+# fainput = 0
+# fvinput = 3
+# process_sa_pga_map(lat, lon, site, fainput, fvinput)
