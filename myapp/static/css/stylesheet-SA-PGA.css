@@ -584,13 +584,17 @@ td.SA-value {
     align-items: center;
     flex: 1; /* Adjust the width of the graph section */
     max-width: 55%; /* Optional: Limit max width */
-    text-align: center; /* Center-align the graph image */
+    position: relative;
 }
 
 .graph-container img {
-    width: 100%; /* Make the graph responsive to the container */
-    max-width: 100%; /* Ensure the image fits within the container */
+    width: 110%; /* Make the graph responsive to the container */
+    max-width: 110%; /* Ensure the image fits within the container */
     height: auto; /* Maintain aspect ratio */
+    clip-path: inset(10px 55px 10px 40px);
+    position: absolute;
+    top: -220px;
+    left: -20px;
 }
 
 .site-info-1 h3 {
