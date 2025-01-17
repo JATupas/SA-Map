@@ -1,0 +1,113 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fff; /* White background for the body */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.form-wrapper {
+    display: flex;
+    flex-direction: row; /* Keeps the brand-container and form-container side by side */
+    width: 100vw; /* Full width of the viewport */
+    height: 100vh; /* Full height of the viewport */
+    /* margin: 0; Removes default margins */
+    background-color: #f4f4f9; /* Optional: background color for the form wrapper */
+}
+
+
+.form-container {
+    display: flex; /* Enables Flexbox */
+    flex-direction: column; /* Aligns items vertically */
+    justify-content: center; /* Centers items vertically */
+    align-items: center; /* Centers items horizontally */
+    background-color: #EDFAFF; /* Form container background color */
+    padding: 30px;
+    width: 40vw; /* Set the width to 40% of the available space */
+    margin: 0 auto; /* Centers the form-container horizontally */
+}
+
+.form-container h2 {
+    font-family: 'Roboto', sans-serif; /* Montserrat font style */
+    font-size: 22px; /* Font size of 20px */
+    font-weight: bold; /* Bold font weight */
+    line-height: normal; /* Line height set to auto */
+    letter-spacing: 0.05em; /* 10% letter spacing */
+    text-transform: uppercase; /* Makes text all uppercase */
+    color: #333; /* Optional: Ensures good contrast for readability */
+    text-align: center; /* Centers the text */
+    margin-bottom: 25px; /* Adds spacing below the heading */
+}
+
+
+.form-container label {
+    font-family: 'Roboto', sans-serif; /* Montserrat font style */
+    font-size: 14px; /* Font size of 14px */
+    font-weight: 600; /* Medium weight */
+    line-height: 22px; /* Line height of 22px */
+    color: #333; /* Optional: Ensures good contrast for readability */
+    margin-bottom: 5px; /* Keeps some spacing below the label */
+    display: block; /* Ensures proper layout for the label */
+}
+
+.required {
+    color: red; /* Makes the asterisk red */
+    margin-left: 4px; /* Adds space between the label text and the asterisk */
+    font-weight: bold; /* Optional: makes the asterisk bold */
+}
+
+.form-container button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.form-container input,
+.form-container select,
+.form-container button {
+    width: 100%; /* Fills the available width */
+    box-sizing: border-box; /* Ensures padding is included in the width */
+    padding: 10px; /* Adds some padding inside the fields */
+    margin-bottom: 15px; /* Adds space between fields */
+    border: 1px solid #ccc; /* Border style */
+    border-radius: 4px; /* Smooth corners */
+    font-family: 'Montserrat', sans-serif; /* Matches font with the rest of the form */
+    font-size: 14px; /* Ensures consistent font size */
+}
+
+
+.form-container button:hover {
+    background-color: #0056b3;
+}
+
+.brand-container {
+    flex: 1;
+    background: linear-gradient(to right, #00aaff, #0066cc); /* Gradient background */
+    color: white;
+    text-align: center;
+    padding: 40px;
+    width: 60%;
+    flex-grow: 1; /* Makes the brand-container fill the available height */
+    display: flex; /* Enable flexbox on brand-container */
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    flex-direction: column; /* Ensure content is arranged in column layout */
+}
+
+.brand-container img {
+    width: 100px;
+    margin-bottom: 20px;
+}
+
+.brand-container h3 {
+    margin-bottom: 20px;
+    font-size: 20px;
+}
