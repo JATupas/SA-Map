@@ -184,7 +184,7 @@ $(document).ready(function() {
                         document.getElementById('image-container').innerHTML = '<img src="data:image/png;base64,' + response.image_base64 + '" alt="SA-PGA Map Image">';
                     }
 
-                    document.querySelector('.Home .container3').style.display = "flex";
+                    document.querySelector('.Home .site-info-card').style.display = "flex";
                     var newLat = response.current_coord.lat || lat;
                     var newLon = response.current_coord.lon || lon;
                     if (marker) {
