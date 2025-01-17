@@ -8,134 +8,96 @@
     <title>Register</title>
 
     <link rel="icon" href="{% static 'images/SHADE-Circle.ico' %}" type="image/x-icon">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .form-container {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-        }
-        .form-container h2 {
-            margin-bottom: 20px;
-        }
-        .form-container label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        .form-container input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        .form-container button {
-            width: 100%;
-            padding: 10px;
-            background-color: #007bff;
-            border: none;
-            border-radius: 4px;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        .form-container button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/stylesheet-Register.css' %}">
 </head>
 <body>
 
-    <div class="form-container">
-        <h2>Register</h2>
-        <form id="register-form" method="POST" action="{% url 'register' %}">
-            {% csrf_token %}
-            <label for="full_name">Full Name</label>
-            <input type="text" id="full_name" name="full_name" required>
-            
-            <label for="birthdate">Birthdate</label>
-            <input type="date" id="birthdate" name="birthdate" required>
-            
-            <label for="email">Email Address</label>
-            <input type="email" id="email" name="email" required>
-            
-            <label for="prc_license">PRC License</label>
-            <input type="text" id="prc_license" name="prc_license" required>
-            
-            <label for="profession">Profession</label>
-            <select id="profession" name="profession" required required onchange="handleProfessionChange()">
-                <option value="" disabled selected>Select Profession</option>
-                <option value="Accountancy">Accountancy</option>
-                <option value="Aeronautical Engineering">Aeronautical Engineering</option>
-                <option value="Agricultural and Biosystems Engineering">Agricultural and Biosystems Engineering</option>
-                <option value="Agriculture">Agriculture</option>
-                <option value="Architecture">Architecture</option>
-                <option value="Chemical Engineering">Chemical Engineering</option>
-                <option value="Chemistry">Chemistry</option>
-                <option value="Civil Engineering">Civil Engineering</option>
-                <option value="Criminology">Criminology</option>
-                <option value="Customs Brokerage">Customs Brokerage</option>
-                <option value="Dentistry">Dentistry</option>
-                <option value="Electrical Engineering">Electrical Engineering</option>
-                <option value="Electronics and Communications Engineering">Electronics and Communications Engineering</option>
-                <option value="Environmental Planning">Environmental Planning</option>
-                <option value="Fisheries Technology">Fisheries Technology</option>
-                <option value="Food Technology">Food Technology</option>
-                <option value="Forestry">Forestry</option>
-                <option value="Guidance and Counseling">Guidance and Counseling</option>
-                <option value="Interior Design">Interior Design</option>
-                <option value="Landscape Architecture">Landscape Architecture</option>
-                <option value="Library Science">Library Science</option>
-                <option value="Master Plumbing">Master Plumbing</option>
-                <option value="Mechanical Engineering">Mechanical Engineering</option>
-                <option value="Medical Technology">Medical Technology</option>
-                <option value="Medicine">Medicine</option>
-                <option value="Metallurgical Engineering">Metallurgical Engineering</option>
-                <option value="Mining Engineering">Mining Engineering</option>
-                <option value="Midwifery">Midwifery</option>
-                <option value="Naval Architecture and Marine Engineering">Naval Architecture and Marine Engineering</option>
-                <option value="Nursing">Nursing</option>
-                <option value="Nutrition and Dietetics">Nutrition and Dietetics</option>
-                <option value="Occupational Therapy">Occupational Therapy</option>
-                <option value="Optometry">Optometry</option>
-                <option value="Pharmacy">Pharmacy</option>
-                <option value="Physical Therapy">Physical Therapy</option>
-                <option value="Professional Teaching">Professional Teaching</option>
-                <option value="Psychology">Psychology</option>
-                <option value="Public Health">Public Health</option>
-                <option value="Radiologic Technology and X-ray Technology">Radiologic Technology and X-ray Technology</option>
-                <option value="Real Estate Service">Real Estate Service</option>
-                <option value="Respiratory Therapy">Respiratory Therapy</option>
-                <option value="Sanitary Engineering">Sanitary Engineering</option>
-                <option value="Social Work">Social Work</option>
-                <option value="Speech-Language Pathology">Speech-Language Pathology</option>
-                <option value="Veterinary Medicine">Veterinary Medicine</option>
-                <option value="Others">Other, please Specify</option>
-            </select>
+    <div class="form-wrapper">
+        <!-- Form Container -->
+        <div class="form-container">
+            <h2>User Information</h2>
+            <form id="register-form" method="POST" action="{% url 'register' %}">
+                {% csrf_token %}
+                <label for="full_name"><span class="required">*</span> Full Name</label>
+                <input type="text" id="full_name" name="full_name" required>
+                
+                <label for="birthdate"><span class="required">*</span> Birthdate</label>
+                <input type="date" id="birthdate" name="birthdate" required>
+                
+                <label for="email"><span class="required">*</span> Email Address</label>
+                <input type="email" id="email" name="email" required>
+                
+                <!-- <label for="prc_license">PRC License</label>
+                <input type="text" id="prc_license" name="prc_license" required> -->
+                
+                <label for="profession"><span class="required">*</span> Profession</label>
+                <select id="profession" name="profession" required required onchange="handleProfessionChange()">
+                    <option value="" disabled selected>Select Profession</option>
+                    <option value="Accountancy">Accountancy</option>
+                    <option value="Aeronautical Engineering">Aeronautical Engineering</option>
+                    <option value="Agricultural and Biosystems Engineering">Agricultural and Biosystems Engineering</option>
+                    <option value="Agriculture">Agriculture</option>
+                    <option value="Architecture">Architecture</option>
+                    <option value="Chemical Engineering">Chemical Engineering</option>
+                    <option value="Chemistry">Chemistry</option>
+                    <option value="Civil Engineering">Civil Engineering</option>
+                    <option value="Criminology">Criminology</option>
+                    <option value="Customs Brokerage">Customs Brokerage</option>
+                    <option value="Dentistry">Dentistry</option>
+                    <option value="Electrical Engineering">Electrical Engineering</option>
+                    <option value="Electronics and Communications Engineering">Electronics and Communications Engineering</option>
+                    <option value="Environmental Planning">Environmental Planning</option>
+                    <option value="Fisheries Technology">Fisheries Technology</option>
+                    <option value="Food Technology">Food Technology</option>
+                    <option value="Forestry">Forestry</option>
+                    <option value="Guidance and Counseling">Guidance and Counseling</option>
+                    <option value="Interior Design">Interior Design</option>
+                    <option value="Landscape Architecture">Landscape Architecture</option>
+                    <option value="Library Science">Library Science</option>
+                    <option value="Master Plumbing">Master Plumbing</option>
+                    <option value="Mechanical Engineering">Mechanical Engineering</option>
+                    <option value="Medical Technology">Medical Technology</option>
+                    <option value="Medicine">Medicine</option>
+                    <option value="Metallurgical Engineering">Metallurgical Engineering</option>
+                    <option value="Mining Engineering">Mining Engineering</option>
+                    <option value="Midwifery">Midwifery</option>
+                    <option value="Naval Architecture and Marine Engineering">Naval Architecture and Marine Engineering</option>
+                    <option value="Nursing">Nursing</option>
+                    <option value="Nutrition and Dietetics">Nutrition and Dietetics</option>
+                    <option value="Occupational Therapy">Occupational Therapy</option>
+                    <option value="Optometry">Optometry</option>
+                    <option value="Pharmacy">Pharmacy</option>
+                    <option value="Physical Therapy">Physical Therapy</option>
+                    <option value="Professional Teaching">Professional Teaching</option>
+                    <option value="Psychology">Psychology</option>
+                    <option value="Public Health">Public Health</option>
+                    <option value="Radiologic Technology and X-ray Technology">Radiologic Technology and X-ray Technology</option>
+                    <option value="Real Estate Service">Real Estate Service</option>
+                    <option value="Respiratory Therapy">Respiratory Therapy</option>
+                    <option value="Sanitary Engineering">Sanitary Engineering</option>
+                    <option value="Social Work">Social Work</option>
+                    <option value="Speech-Language Pathology">Speech-Language Pathology</option>
+                    <option value="Veterinary Medicine">Veterinary Medicine</option>
+                    <option value="Others">Other, please Specify</option>
+                </select>
 
-            <div id="otherProfessionContainer" style="display: none; margin-top: 10px;">
-                <label for="otherProfession">Specify Profession</label>
-                <input type="text" id="otherProfession" name="otherProfession" />
-            </div>
+                <div id="otherProfessionContainer" style="display: none; margin-top: 10px;">
+                    <label for="otherProfession">Specify Profession</label>
+                    <input type="text" id="otherProfession" name="otherProfession" />
+                </div>
 
-            <label for="affiliation">Affiliated Agency</label>
-            <input type="affiliation" id="affiliation" name="affiliation" required>
-            
-            <button type="submit">Register</button>
-        </form>
+                <label for="affiliation"><span class="required">*</span> Affiliated Agency</label>
+                <input type="text" id="affiliation" name="affiliation" required>
+                
+                <button type="submit">Register</button>
+            </form>
+        </div>
+
+        <!-- Brand Container -->
+        <div class="brand-container">
+            <img src="{% static 'images/logo.png' %}" alt="SHADE PH Logo">
+            <h3>SEISMIC HAZARD ASSESSMENT AND DESIGN EARTHQUAKE OF THE PHILIPPINES</h3>
+        </div>
     </div>
 
     <script src="{% static 'js/register.js' %}"></script>
