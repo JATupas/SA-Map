@@ -509,9 +509,9 @@ main {
 footer {
     background-color: #0052D4;
     color: white;
-    padding: 10px 0px 10px 0px;
+    padding: 20px 0px 20px 0px;
     text-align: center;
-    height: 80px;
+    height: auto;
 }
 
 footer nav {
@@ -532,7 +532,7 @@ footer nav a {
 }
 
 footer nav a:hover {
-    color: rgb(255, 255, 255); /* White color with 100% opacity on hover */
+    color: rgba(255, 255, 255, 1); /* White color with 100% opacity on hover */
 }
 
 footer p {
@@ -542,7 +542,7 @@ footer p {
     font-weight: 400;
     font-style: normal;
     line-height: 14px;
-    margin-bottom: 10px;
+    margin-bottom: 0px;
 }
 
 
