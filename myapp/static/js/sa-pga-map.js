@@ -360,23 +360,43 @@ document.addEventListener('DOMContentLoaded', () => {
     const loadingPopup = document.getElementById('loading-popup');
     const siteInfoSection = document.getElementById('site-info-section');
     const checkDataButton = document.getElementById('check-data');
+    const background = document.getElementById('background');
+
+    // Function to update the background height based on the visibility of the site-info-section
+    function updateBackgroundHeight() {
+        if (siteInfoSection.classList.contains('visible')) {
+            background.style.height = '1600px'; // Set height to 1600px when visible
+        } else {
+            background.style.height = '600px'; // Set height to 600px when hidden
+        }
+    }
 
     // Function to trigger auto-scroll after loading popup is hidden
-    
     const observer = new MutationObserver(() => {
         if (loadingPopup.style.display === 'none') {
+            // Trigger simultaneous show of the background and site-info-section
+            siteInfoSection.classList.add('visible'); // Make the section visible
+            updateBackgroundHeight(); // Update the background height immediately
+
             // Auto-scroll to the "Site Information" section
-            if (siteInfoSection) {
-                siteInfoSection.scrollIntoView({ behavior: 'smooth' });
-            }
+            siteInfoSection.scrollIntoView({ behavior: 'smooth' });
+
             observer.disconnect(); // Stop observing after the popup is hidden
         }
     });
 
     // Add click event listener to "Check Data" button
     checkDataButton.addEventListener('click', () => {
-
+        // Hide the loading popup and show the site info section
+        loadingPopup.style.display = 'none';
+        
+        // Use visibility and opacity transition for a smooth reveal
+        siteInfoSection.classList.add('visible'); // Make the section visible
+        
         // Observe changes to the style attribute of the loading popup
         observer.observe(loadingPopup, { attributes: true, attributeFilter: ['style'] });
     });
+
+    // Initial check to set the correct background height on page load
+    updateBackgroundHeight();
 });
