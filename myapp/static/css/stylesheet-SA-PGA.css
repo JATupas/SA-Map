@@ -413,7 +413,8 @@ main {
 
 .background {
     background-color: #E9EBEE;
-    height: 1600px;
+    height: 600px;
+    transition: height 0.3s ease-in-out; /* Reduced duration for faster transition */
 }
 
 .Section1 {
@@ -862,4 +863,17 @@ button {
     font-style: italic; /* Makes the text italic */
     margin: 0;
     padding-top: 8px;
+}
+
+
+.site-info-section {
+    visibility: hidden; /* Initially hidden */
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out, visibility 0s 0.3s; /* Transition for opacity and visibility */
+}
+
+.site-info-section.visible {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out, visibility 0s 0s;
 }
