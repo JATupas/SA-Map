@@ -23,6 +23,64 @@ function validateInput() {
 // Call the validation function when the input value changes
 faInput.addEventListener('input', validateInput);
 
+document.addEventListener("DOMContentLoaded", () => {
+    const latField = document.getElementById("current-lat");
+    const lonField = document.getElementById("current-lon");
+    const popup = document.getElementById("popup");
+
+    const boundingBox = {
+        minLat: 4,
+        maxLat: 21,
+        minLon: 116,
+        maxLon: 127
+    };
+
+    const showPopup = (message) => {
+        popup.style.display = 'flex';
+        popup.innerHTML = `
+            <div class="card">
+                <p>${message}</p>
+                <button id="closePopup">Close</button>
+            </div>`;
+
+        // Close popup event listener
+        document.addEventListener('click', function handleClosePopup(event) {
+            if (event.target && event.target.id === 'closePopup') {
+                popup.style.display = 'none';
+                document.removeEventListener('click', handleClosePopup);
+            }
+        });
+    };
+
+    const validateCoordinates = () => {
+        const latValue = parseFloat(latField.value);
+        const lonValue = parseFloat(lonField.value);
+
+        if (!isNaN(latValue) && !isNaN(lonValue)) {
+            if (
+                latValue < boundingBox.minLat || latValue > boundingBox.maxLat ||
+                lonValue < boundingBox.minLon || lonValue > boundingBox.maxLon
+            ) {
+                showPopup(
+                    "This point is outside of the Philippines, there is no available data for the selected coordinates."
+                );
+                document.getElementById("current-lat").value = "";
+                document.getElementById("current-lon").value = "";
+
+            }
+        } else {
+            showPopup("Invalid input! Please enter numeric values for latitude and longitude.");
+            document.getElementById("current-lat").value = "";
+            document.getElementById("current-lon").value = "";
+        }
+    };
+
+    latField.addEventListener("change", validateCoordinates);
+    lonField.addEventListener("change", validateCoordinates);
+});
+
+
+
 document.addEventListener("DOMContentLoaded", function () {
     const inputElement = document.getElementById('site');
     const faDiv = document.getElementById("fainput").parentElement;
@@ -91,6 +149,7 @@ $(document).ready(function() {
         document.getElementById('lon-degrees').value = lonDMS.degrees;
         document.getElementById('lon-minutes').value = lonDMS.minutes;
         document.getElementById('lon-seconds').value = lonDMS.seconds;
+               
 
         // Check if the point is outside the Philippines
         if (lat < 4 || lat > 21 || lon < 116 || lon > 127) {
@@ -108,6 +167,8 @@ $(document).ready(function() {
                     document.getElementById('popup').style.display = 'none';
                 }
             });
+            document.getElementById("current-lat").value = "";
+            document.getElementById("current-lon").value = "";
         }
 
         // If a marker exists, remove it
