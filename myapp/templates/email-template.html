@@ -30,8 +30,8 @@
         {% if has_data %}
         <p><strong>User Data:</strong></p>
         <ul>
-            {% for key, value in data.items %}
-                <li><b class="field-name">{{ key }}</b>: {{ value }}</li>
+            {% for key, value in data.registrationData.items %}
+                <li><b class="field-name">{{ key|"" }}</b>: {{ value|"" }}</li>
             {% endfor %}
         </ul>
         {% else %}
