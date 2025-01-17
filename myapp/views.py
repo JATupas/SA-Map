@@ -262,16 +262,6 @@ def recurrence_model(request):
 
     return JsonResponse({'status': 'invalid request'})
 
-# def extract_data(body, method):
-#     print("Data body:", body)
-#     if method == "POST":
-#         try:
-#             data = json.loads(body)  # Parse JSON from the bodys
-#             print("json data:", data)
-#             return data
-#         except json.JSONDecodeError:
-#             return None
-
 def send_email(request):
     if request.method == "POST":
         print(request.body)
@@ -298,9 +288,9 @@ def send_email(request):
         # Render html email template
         html_content = render_to_string('email-template.html', context)
 
-        subject = "Email Template"
+        subject = "User Logs"  # changed to specific user name
         from_email = settings.DEFAULT_FROM_EMAIL
-        recipient_list = ['montgomery.toft@gmail.com']
+        recipient_list = ['shadelogs@gmail.com']
         
         email = EmailMultiAlternatives(subject, '', from_email, recipient_list)
         email.attach_alternative(html_content, "text/html")

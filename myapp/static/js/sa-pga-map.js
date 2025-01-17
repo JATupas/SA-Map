@@ -207,10 +207,25 @@ $(document).ready(function() {
                     //     userData = {...registrationData}
                     // }
 
+                    const rawCalcData = {
+                        ...response,
+                        latDegrees: latDegrees,
+                        latMinutes: latMinutes,
+                        latSeconds: latSeconds,
+                        lonDegrees: lonDegrees,
+                        lonMinutes: lonMinutes,
+                        lonSeconds: lonSeconds
+                    }
+
+                    const overAllData = {
+                        registrationData: registrationData,
+                        calculationData: rawCalcData
+                    }
+
                     $.ajax({
                         url: emailUrl,
                         type: 'POST',
-                        data: JSON.stringify(registrationData),
+                        data: JSON.stringify(overAllData),
                         dataType: "json",
                         contentType: "application/json; charset=utf-8",
                         headers: {
