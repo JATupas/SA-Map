@@ -156,99 +156,108 @@
         
         <!-- Site Information and Graph Section -->
         <section class="site-info-graph-section" id="site-info-section">
-            <div class="container3">
-                <div class="site-info">
-                    <h3>Site Information:</h3>
-                    <table class="table">
-                        <tbody>
-                            <tr>
-                                <td class="SA-title">Latitude (Decimal)</td>
-                                <td id="long" class="SA-value"></td>
-                            </tr>
-                            <tr>
-                                <td class="SA-title">Longitude (Decimal)</td>
-                                <td id="lat" class="SA-value"></td>
-                            </tr>
-                            <tr>
-                                <td class="SA-title">Latitude (DMS)</td>
-                                <td id="lat-dms" class="SA-value">
-                                    <div class="dms-container">
-                                        <span id="lat-degrees"></span><span class="dms-symbol">°</span>
-                                        <span id="lat-minutes"></span><span class="dms-symbol">'</span>
-                                        <span id="lat-seconds"></span><span class="dms-symbol">''</span>        
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="SA-title">Longitude (DMS)</td>
-                                <td id="lon-dms" class="SA-value">
-                                    <div class="dms-container">
-                                        <span id="lon-degrees"></span><span class="dms-symbol">°</span>
-                                        <span id="lon-minutes"></span><span class="dms-symbol">'</span>
-                                        <span id="lon-seconds"></span><span class="dms-symbol">''</span>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="SA-title">Site Class</td>
-                                <td id="site-class-info" class="SA-value">A</td>
-                            </tr>
-                            <tr>
-                                <td class="SA-title">SA<sub>1</sub></td>
-                                <td id="sa1-value" class="SA-value">0.0</td>
-                            </tr>
-                            <tr>
-                                <td class="SA-title">SA<sub>02</sub></td>
-                                <td id="sa02-value" class="SA-value">0.0</td>
-                            </tr>
-                            <tr>
-                                <td class="SA-title">T<sub>L</sub></td>
-                                <td id="tl-value" class="SA-value">0.0</td>
-                            </tr>
-                            <tr>
-                                <td class="SA-title">Fa</td>
-                                <td id="Fa-value" class="SA-value">0.0</td>
-                            </tr>
-                            <tr>
-                                <td class="SA-title">Fv</td>
-                                <td id="Fv-value" class="SA-value">0.0</td>
-                            </tr>
-                            <tr>
-                                <td class="SA-title">SMS</td>
-                                <td id="SMS-value" class="SA-value">0.0</td>
-                            </tr>
-                            <tr>
-                                <td class="SA-title">SM1</td>
-                                <td id="SM1-value" class="SA-value">0.0</td>
-                            </tr>
-                            <tr>
-                                <td class="SA-title">SDS</td>
-                                <td id="SDS-value" class="SA-value">0.0</td>
-                            </tr>
-                            <tr>
-                                <td class="SA-title">SD1</td>
-                                <td id="SD1-value" class="SA-value">0.0</td>
-                            </tr>
-                            <tr>
-                                <td class="SA-title">Ts</td>
-                                <td id="Ts-value" class="SA-value">0.0</td>
-                            </tr>
-                            <tr>
-                                <td class="SA-title">To</td>
-                                <td id="To-value" class="SA-value">0.0</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div id="image-container" class="graph-container">
-                    {% if image_base64 %}
-                        <h3>ASCE 7-05 Plot</h3>
-                        <img src="data:image/png;base64,{{ image_base64 }}" alt="Spectral Acceleration Plot">
-                    {% endif %}
+            <div class="site-info-card" id="site-info-card">
+
+                <div class="site-info-header">
+                    <h2>Site Information</h2>
+
+                    <div class="site-info-button-group">
+                        <button type="button" id="check-data">Email Results</button>
+                    </div>
                 </div>
 
+                <div class="container3">
+                    <div class="site-info">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td class="SA-title">Latitude (Decimal)</td>
+                                    <td id="long" class="SA-value"></td>
+                                </tr>
+                                <tr>
+                                    <td class="SA-title">Longitude (Decimal)</td>
+                                    <td id="lat" class="SA-value"></td>
+                                </tr>
+                                <tr>
+                                    <td class="SA-title">Latitude (DMS)</td>
+                                    <td id="lat-dms" class="SA-value">
+                                        <div class="dms-container">
+                                            <span id="lat-degrees"></span><span class="dms-symbol">°</span>
+                                            <span id="lat-minutes"></span><span class="dms-symbol">'</span>
+                                            <span id="lat-seconds"></span><span class="dms-symbol">''</span>        
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="SA-title">Longitude (DMS)</td>
+                                    <td id="lon-dms" class="SA-value">
+                                        <div class="dms-container">
+                                            <span id="lon-degrees"></span><span class="dms-symbol">°</span>
+                                            <span id="lon-minutes"></span><span class="dms-symbol">'</span>
+                                            <span id="lon-seconds"></span><span class="dms-symbol">''</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="SA-title">Site Class</td>
+                                    <td id="site-class-info" class="SA-value">A</td>
+                                </tr>
+                                <tr>
+                                    <td class="SA-title">SA<sub>1</sub></td>
+                                    <td id="sa1-value" class="SA-value">0.0</td>
+                                </tr>
+                                <tr>
+                                    <td class="SA-title">SA<sub>02</sub></td>
+                                    <td id="sa02-value" class="SA-value">0.0</td>
+                                </tr>
+                                <tr>
+                                    <td class="SA-title">T<sub>L</sub></td>
+                                    <td id="tl-value" class="SA-value">0.0</td>
+                                </tr>
+                                <tr>
+                                    <td class="SA-title">Fa</td>
+                                    <td id="Fa-value" class="SA-value">0.0</td>
+                                </tr>
+                                <tr>
+                                    <td class="SA-title">Fv</td>
+                                    <td id="Fv-value" class="SA-value">0.0</td>
+                                </tr>
+                                <tr>
+                                    <td class="SA-title">SMS</td>
+                                    <td id="SMS-value" class="SA-value">0.0</td>
+                                </tr>
+                                <tr>
+                                    <td class="SA-title">SM1</td>
+                                    <td id="SM1-value" class="SA-value">0.0</td>
+                                </tr>
+                                <tr>
+                                    <td class="SA-title">SDS</td>
+                                    <td id="SDS-value" class="SA-value">0.0</td>
+                                </tr>
+                                <tr>
+                                    <td class="SA-title">SD1</td>
+                                    <td id="SD1-value" class="SA-value">0.0</td>
+                                </tr>
+                                <tr>
+                                    <td class="SA-title">Ts</td>
+                                    <td id="Ts-value" class="SA-value">0.0</td>
+                                </tr>
+                                <tr>
+                                    <td class="SA-title">To</td>
+                                    <td id="To-value" class="SA-value">0.0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="image-container" class="graph-container">
+                        {% if image_base64 %}
+                            <h3>ASCE 7-05 Plot</h3>
+                            <img src="data:image/png;base64,{{ image_base64 }}" alt="Spectral Acceleration Plot">
+                        {% endif %}
+                    </div>
+
+                </div>
             </div>
-            
         </section>
 
             <div id="popup" class="popup" style="display: none;">
