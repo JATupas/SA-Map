@@ -26,7 +26,7 @@ body {
     align-items: center; /* Centers items horizontally */
     background-color: #EDFAFF; /* Form container background color */
     padding: 30px;
-    width: 40vw; /* Set the width to 40% of the available space */
+    width: 40%; /* Set the width to 40% of the available space */
     margin: 0 auto; /* Centers the form-container horizontally */
 }
 
