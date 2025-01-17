@@ -251,7 +251,7 @@ main {
 .Home .container3 {
     display: flex;
     /* gap: 20px; */
-    /* align-items: flex-start; */
+    justify-content: space-between;
     background-color: white;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -259,6 +259,7 @@ main {
     text-align: left;
     width: 1273px;
     height: auto;
+    align-items: center;
 } 
 
 .Title h1 {
@@ -614,7 +615,7 @@ td.SA-value {
 
 .site-info {
     flex: 1; /* Adjust the width of the table section */
-    max-width: 45%; /* Optional: Limit max width */
+    max-width: 100%; /* Optional: Limit max width */
 }
 
 .site-info, .site-info *{
@@ -652,13 +653,13 @@ td.SA-value {
 }
 
 .graph-container img {
-    width: 110%; /* Make the graph responsive to the container */
-    max-width: 110%; /* Ensure the image fits within the container */
+    width: 120%; /* Make the graph responsive to the container */
+    max-width: 120%; /* Ensure the image fits within the container */
     height: auto; /* Maintain aspect ratio */
     clip-path: inset(10px 55px 10px 40px);
     position: absolute;
-    top: -220px;
-    left: -20px;
+    top: -260px;
+    left: -80px;
 }
 
 .site-info-1 h3 {
