@@ -40,7 +40,6 @@ def register(request):
         full_name = request.POST.get('full_name')
         birthdate = request.POST.get('birthdate')
         email = request.POST.get('email')
-        prc_license = request.POST.get('prc_license')
         profession = request.POST.get('profession')
         affiliation = request.POST.get('affiliation')
 
@@ -53,7 +52,6 @@ def register(request):
             'full_name': full_name,
             'birthdate': birthdate,
             'email': email,
-            'prc_license': prc_license,
             'profession': profession,
             'affiliation': affiliation,
         }

@@ -22,7 +22,6 @@ function handleFormSubmission(event) {
     const fullName = document.getElementById("full_name").value.trim();
     const birthdate = document.getElementById("birthdate").value.trim();
     const email = document.getElementById("email").value.trim();
-    const prcLicense = document.getElementById("prc_license").value.trim();
     const professionSelect = document.getElementById("profession");
     const otherProfessionInput = document.getElementById("otherProfession").value.trim();
     const affiliation = document.getElementById("affiliation").value.trim();
@@ -34,27 +33,34 @@ function handleFormSubmission(event) {
     console.log("Full Name:", fullName);
     console.log("Birthdate:", birthdate);
     console.log("Email:", email);
-    console.log("PRC License:", prcLicense);
     console.log("Profession:", profession);
     console.log("Affiliated Agency:", affiliation);
 }
 
-
-// // Attach event listeners
-// document.addEventListener("DOMContentLoaded", function () {
-//     document.getElementById('registerForm').addEventListener('submit', function(event) {
-//         // Get form data
-//         var formData = {
-//             'full_name': document.getElementById('full_name').value,
-//             'birthdate': document.getElementById('birthdate').value,
-//             'email': document.getElementById('email').value,
-//             'profession': document.getElementById('profession').value,
-//             'affiliation': document.getElementById('affiliation').value
-//         };
-
-//         // Log the data to the console
-//         console.log("Register Form Data:", formData);
-        
-//         // You can do additional logging or validation here if needed
-//     });
-// });
+// Attach an event listener to the form submission
+document.querySelector('form').addEventListener('submit', function (e) {
+    e.preventDefault(); // Prevent the form from submitting by default
+  
+    const birthdateInput = document.getElementById('birthdate').value;
+  
+    let errorMessage = ''; // Initialize the error message
+  
+    // Validate the birthdate (at least 18 years old)
+    const birthdate = new Date(birthdateInput);
+    const today = new Date();
+    const eighteenYearsAgo = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+  
+    if (birthdate > eighteenYearsAgo) {
+      errorMessage += 'You must be at least 18 years old.\n';
+    }
+  
+    // Display the error message if there are errors
+    if (errorMessage) {
+      alert(errorMessage); // Display the error messages in an alert
+    } else {
+      alert('Form submitted successfully!');
+      // You can submit the form here if needed (e.g., via AJAX or traditional submission)
+      e.target.submit(); // Uncomment if you want the form to submit
+    }
+  });
+  
