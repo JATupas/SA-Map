@@ -251,7 +251,7 @@ def process_sa_pga_map(lat, lon, site, fainput, fvinput):
     plt.xlabel('Period, T')
     plt.ylabel('Spectral Acceleration')
     plt.ylim(0, SDS_rounded )
-    plt.yticks([i * 0.2 for i in range(int(SDS_rounded / 0.2) + 1)])
+    plt.yticks([i * 0.2 for i in range(int(SDS_rounded / 0.2) + 2)])
     plt.xlim(0, 17)
     plt.xticks(range(18))
     plt.legend()
