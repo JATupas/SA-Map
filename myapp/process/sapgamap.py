@@ -248,8 +248,8 @@ def process_sa_pga_map(lat, lon, site, fainput, fvinput):
 
     # Title and labels
     plt.title('ASCE 7-05')
-    plt.xlabel('Period, T')
-    plt.ylabel('Spectral Acceleration')
+    plt.xlabel('Period (T), s')
+    plt.ylabel('Spectral Acceleration (g)')
     plt.ylim(0, SDS_rounded )
     plt.yticks([i * 0.2 for i in range(int(SDS_rounded / 0.2) + 2)])
     plt.xlim(0, 17)
