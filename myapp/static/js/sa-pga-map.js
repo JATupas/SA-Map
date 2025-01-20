@@ -68,11 +68,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.getElementById("current-lon").value = "";
 
             }
-        } else {
-            showPopup("Invalid input! Please enter numeric values for latitude and longitude.");
-            document.getElementById("current-lat").value = "";
-            document.getElementById("current-lon").value = "";
-        }
+        } 
+        // else {
+        //     showPopup("Invalid input! Please enter numeric values for latitude and longitude.");
+        //     document.getElementById("current-lat").value = "";
+        //     document.getElementById("current-lon").value = "";
+        // }
     };
 
     latField.addEventListener("change", validateCoordinates);

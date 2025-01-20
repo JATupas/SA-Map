@@ -207,21 +207,21 @@ def process_sa_pga_map(lat, lon, site, fainput, fvinput):
     else:
         print(f"Error: interpolated_tl is not a scalar value. It is of type {type(interpolated_tl)}.")
 
-    # Title and labels
-    plt.title('ASCE 7-05')
-    plt.xlabel('Period, T')
-    plt.ylabel('Spectral Acceleration')
-    plt.ylim(0, 2)
-    plt.yticks([i * 0.2 for i in range(11)])
-    plt.xlim(0, 17)
-    plt.xticks(range(18))
-    plt.legend()
-    plt.grid(True)
-    buffer = BytesIO()
-    plt.savefig(buffer, format='png')
-    plt.close()
-    buffer.seek(0)
-    image_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
+    # # Title and labels
+    # plt.title('ASCE 7-05')
+    # plt.xlabel('Period, T')
+    # plt.ylabel('Spectral Acceleration')
+    # plt.ylim(0, 2)
+    # plt.yticks([i * 0.2 for i in range(11)])
+    # plt.xlim(0, 17)
+    # plt.xticks(range(18))
+    # plt.legend()
+    # plt.grid(True)
+    # buffer = BytesIO()
+    # plt.savefig(buffer, format='png')
+    # plt.close()
+    # buffer.seek(0)
+    # image_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
 
     # Example code snippet to round the values to 5 decimal places
     interpolated_sa1 = round(float(interpolated_sa1), 5)
@@ -236,6 +236,31 @@ def process_sa_pga_map(lat, lon, site, fainput, fvinput):
     Ts = round(float(Ts), 5)
     To = round(float(To), 5)
     given_point = [round(lat, 5), round(lon, 5)]
+
+    SDS_rounded = round(SDS * 10) / 10
+    if SDS_rounded % 2 != 0:  # If it's not an even tenth
+        SDS_rounded = np.ceil(SDS_rounded * 5) / 5  # Adjust to the next even tenth
+
+    # If the adjustment leads to a value that is less than or equal to the original SDS,
+    # increase it to the next even tenth above the original SDS
+    if SDS_rounded <= SDS:
+        SDS_rounded = np.ceil((SDS + 0.1) * 10) / 10
+
+    # Title and labels
+    plt.title('ASCE 7-05')
+    plt.xlabel('Period, T')
+    plt.ylabel('Spectral Acceleration')
+    plt.ylim(0, SDS_rounded )
+    plt.yticks([i * 0.2 for i in range(int(SDS_rounded / 0.2) + 2)])
+    plt.xlim(0, 17)
+    plt.xticks(range(18))
+    plt.legend()
+    plt.grid(True)
+    buffer = BytesIO()
+    plt.savefig(buffer, format='png')
+    plt.close()
+    buffer.seek(0)
+    image_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
 
 
     # print("Interpolated Sa1:", interpolated_sa1)
