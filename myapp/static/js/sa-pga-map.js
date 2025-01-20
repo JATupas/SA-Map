@@ -225,8 +225,8 @@ $(document).ready(function() {
                     console.log('Data updated successfully');
                     console.log(response);  // Handle the response from the server
                     // Optionally, you can handle any changes to the UI here (e.g., updating coordinates)
-                    document.getElementById('long').textContent = response.current_coord.lon || lat;
-                    document.getElementById('lat').textContent = response.current_coord.lat || lon;
+                    document.getElementById('long').textContent = response.current_coord.at(0) || '0.0';
+                    document.getElementById('lat').textContent = response.current_coord.at(1) || '0.0';
                     document.getElementById('site-class-info').textContent = response.site || site;  // Assuming site class info is static for now
 
                     // Optionally, populate other fields like SA₁, SMS, etc.
@@ -276,7 +276,8 @@ $(document).ready(function() {
                         latSeconds: latSeconds,
                         lonDegrees: lonDegrees,
                         lonMinutes: lonMinutes,
-                        lonSeconds: lonSeconds
+                        lonSeconds: lonSeconds,
+                        site: site
                     }
 
                     const overAllData = {
