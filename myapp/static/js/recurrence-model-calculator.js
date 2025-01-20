@@ -50,10 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
             popup.style.display = 'none';  // Close the popup
         });
     });
-});
 
-
-document.addEventListener('DOMContentLoaded', function() {
     const aboutTitle = document.getElementById('about-title');
     const aboutDescription = document.getElementById('about-description');
 
@@ -145,10 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
             resetAboutCard();
         }
     });
-});
 
-
-document.addEventListener('DOMContentLoaded', function() {
     let ssOptions = document.querySelectorAll('.seismic-source-group .option');
     let ssSelectEle = document.querySelector('.seismic-source-group .select');
     let ssOptionList = document.querySelector('.ss-option-list');
