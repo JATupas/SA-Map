@@ -1,3 +1,4 @@
+
 import os
 import json
 from django.conf import settings
@@ -6,6 +7,8 @@ from scipy.interpolate import griddata
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponseBadRequest
 from django.template.loader import render_to_string
+import base64
+from email.mime.image import MIMEImage
 from django.core.mail import EmailMultiAlternatives
 from django.views.decorators.csrf import csrf_exempt
 import numpy as np
@@ -270,10 +273,15 @@ def send_email(request):
                 # Parse JSON from the request body
                 data = json.loads(request.body.decode('utf-8'))
 
+                # image data
+
+                image_data = base64.b64decode(data.get('calculationData', "").get("image_base64", ""))
+
                 # Pass data to the template
                 context = {
                     'data': data,
-                    'has_data': True
+                    'has_data': True,
+                    'cid': "ASCE-7_Spectral_Plot"
                 }
             except json.JSONDecodeError:
                 # Handle invalid JSON format
@@ -291,9 +299,15 @@ def send_email(request):
         subject = "User Logs"  # changed to specific user name
         from_email = settings.DEFAULT_FROM_EMAIL
         recipient_list = ['shadelogs@gmail.com']
-        
+
         email = EmailMultiAlternatives(subject, '', from_email, recipient_list)
         email.attach_alternative(html_content, "text/html")
+
+        # Image Configuration
+        img = MIMEImage(image_data)
+        img.add_header('Content-ID', '<ASCE-7_Spectral_Plot>')  # Use the same CID as in the template
+        img.add_header('Content-Disposition', 'inline', filename="ASCE-7 Spectral Plot.png")  # Add the filename
+        email.attach(img)
         try:
             email.send()
             return JsonResponse({'status': 'success'})
