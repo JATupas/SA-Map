@@ -15,60 +15,6 @@
             box-sizing: border-box;
         }
 
-        header {
-            background-color: #f8f9fa;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Black color with 70% opacity */;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            align-items: center;
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-        }
-
-        .logo {
-            width: 38px;
-            height: 42px;
-            margin-right: 10px;
-        }
-
-        .text-container h1 {
-            background-color: #0052D4;
-            color: white;
-            padding: 3px 8px;
-            gap: 10px;
-            border-radius: 2px;
-            margin: 0;
-            font-size: 12px;
-            font-family: "Roboto", sans-serif;
-            font-weight: 500;
-            font-style: normal;
-            width: 74px;
-            height: 20px;
-        }
-
-        .text-container h2 {
-            margin: 0;
-            font-size: 14px;
-            color: #333;
-            font-family: "Roboto", sans-serif;
-            font-weight: 700;
-            font-style: normal;
-            width: 364px;
-            height: 22px;
-            line-height: 22px;
-        }
-
         main {
             padding: 0px 0px 0px 0px;
         }
@@ -394,31 +340,58 @@
             transition: opacity 0.3s ease-in-out, visibility 0s 0s;
         }
 
+        .user-data-section {
+            margin-bottom: 15px;
+        }
+
+        .email-content-container h2 {
+            text-align: center;
+        }
+
+        .info-table, th, td {
+            border: 2px solid black;
+            border-collapse: collapse;
+            padding: 5px;
+        }
+
+        .info-table .user-details {
+            text-transform: uppercase;
+        }
+
+        .info-table .user-info-cell {
+            text-align: center;
+            color: black;
+            text-decoration: none;
+
+        }
+
 
     </style>
 </head>
 <body>
-    <header>
-        <div class="header-container">
-            <div class="logo-container">
-                <div class="text-container">
-                    <h2>Philippine Institute of Volcanology and Seismology</h2>
-                    <h1>SHADE PH</h1>
-                </div>
-    </header>
     <main>
         <div class="email-content-container">
             <h2 class="email-header">User Logs</h2>
             {% if has_data %}
             <section class="user-data-section">
-                <p><strong>User Data:</strong></p>
-                <ul>
+                <h4><strong>User Data:</strong></h4>
+                <table class="info-table">
+                    <tr>
+                        <th>Details</th>
+                        <th>Info</th>
+                    </tr>
                     {% for key, value in data.registrationData.items %}
-                        <li><b class="field-name">{{ key|default:"" }}</b>: {{ value|default:"" }}</li>
+                        <tr>
+                            <td class="user-details">
+                                <b>{{ key|default:"" }}</b>
+                            </td>
+                            <td class="user-info-cell">
+                                {{ value|default:"" }}
+                            </td>
+                        </tr>
                     {% endfor %}
-                </ul>
+                </table>
             </section>
-    
             <!-- Site Information and Graph Section -->
             <section class="site-info-graph-section" id="site-info-section">
                 <div class="site-info-card" id="site-info-card">
