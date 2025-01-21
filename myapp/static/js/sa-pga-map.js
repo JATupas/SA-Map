@@ -4,6 +4,8 @@
 const faInput = document.getElementById("fainput");
 const errorMessage = document.getElementById("error-message");
 
+let rawData = {}
+
 // Function to check if the value is 0
 function validateInput() {
     const value = faInput.value;
@@ -280,6 +282,8 @@ $(document).ready(function() {
                         site: site
                     }
 
+                    rawData = rawCalcData
+
                     const overAllData = {
                         registrationData: registrationData,
                         calculationData: rawCalcData
@@ -481,3 +485,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial check to set the correct background height on page load
     updateBackgroundHeight();
 });
+
+const sendEmailToUser = () => {
+
+
+    data = {
+        registrationData: registrationData,
+        calculationData: rawData
+    }
+    console.log('send email to user', data)
+}
+
+
+const emailButton = document.getElementById("email-results")
+
+emailButton.addEventListener("click", sendEmailToUser)
+
+

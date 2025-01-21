@@ -313,3 +313,54 @@ def send_email(request):
             return JsonResponse({'status': 'error', 'message': str(e)})
         
 
+
+def send_email_to_user(request):
+    if request.method == "POST":
+        if request.body:
+            try:
+                # Parse JSON from the request body
+                data = json.loads(request.body.decode('utf-8'))
+
+                # image data
+
+                image_data = base64.b64decode(data.get('calculationData', "").get("image_base64", ""))
+                user_email = data.get('registrationData','').get('email', '')
+
+                # Pass data to the template
+                context = {
+                    'data': data,
+                    'has_data': True,
+                    'cid': "ASCE-7_Spectral_Plot"
+                }
+            except json.JSONDecodeError:
+                # Handle invalid JSON format
+                return JsonResponse({'error': 'Invalid JSON format'}, status=400)
+        else:
+            # Handle empty body
+            context = {
+                'data': None,
+                'has_data': False
+            }
+        
+        # Render html email template
+        html_content = render_to_string('email-template.html', context)
+
+        subject = "Your Results"  # changed to specific user name
+        from_email = settings.DEFAULT_FROM_EMAIL
+        recipient_list = [user_email]
+
+        email = EmailMultiAlternatives(subject, '', from_email, recipient_list)
+        email.attach_alternative(html_content, "text/html")
+
+        # Image Configuration
+        img = MIMEImage(image_data)
+        img.add_header('Content-ID', '<ASCE-7_Spectral_Plot>')  # Use the same CID as in the template
+        img.add_header('Content-Disposition', 'inline', filename="ASCE-7 Spectral Plot.png")  # Add the filename
+        email.attach(img)
+        try:
+            email.send()
+            return JsonResponse({'status': 'success'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)})
+        
+
