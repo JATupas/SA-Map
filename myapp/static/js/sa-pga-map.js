@@ -174,6 +174,7 @@ $(document).ready(function () {
       map.removeLayer(marker);
     }
 
+
     // Add a new marker at the clicked location
     marker = L.marker([lat, lon]).addTo(map);
   });
