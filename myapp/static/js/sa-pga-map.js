@@ -487,13 +487,10 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 const sendEmailToUser = () => {
-
-
     data = {
         registrationData: registrationData,
         calculationData: rawData
     }
-    console.log('send email to user', data)
 }
 
 

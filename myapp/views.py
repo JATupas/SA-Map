@@ -343,7 +343,7 @@ def send_email_to_user(request):
             }
         
         # Render html email template
-        html_content = render_to_string('email-template.html', context)
+        html_content = render_to_string('user_email_template.html', context)
 
         subject = "Your Results"  # changed to specific user name
         from_email = settings.DEFAULT_FROM_EMAIL
@@ -359,7 +359,7 @@ def send_email_to_user(request):
         email.attach(img)
         try:
             email.send()
-            return JsonResponse({'status': 'success'})
+            return JsonResponse({'status': 'success', 'email': user_email})
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)})
         
