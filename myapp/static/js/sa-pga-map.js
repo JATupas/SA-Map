@@ -260,7 +260,6 @@ $(document).ready(function() {
                     //     full_name: "",
                     //     birthdate: "",
                     //     email: "",
-                    //     prc_license: "",
                     //     profession: "",
                     //     affiliation: "",
                     // }

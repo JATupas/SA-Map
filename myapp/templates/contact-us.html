@@ -1,0 +1,60 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - PHIVOLCS</title>
+    <link rel="stylesheet" href="{% static 'css/stylesheet-CU.css' %}">
+</head>
+
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo-container">
+                <img src="{% static 'images/SHADE LOGO.png' %}" alt="PHIVOLCS Logo" class="logo">
+                <div class="text-container">
+                    <h2>Philippine Institute of Volcanology and Seismology</h2>
+                    <h1>SHADE PH</h1>
+                </div>
+            </div>
+            <nav>
+                <a href="{% url 'shade_redesign' %}" class="nav-link">Home</a>
+                <a href="#About-section" class="nav-link">About</a>
+                <a href="{% url 'contact_us' %}" class="nav-link">Contact Us</a>
+                <!-- <span class="separator">|</span>
+                <b href="#" class="nav-link">Register</b>
+                <a href="#" class="nav-button">Log In</a> -->
+            </nav>
+        </div>
+    </header>
+
+    <section>
+        <h2>Philippine Institute of Volcanology and Seismology (PHIVOLCS)</h2>
+        <p>PHIVOLCS Building, C.P Garcia Ave., Diliman, Quezon City<br>
+           Philippines 1101</p>
+        <p>Trunkline: +632 8426-1468 up to 79</p>
+        <p>Official mail: <a href="mailto:od@phivolcs.dost.gov.ph">od@phivolcs.dost.gov.ph</a>; 
+           <a href="mailto:phivolcs_mail@phivolcs.dost.gov.ph">phivolcs_mail@phivolcs.dost.gov.ph</a></p>
+        <p>Request for resource speaker: <a href="mailto:pivs_lectures@phivolcs.dost.gov.ph">pivs_lectures@phivolcs.dost.gov.ph</a></p>
+        <p>Request for educational tour: <a href="mailto:pivs_tours@phivolcs.dost.gov.ph">pivs_tours@phivolcs.dost.gov.ph</a></p>
+    </section>
+
+    <section>
+        <h2>Seismological Observation & Earthquake Prediction Division (SOEPD)</h2>
+        <p>Direct line: (+63-2) 8 426-1468 to 79, local 304</p>
+        <p>Email: <a href="mailto:soepd@phivolcs.dost.gov.ph">soepd@phivolcs.dost.gov.ph</a></p>
+    </section>
+
+    <section>
+        <h2>Seismic Hazard Assessment and Design Earthquake of the Philippines (SHADE)</h2>
+        <p>Direct line: (+63-2) 8 426-1468 to 79, local 404</p>
+        <p>Email: <a href="mailto:shadeprojectph@gmail.com">shadeprojectph@gmail.com</a></p>
+    </section>
+
+    <footer class="footer">
+        &copy; 2025 Philippine Institute of Volcanology and Seismology. All Rights Reserved.
+    </footer>
+</body>
+</html>

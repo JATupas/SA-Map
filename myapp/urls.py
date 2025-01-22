@@ -11,6 +11,7 @@ urlpatterns = [
     path('recurrence-model-calculator/', views.recurrence_model_calculator, name='recurrence_model_calculator'),
     path('source-model-generator/', views.source_model_generator, name='source_model_generator'),
     path('sa-pga-map/', views.sa_pga_map, name='sa_pga_map'), 
+    path('contact-us/', views.contact_us, name='contact_us'),
     # path('sa-pga-map/', views.sa_pga_map, name='sa_pga_map'),
     path('process_oq_jobs/', views.process_oq_jobs, name='process_oq_jobs'),
 

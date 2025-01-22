@@ -32,6 +32,9 @@ def recurrence_model_calculator(request):
 def source_model_generator(request):
     return render(request, 'source-model-generator.html')
 
+def contact_us(request):
+    return render(request, 'contact-us.html')
+
 from django.shortcuts import render, redirect
 
 def register(request):
