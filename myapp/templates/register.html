@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="icon" href="{% static 'images/SHADE-Circle.ico' %}" type="image/x-icon">
     <link rel="stylesheet" href="{% static 'css/stylesheet-Register.css' %}">
 </head>
@@ -15,79 +17,95 @@
     <div class="form-wrapper">
         <!-- Form Container -->
         <div class="form-container">
-            <h2>User Information</h2>
-            <form id="register-form" method="POST" action="{% url 'register' %}">
+            <!-- <h2>User Information</h2> -->
+            <img src="{% static 'images/user-infotext.svg' %}" alt="USER INFO" class="user-info-text">
+            
+            <form id="register-form" method="POST" action="{% url 'register' %}" class="register-form">
                 {% csrf_token %}
-                <label for="full_name"><span class="required">*</span> Full Name</label>
-                <input type="text" id="full_name" name="full_name" required>
+                <div class="full-name-input-group">
+                    <label for="full_name"><span class="required">*</span> Full Name</label>
+                    <input type="text" id="full_name" name="full_name" placeholder="Juan F. Dela Cruz" required>
+                </div>
                 
-                <label for="birthdate"><span class="required">*</span> Birthdate</label>
-                <input type="date" id="birthdate" name="birthdate" required>
+                <div class="birthdate-input-group">
+                    <label for="birthdate"><span class="required">*</span> Birthdate</label>
+                    <div class="birthdate-select">
+                        <input type="text" id="birthdate" name="birthdate" placeholder="DD/MM/YYYY" required>
+                        <img src="{% static 'images/calendar_month.svg' %}" class="calendar">
+                    </div>
+                </div>
                 
-                <label for="email"><span class="required">*</span> Email Address</label>
-                <input type="email" id="email" name="email" required>
-                
-                <!-- <label for="prc_license">PRC License</label>
-                <input type="text" id="prc_license" name="prc_license" required> -->
-                
-                <label for="profession"><span class="required">*</span> Profession</label>
-                <select id="profession" name="profession" required required onchange="handleProfessionChange()">
-                    <option value="" disabled selected>Select Profession</option>
-                    <option value="Accountancy">Accountancy</option>
-                    <option value="Aeronautical Engineering">Aeronautical Engineering</option>
-                    <option value="Agricultural and Biosystems Engineering">Agricultural and Biosystems Engineering</option>
-                    <option value="Agriculture">Agriculture</option>
-                    <option value="Architecture">Architecture</option>
-                    <option value="Chemical Engineering">Chemical Engineering</option>
-                    <option value="Chemistry">Chemistry</option>
-                    <option value="Civil Engineering">Civil Engineering</option>
-                    <option value="Criminology">Criminology</option>
-                    <option value="Customs Brokerage">Customs Brokerage</option>
-                    <option value="Dentistry">Dentistry</option>
-                    <option value="Electrical Engineering">Electrical Engineering</option>
-                    <option value="Electronics and Communications Engineering">Electronics and Communications Engineering</option>
-                    <option value="Environmental Planning">Environmental Planning</option>
-                    <option value="Fisheries Technology">Fisheries Technology</option>
-                    <option value="Food Technology">Food Technology</option>
-                    <option value="Forestry">Forestry</option>
-                    <option value="Guidance and Counseling">Guidance and Counseling</option>
-                    <option value="Interior Design">Interior Design</option>
-                    <option value="Landscape Architecture">Landscape Architecture</option>
-                    <option value="Library Science">Library Science</option>
-                    <option value="Master Plumbing">Master Plumbing</option>
-                    <option value="Mechanical Engineering">Mechanical Engineering</option>
-                    <option value="Medical Technology">Medical Technology</option>
-                    <option value="Medicine">Medicine</option>
-                    <option value="Metallurgical Engineering">Metallurgical Engineering</option>
-                    <option value="Mining Engineering">Mining Engineering</option>
-                    <option value="Midwifery">Midwifery</option>
-                    <option value="Naval Architecture and Marine Engineering">Naval Architecture and Marine Engineering</option>
-                    <option value="Nursing">Nursing</option>
-                    <option value="Nutrition and Dietetics">Nutrition and Dietetics</option>
-                    <option value="Occupational Therapy">Occupational Therapy</option>
-                    <option value="Optometry">Optometry</option>
-                    <option value="Pharmacy">Pharmacy</option>
-                    <option value="Physical Therapy">Physical Therapy</option>
-                    <option value="Professional Teaching">Professional Teaching</option>
-                    <option value="Psychology">Psychology</option>
-                    <option value="Public Health">Public Health</option>
-                    <option value="Radiologic Technology and X-ray Technology">Radiologic Technology and X-ray Technology</option>
-                    <option value="Real Estate Service">Real Estate Service</option>
-                    <option value="Respiratory Therapy">Respiratory Therapy</option>
-                    <option value="Sanitary Engineering">Sanitary Engineering</option>
-                    <option value="Social Work">Social Work</option>
-                    <option value="Speech-Language Pathology">Speech-Language Pathology</option>
-                    <option value="Veterinary Medicine">Veterinary Medicine</option>
-                    <option value="Others">Other, please Specify</option>
-                </select>
+                <div class="email-input-group">
+                    <label for="email"><span class="required">*</span> Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="shadeph@gmail.com" required>
+                </div>
 
-                <div id="otherProfessionContainer" style="display: none; margin-top: 10px;">
-                    <label for="otherProfession">Specify Profession</label>
+                <div class="profession-group">
+                    <label for="profession"><span class="required">*</span> Profession</label>
+                    <div class="profession-select" tabindex="0">
+                        <span class="select">Please Select</span>
+                        <img src="{% static 'images/expand_more.svg' %}" class="arrow-down">
+                    </div>
+                    <div class="profession-option-list" required required onchange="handleProfessionChange()">
+                        <div class="option" data-value="Accountancy">Accountancy</div>
+                        <div class="option" data-value="Aeronautical Engineering">Aeronautical Engineering</div>
+                        <div class="option" data-value="Agricultural and Biosystems Engineering">Agricultural and Biosystems Engineering</div>
+                        <div class="option" data-value="Agriculture">Agriculture</div>
+                        <div class="option" data-value="Architecture">Architecture</div>
+                        <div class="option" data-value="Chemical Engineering">Chemical Engineering</div>
+                        <div class="option" data-value="Chemistry">Chemistry</div>
+                        <div class="option" data-value="Civil Engineering">Civil Engineering</div>
+                        <div class="option" data-value="Criminology">Criminology</div>
+                        <div class="option" data-value="Customs Brokerage">Customs Brokerage</div>
+                        <div class="option" data-value="Dentistry">Dentistry</div>
+                        <div class="option" data-value="Electrical Engineering">Electrical Engineering</div>
+                        <div class="option" data-value="Electronics and Communications Engineering">Electronics and Communications Engineering</div>
+                        <div class="option" data-value="Environmental Planning">Environmental Planning</div>
+                        <div class="option" data-value="Fisheries Technology">Fisheries Technology</div>
+                        <div class="option" data-value="Food Technology">Food Technology</div>
+                        <div class="option" data-value="Forestry">Forestry</div>
+                        <div class="option" data-value="Guidance and Counseling">Guidance and Counseling</div>
+                        <div class="option" data-value="Interior Design">Interior Design</div>
+                        <div class="option" data-value="Landscape Architecture">Landscape Architecture</div>
+                        <div class="option" data-value="Library Science">Library Science</div>
+                        <div class="option" data-value="Master Plumbing">Master Plumbing</div>
+                        <div class="option" data-value="Mechanical Engineering">Mechanical Engineering</div>
+                        <div class="option" data-value="Medical Technology">Medical Technology</div>
+                        <div class="option" data-value="Medicine">Medicine</div>
+                        <div class="option" data-value="Metallurgical Engineering">Metallurgical Engineering</div>
+                        <div class="option" data-value="Mining Engineering">Mining Engineering</div>
+                        <div class="option" data-value="Midwifery">Midwifery</div>
+                        <div class="option" data-value="Naval Architecture and Marine Engineering">Naval Architecture and Marine Engineering</div>
+                        <div class="option" data-value="Nursing">Nursing</div>
+                        <div class="option" data-value="Nutrition and Dietetics">Nutrition and Dietetics</div>
+                        <div class="option" data-value="Occupational Therapy">Occupational Therapy</div>
+                        <div class="option" data-value="Optometry">Optometry</div>
+                        <div class="option" data-value="Pharmacy">Pharmacy</div>
+                        <div class="option" data-value="Physical Therapy">Physical Therapy</div>
+                        <div class="option" data-value="Professional Teaching">Professional Teaching</div>
+                        <div class="option" data-value="Psychology">Psychology</div>
+                        <div class="option" data-value="Public Health">Public Health</div>
+                        <div class="option" data-value="Radiologic Technology and X-ray Technology">Radiologic Technology and X-ray Technology</div>
+                        <div class="option" data-value="Real Estate Service">Real Estate Service</div>
+                        <div class="option" data-value="Respiratory Therapy">Respiratory Therapy</div>
+                        <div class="option" data-value="Sanitary Engineering">Sanitary Engineering</div>
+                        <div class="option" data-value="Social Work">Social Work</div>
+                        <div class="option" data-value="Speech-Language Pathology">Speech-Language Pathology</div>
+                        <div class="option" data-value="Veterinary Medicine">Veterinary Medicine</div>
+                        <div class="option" data-value="Others">Others, Please Specify</div>
+                    </div>
+                    <input type="hidden" id="profession" name="profession">
+                </div>
+
+                <div class="otherProfession" id="otherProfessionContainer" style="display: none; margin-top: 10px;">
+                    <label for="full_name"><span class="required">*</span> Specify Profession</label>
                     <input type="text" id="otherProfession" name="otherProfession" />
                 </div>
 
-                <label for="affiliation"><span class="required">*</span> Affiliated Agency</label>
-                <input type="text" id="affiliation" name="affiliation" required>
+                <div class="affiliation-input-group">
+                    <label for="affiliation"><span class="required">*</span> Affiliated Agency</label>
+                    <input type="text" id="affiliation" name="affiliation" placeholder="PHIVOLCS" required>
+                </div>
                 
                 <button type="submit">Register</button>
             </form>
@@ -95,12 +113,14 @@
 
         <!-- Brand Container -->
         <div class="brand-container">
-            <img src="{% static 'images/logo.png' %}" alt="SHADE PH Logo">
-            <h3>SEISMIC HAZARD ASSESSMENT AND DESIGN EARTHQUAKE OF THE PHILIPPINES</h3>
+            <img src="{% static 'images/SHADE-REG.svg' %}" alt="SHADE PH Logo">
+            <!-- <h3>SEISMIC HAZARD ASSESSMENT AND DESIGN EARTHQUAKE OF THE PHILIPPINES</h3> -->
         </div>
     </div>
 
     <script src="{% static 'js/register.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
 
 </body>
 </html>
