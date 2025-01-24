@@ -1,3 +1,4 @@
+
 import os
 import json
 from django.conf import settings
@@ -6,6 +7,8 @@ from scipy.interpolate import griddata
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponseBadRequest
 from django.template.loader import render_to_string
+import base64
+from email.mime.image import MIMEImage
 from django.core.mail import EmailMultiAlternatives
 from django.views.decorators.csrf import csrf_exempt
 import numpy as np
@@ -32,6 +35,9 @@ def recurrence_model_calculator(request):
 def source_model_generator(request):
     return render(request, 'source-model-generator.html')
 
+def contact_us(request):
+    return render(request, 'contact-us.html')
+
 from django.shortcuts import render, redirect
 
 def register(request):
@@ -40,7 +46,6 @@ def register(request):
         full_name = request.POST.get('full_name')
         birthdate = request.POST.get('birthdate')
         email = request.POST.get('email')
-        prc_license = request.POST.get('prc_license')
         profession = request.POST.get('profession')
         affiliation = request.POST.get('affiliation')
 
@@ -53,7 +58,6 @@ def register(request):
             'full_name': full_name,
             'birthdate': birthdate,
             'email': email,
-            'prc_license': prc_license,
             'profession': profession,
             'affiliation': affiliation,
         }
@@ -262,39 +266,104 @@ def recurrence_model(request):
 
     return JsonResponse({'status': 'invalid request'})
 
-def extract_data(body, method):
-    if method == "POST":
-        try:
-            data = json.loads(body)  # Parse JSON from the bodys
-            return data
-        except json.JSONDecodeError:
-            return JsonResponse({'error': 'Invalid JSON format'}, status=400)
-
 def send_email(request):
-
     if request.method == "POST":
-        # Code for data to be put at email template
-        
-        data =  extract_data(request.body, request.method)
-
-        if(data != None):
-
-            context = {"data": data}
-            # Render html email template
-            html_content = render_to_string('email-template.html', context)
-
-            subject = "Email Template"
-            from_email = settings.DEFAULT_FROM_EMAIL
-            recipient_list = ['montgomery.toft@gmail.com']
-            
-            email = EmailMultiAlternatives(subject, '', from_email, recipient_list)
-            email.attach_alternative(html_content, "text/html")
+        print(request.body)
+        if request.body:
             try:
-                email.send()
-                return JsonResponse({'status': 'success'})
-            except Exception as e:
-                return JsonResponse({'status': 'error', 'message': str(e)})
+                # Parse JSON from the request body
+                data = json.loads(request.body.decode('utf-8'))
+
+                # image data
+
+                image_data = base64.b64decode(data.get('calculationData', "").get("image_base64", ""))
+
+                # Pass data to the template
+                context = {
+                    'data': data,
+                    'has_data': True,
+                    'cid': "ASCE-7_Spectral_Plot"
+                }
+            except json.JSONDecodeError:
+                # Handle invalid JSON format
+                return JsonResponse({'error': 'Invalid JSON format'}, status=400)
         else:
-            return JsonResponse({'status': 'error', 'message': "There is no registration data"})
+            # Handle empty body
+            context = {
+                'data': None,
+                'has_data': False
+            }
+        
+        # Render html email template
+        html_content = render_to_string('email-template.html', context)
+
+        subject = "User Logs"  # changed to specific user name
+        from_email = settings.DEFAULT_FROM_EMAIL
+        recipient_list = ['shadelogs@gmail.com']
+
+        email = EmailMultiAlternatives(subject, '', from_email, recipient_list)
+        email.attach_alternative(html_content, "text/html")
+
+        # Image Configuration
+        img = MIMEImage(image_data)
+        img.add_header('Content-ID', '<ASCE-7_Spectral_Plot>')  # Use the same CID as in the template
+        img.add_header('Content-Disposition', 'inline', filename="ASCE-7 Spectral Plot.png")  # Add the filename
+        email.attach(img)
+        try:
+            email.send()
+            return JsonResponse({'status': 'success'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)})
+        
+
+
+def send_email_to_user(request):
+    if request.method == "POST":
+        if request.body:
+            try:
+                # Parse JSON from the request body
+                data = json.loads(request.body.decode('utf-8'))
+
+                # image data
+
+                image_data = base64.b64decode(data.get('calculationData', "").get("image_base64", ""))
+                user_email = data.get('registrationData','').get('email', '')
+
+                # Pass data to the template
+                context = {
+                    'data': data,
+                    'has_data': True,
+                    'cid': "ASCE-7_Spectral_Plot"
+                }
+            except json.JSONDecodeError:
+                # Handle invalid JSON format
+                return JsonResponse({'error': 'Invalid JSON format'}, status=400)
+        else:
+            # Handle empty body
+            context = {
+                'data': None,
+                'has_data': False
+            }
+        
+        # Render html email template
+        html_content = render_to_string('user_email_template.html', context)
+
+        subject = "Your Results"  # changed to specific user name
+        from_email = settings.DEFAULT_FROM_EMAIL
+        recipient_list = [user_email]
+
+        email = EmailMultiAlternatives(subject, '', from_email, recipient_list)
+        email.attach_alternative(html_content, "text/html")
+
+        # Image Configuration
+        img = MIMEImage(image_data)
+        img.add_header('Content-ID', '<ASCE-7_Spectral_Plot>')  # Use the same CID as in the template
+        img.add_header('Content-Disposition', 'inline', filename="ASCE-7 Spectral Plot.png")  # Add the filename
+        email.attach(img)
+        try:
+            email.send()
+            return JsonResponse({'status': 'success', 'email': user_email})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)})
         
 

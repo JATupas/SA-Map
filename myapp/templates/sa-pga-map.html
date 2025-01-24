@@ -32,6 +32,8 @@
             <nav>
                 <a href="{% url 'shade_redesign' %}" class="nav-link">Home</a>
                 <a href="#About-section" class="nav-link">About</a>
+                <a href="{% url 'contact_us' %}" class="nav-link">Contact Us</a>
+                <a href="{% url 'register' %}" class="nav-button">User Information</a>
                 <!-- <span class="separator">|</span>
                 <b href="#" class="nav-link">Register</b>
                 <a href="#" class="nav-button">Log In</a> -->
@@ -294,6 +296,16 @@
         </section> {% endcomment %}
 
     </main>
+    
+    <div style="position: fixed; bottom: 0; width: 100%; background-color: #2f2f2f; color: white; text-align: center; padding: 10px; z-index: 1000;">
+        <span>
+            This site uses cookies and third-party services to analyze non-identifiable web traffic data. We are committed to protecting and respecting your personal data in compliance with the Data Privacy Act of 2012.
+        </span>
+        <button style="margin-left: 10px; background-color: #3399cc; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;" onclick="this.parentElement.style.display='none'">
+            Accept
+        </button>
+    </div>
+    
 
     <footer>
         <p>Copyright © SHADE PH 2024</p>
@@ -324,6 +336,7 @@
         const saPgaMapUrl = "{% url 'sa_pga_map' %}"
         const csrfToken = '{{ csrf_token }}'
         const emailUrl = "{% url 'send_email' %}"
+        const userEmailUrl = "{% url 'send_email_to_user' %}"
     </script>
     <script src="{% static 'js/sa-pga-map.js' %}"></script>
 </body>

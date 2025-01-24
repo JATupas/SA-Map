@@ -371,27 +371,8 @@
 <body>
     <main>
         <div class="email-content-container">
-            <h2 class="email-header">User Logs</h2>
             {% if has_data %}
-            <section class="user-data-section">
-                <h4><strong>User Data:</strong></h4>
-                <table class="info-table">
-                    <tr>
-                        <th>Details</th>
-                        <th>Info</th>
-                    </tr>
-                    {% for key, value in data.registrationData.items %}
-                        <tr>
-                            <td class="user-details">
-                                <b>{{ key|default:"" }}</b>
-                            </td>
-                            <td class="user-info-cell">
-                                {{ value|default:"" }}
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </table>
-            </section>
+            <h2 class="email-header">{{data.registrationData.full_name|default:"Your"}} Results</h2>
             <!-- Site Information and Graph Section -->
             <section class="site-info-graph-section" id="site-info-section">
                 <div class="site-info-card" id="site-info-card">
