@@ -5,7 +5,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - PHIVOLCS</title>
+    <title>SHADE Project PH</title>
+    <link rel="icon" href="{% static 'images/SHADE-Circle.ico' %}" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/stylesheet-CU.css' %}">
 </head>
 
@@ -25,32 +30,170 @@
             </nav>
         </div>
     </header>
+    
+    <main>
+        <section class="Home" id="Home">
+            <div class="container1">
+                <div class="Title">
+                    <h1>Contact Us</h1>
+                    <p>Need support or have inquiries? Reach out to us using the details below.</p>
+                </div>
 
-    <section>
-        <h2>Philippine Institute of Volcanology and Seismology (PHIVOLCS)</h2>
-        <p>PHIVOLCS Building, C.P Garcia Ave., Diliman, Quezon City<br>
-           Philippines 1101</p>
-        <p>Trunkline: +632 8426-1468 up to 79</p>
-        <p>Official mail: <a href="mailto:od@phivolcs.dost.gov.ph">od@phivolcs.dost.gov.ph</a>; 
-           <a href="mailto:phivolcs_mail@phivolcs.dost.gov.ph">phivolcs_mail@phivolcs.dost.gov.ph</a></p>
-        <p>Request for resource speaker: <a href="mailto:pivs_lectures@phivolcs.dost.gov.ph">pivs_lectures@phivolcs.dost.gov.ph</a></p>
-        <p>Request for educational tour: <a href="mailto:pivs_tours@phivolcs.dost.gov.ph">pivs_tours@phivolcs.dost.gov.ph</a></p>
-    </section>
+                <div class="Info_Cards">
+                    <div class="container2">
+                        <div class="form">
+                            <div class="form-card">
+                                <div class="form-header">
+                                    <img src="{% static 'images/Workspaces.svg' %}" class="card-icon">
+                                    <h2>Philippine Institute of Volcanology and Seismology (PHIVOLCS)</h2>
+                                </div>                                   
+                                
+                                <div class="form-content">
+                                    <form id="catalog-cleaning-form">
 
-    <section>
-        <h2>Seismological Observation & Earthquake Prediction Division (SOEPD)</h2>
-        <p>Direct line: (+63-2) 8 426-1468 to 79, local 304</p>
-        <p>Email: <a href="mailto:soepd@phivolcs.dost.gov.ph">soepd@phivolcs.dost.gov.ph</a></p>
-    </section>
+                                        <!-- PHIVOLCS Section -->
+                                        <div class="PHIVOLCS">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <img src="{% static 'images/location.svg' %}" class="card-icon-1">
+                                                    <p>PHIVOLCS Building, C.P Garcia Ave., Diliman, Quezon City, Philippines 1101</p>
+                                                </div>
+                                            </div>
 
-    <section>
-        <h2>Seismic Hazard Assessment and Design Earthquake of the Philippines (SHADE)</h2>
-        <p>Direct line: (+63-2) 8 426-1468 to 79, local 404</p>
-        <p>Email: <a href="mailto:shadeprojectph@gmail.com">shadeprojectph@gmail.com</a></p>
-    </section>
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <img src="{% static 'images/Call.svg' %}" class="card-icon-1">
+                                                    <p>Trunkline: +632 8426-1468 up to 79</p>
+                                                </div>
+                                            </div>
 
-    <footer class="footer">
-        &copy; 2025 Philippine Institute of Volcanology and Seismology. All Rights Reserved.
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <img src="{% static 'images/Mail.svg' %}" class="card-icon-1">
+                                                    <p>
+                                                        Official mail: 
+                                                        <a href="mailto:od@phivolcs.dost.gov.ph">od@phivolcs.dost.gov.ph</a>; 
+                                                        <a href="mailto:phivolcs_mail@phivolcs.dost.gov.ph">phivolcs_mail@phivolcs.dost.gov.ph</a>
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <img src="{% static 'images/Resource_Speaker.svg' %}" class="card-icon-1">
+                                                    <p>
+                                                        Request for resource speaker: 
+                                                        <a href="mailto:pivs_lectures@phivolcs.dost.gov.ph">pivs_lectures@phivolcs.dost.gov.ph</a>
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <img src="{% static 'images/Tour.svg' %}" class="card-icon-1">
+                                                    <p>
+                                                        <i class="bi bi-flag-fill"></i> Request for educational tour: 
+                                                        <a href="mailto:pivs_tours@phivolcs.dost.gov.ph">pivs_tours@phivolcs.dost.gov.ph</a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container2">
+                        <div class="form">
+                            <div class="form-card">
+                                <div class="form-header-1">
+                                    <img src="{% static 'images/Workspaces.svg' %}" class="card-icon">
+                                    <h2>Seismological Observation & Earthquake Prediction Division (SOEPD)</h2>
+                                </div>                                   
+
+                                <div class="form-content">
+                                    <form id="catalog-cleaning-form">
+
+                                        <!-- SOEPD Section -->
+                                        <div class="SOEPD">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <img src="{% static 'images/Call.svg' %}" class="card-icon-1">
+                                                    <p> Direct line: (+63-2) 8 426-1468 to 79, local 304</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <img src="{% static 'images/Mail.svg' %}" class="card-icon-1">
+                                                    <p>
+                                                        Email: 
+                                                        <a href="mailto:soepd@phivolcs.dost.gov.ph">soepd@phivolcs.dost.gov.ph</a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container2">
+                        <div class="form">
+                            <div class="form-card">
+                                <div class="form-header-2">
+                                    <img src="{% static 'images/Workspaces.svg' %}" class="card-icon">
+                                    <h2>Seismic Hazard Assessment and Design Earthquake of the Philippines (SHADE)</h2>
+                                </div>                                   
+
+                                <div class="form-content">
+                                    <form id="catalog-cleaning-form">
+
+                                        <!-- SHADE Section -->
+                                        <div class="SHADEPH">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <img src="{% static 'images/Call.svg' %}" class="card-icon-1">
+                                                    <p>Direct line: (+63-2) 8 426-1468 to 79, local 404</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <img src="{% static 'images/Mail.svg' %}" class="card-icon-1">
+                                                    <p> 
+                                                        Email: 
+                                                        <a href="mailto:shadeprojectph@gmail.com">shadeprojectph@gmail.com</a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="background">
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Copyright © SHADE PH 2024. All Rights Reserved.</p>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
 </body>
 </html>
+
