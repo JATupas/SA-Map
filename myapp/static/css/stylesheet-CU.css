@@ -538,6 +538,7 @@ footer p {
 }
 
 .card a:hover {
+    color: #0052D4; /* New hover color */
     text-decoration: underline;
 }
 
