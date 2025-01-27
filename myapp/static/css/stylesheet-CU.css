@@ -165,6 +165,7 @@ main {
 }
 
 .Home .container2 {
+    gap: 20px;
     justify-content: start;
 }
 
@@ -202,7 +203,7 @@ main {
     flex-wrap: wrap;
     gap: 20px;
     flex-basis: 70%;
-    width: 833px;
+    width: 870px;
 }
 
 .form-card {
@@ -222,10 +223,11 @@ main {
 .form-header {
     display: flex;
     flex-direction: row;
-    gap: 12px;
+    gap: 105px;
     text-align: center;
-    align-items: center;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Black color with 10% opacity */;
+    align-items: center; /* Align image and text vertically */
+    position: relative; /* For positioning the text in the center */
 }
 
 .form-header h2 {
@@ -236,6 +238,55 @@ main {
     font-style: normal;
     line-height: 24px;
     margin: 0;
+
+    text-transform: uppercase; /* Converts the text to all caps */
+    font-weight: bold; /* Optional: Makes the text bold */
+}
+
+.form-header-1 {
+    display: flex;
+    flex-direction: row;
+    gap: 85px;
+    text-align: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Black color with 10% opacity */;
+    align-items: center; /* Align image and text vertically */
+    position: relative; /* For positioning the text in the center */
+}
+
+.form-header-1 h2 {
+    color: #0052D4;
+    font-size: 17px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    line-height: 24px;
+    margin: 0;
+
+    text-transform: uppercase; /* Converts the text to all caps */
+    font-weight: bold; /* Optional: Makes the text bold */
+}
+
+.form-header-2 {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+    text-align: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Black color with 10% opacity */;
+    align-items: center; /* Align image and text vertically */
+    position: relative; /* For positioning the text in the center */
+}
+
+.form-header-2 h2 {
+    color: #0052D4;
+    font-size: 17px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    line-height: 24px;
+    margin: 0;
+
+    text-transform: uppercase; /* Converts the text to all caps */
+    font-weight: bold; /* Optional: Makes the text bold */
 }
 
 .card-icon {
@@ -245,6 +296,7 @@ main {
 
 .form-content {
     padding: 24px;
+    background-color: #F8F9FA;
 }
 
 .ECC-input-group {
@@ -344,7 +396,7 @@ main {
 
 .background {
     background-color: #E9EBEE;
-    height: 590px;
+    height: 1050px;
 }
 
 .Section1 {
@@ -439,3 +491,74 @@ footer p {
     line-height: 14px;
     margin-bottom: 0px;
 }
+
+
+
+
+
+
+
+
+.card {
+    background: #ffffff;
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.card-title {
+    color: var(--primary-color);
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 16px 24px; /* Vertical, Horizontal */
+    gap: 20px;
+}
+
+.card p {
+    margin-bottom: 0;
+    color: rgba(0, 0, 0, 0.85); /* Black color with 85% opacity */;
+    font-size: 16px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 24px;
+}
+
+.card a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.card a:hover {
+    text-decoration: underline;
+}
+
+
+.Info_Cards{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.card-icon-1 {
+    width: 40px;
+    height: 40px;
+}
+
+.PHIVOLCS,
+.SOEPD,
+.SHADEPH
+ {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
