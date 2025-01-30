@@ -230,7 +230,7 @@ def send_email_to_user(request):
         # Render html email template
         html_content = render_to_string('user_email_template.html', context)
 
-        subject = "Your Results"  # changed to specific user name
+        subject = "Site Information"  # changed to specific user name
         from_email = settings.DEFAULT_FROM_EMAIL
         recipient_list = [user_email]
 

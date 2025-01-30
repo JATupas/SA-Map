@@ -78,5 +78,6 @@ echo Installing required dependencies from requirements.txt...
 :: Start the Django server
 echo Starting Django server...
 start http://127.0.0.1:8000
+%PYTHONHOME%\python.exe manage.py migrate
 %PYTHONHOME%\python.exe manage.py runserver
 pause
