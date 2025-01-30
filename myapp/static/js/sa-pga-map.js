@@ -562,7 +562,7 @@ const sendEmailToUser = () => {
       if (response.status === "error") {
         alert(response.message);
       }
-      alert(`Your results have been sent at ${response.email}`);
+      alert(`our results have been emailed to ${response.email}`);
     },
     error: function (xhr, status, error) {
       console.error("Error sending email:", error);
