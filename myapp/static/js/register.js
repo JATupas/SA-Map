@@ -61,6 +61,37 @@ document.addEventListener('DOMContentLoaded', function() {
         allowInput: true,    // Allow typing in the input field
     });
 
+    document.querySelector('form').addEventListener('submit', function (e) {
+        e.preventDefault(); // Prevent the form from submitting by default
+    
+        const birthdateInput = document.getElementById('birthdate').value.trim(); // Get and trim the value
+    
+        let errorMessage = ''; // Initialize the error message
+    
+        // Check if the birthdate field is empty
+        if (!birthdateInput) {
+            errorMessage += 'Birthdate is required.\n';
+        } else {
+            // Parse the Flatpickr date (already in d/m/Y format)
+            const [day, month, year] = birthdateInput.split('/').map(Number);
+            const birthdate = new Date(year, month - 1, day); // Create a Date object
+            const today = new Date();
+            const eighteenYearsAgo = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+    
+            // Check if the parsed date is at least 18 years ago
+            if (birthdate > eighteenYearsAgo) {
+                errorMessage += 'You must be at least 18 years old.\n';
+            }
+        }
+    
+        // Display the error message if there are errors
+        if (errorMessage) {
+            alert(errorMessage); // Display the error messages in an alert
+        } else {
+            e.target.submit(); // Submit the form if validation passes
+        }
+    });
+    
 });
 
 
@@ -104,8 +135,5 @@ function handleFormSubmission(event) {
     console.log("Email:", email);
     console.log("Profession:", profession);
     console.log("Affiliated Agency:", affiliation);
-
-
-
-
 }
+
