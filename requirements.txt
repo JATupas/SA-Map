@@ -3,6 +3,7 @@ pandas==2.2.3
 scipy==1.11.4
 django==4.2.13
 gunicorn
+whitenoise[brotli]
 numpy==1.26.*
 matplotlib>=3
 shapely==2.0.2
