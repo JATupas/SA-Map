@@ -573,3 +573,20 @@ const sendEmailToUser = () => {
 const emailButton = document.getElementById("email-results");
 
 emailButton.addEventListener("click", sendEmailToUser);
+
+document.addEventListener("DOMContentLoaded", function () {
+  const emailButton = document.getElementById("email-results");
+  const loadingPopup = document.getElementById("loading-popup");
+
+  if (emailButton) {
+      emailButton.addEventListener("click", function () {
+          loadingPopup.style.display = "flex"; // Show loading popup
+
+          // Simulate an email processing delay (adjust as needed)
+          setTimeout(function () {
+              loadingPopup.style.display = "none"; // Hide popup after process completes
+              alert("Email has been sent successfully!"); // Optional confirmation
+          }, 3000); // 3 seconds delay
+      });
+  }
+});
