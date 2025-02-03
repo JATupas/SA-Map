@@ -443,12 +443,13 @@ main {
 
 .text h5 {
     color: rgba(0, 0, 0, 0.85); /* Black color with 85% opacity */;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
     font-size: 40px;
     font-family: "Roboto", sans-serif;
     font-weight: 500;
     font-style: normal;
     line-height: 47px;
+    text-align: center;
 }
 
 .text p {
@@ -459,6 +460,7 @@ main {
     font-weight: 400;
     font-style: normal;
     line-height: 22px;
+    text-align: justify;
 }
 
 .text p {
@@ -876,4 +878,58 @@ button {
     visibility: visible;
     opacity: 1;
     transition: opacity 0.3s ease-in-out, visibility 0s 0s;
+}
+
+
+
+.Section1 {
+    padding: 120px 0px 60px 0px;
+    margin-top: -60px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1290px;
+    display: flex;
+    gap: 60px;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+}
+
+.Section1 .text {
+    gap: 10px;
+}
+
+.Info_Section2 {
+    background-color: #E9EBEE;
+}
+
+.Section2 {
+    padding: 60px 0px 60px 0px;
+    margin: auto;
+    max-width: 1290px;
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.Section2 .text {
+    gap: 10px;
+}
+
+.Section3 {
+    padding: 120px 0px 60px 0px;
+    margin-top: -60px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1290px;
+    display: flex;
+    gap: 60px;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+}
+
+.Section3 .text {
+    gap: 10px;
 }
