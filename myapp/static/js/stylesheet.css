@@ -1,0 +1,419 @@
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Roboto", sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Black color with 70% opacity */;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease; /* Smooth transition for the animation */
+    position: sticky;
+    top: 0; /*Stick to the top*/
+    z-index: 1000; /* Ensure it stays above other content */
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    width: 38px;
+    height: 42px;
+    margin-right: 10px;
+}
+
+.text-container h1 {
+    background-color: #0052D4;
+    color: white;
+    padding: 3px 8px;
+    gap: 10px;
+    border-radius: 2px;
+    margin: 0;
+    font-size: 12px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    width: 74px;
+    height: 20px;
+}
+
+.text-container h2 {
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    width: 364px;
+    height: 22px;
+    line-height: 22px;
+}
+
+header nav {
+    display: flex;
+    align-items: center;
+    height: 32px;
+    line-height: 22px;
+    gap: 10px;
+}
+
+header nav a.nav-link {
+    color: rgba(0, 0, 0, 0.85); /* Black color with 85% opacity */;
+    margin: 0 10px;
+    text-decoration: none;
+    transition: color 0.3s;
+    font-size: 16px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+header nav a.nav-link.active {
+    color: #0056b3; /* Blue color for active link */
+    font-weight: bold;
+    font-size: 14px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+header nav a.nav-link:hover {
+    color: #0052D4;
+}
+
+header nav a.nav-link:active {
+    color: #0052D4;
+}
+
+header nav b.nav-link {
+    color: rgba(0, 0, 0, 0.65); /* Black color with 85% opacity */;
+    margin: 0 10px;
+    text-decoration: none;
+    transition: color 0.3s;
+    font-size: 16px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    text-decoration: underline;
+}
+
+header nav b.nav-link.active {
+    color: #0056b3; /* Blue color for active link */
+    font-weight: bold;
+    font-size: 16px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+header nav b.nav-link:hover {
+    color: #0052D4;
+}
+
+header nav a.nav-button {
+    background-color: #0052D4;
+    color: white;
+    padding: 5px 16px;
+    gap: 8px;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    font-size: 14px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    line-height: 22px;
+}
+
+header nav a.nav-button:hover {
+    background-color: #003d99;
+}
+
+header .separator {
+    color: rgba(0, 0, 0, 0.7); /* Sepa
+    rator color with 70% opacity */
+}
+
+main {
+    padding: 0px 0px 0px 0px;
+}
+
+.Home {
+    background-image: url('Banner.svg');
+    background-size: cover;
+    background-position: center;
+    padding-top: 160px;
+    height: 400px;
+    margin-top: -80px;
+}
+
+.Home .container1 {
+    max-width: 1290px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 80px;
+    justify-content: center;
+    margin-top: 0px;
+}
+
+.Home .container2 {
+    display: flex;
+    gap: 20px;
+    justify-content: start;
+}
+
+.Title h1 {
+    color: white;
+    margin: 0;
+    padding-bottom: 10px;
+    font-size: 40px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+    line-height: 47px;
+    text-align: center;
+}
+
+.Title p {
+    color: rgba(255, 255, 255, 0.8); /* White color with 70% opacity */
+    margin: 0;
+    font-size: 18px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 21px;
+    letter-spacing: 0.09em;
+    text-align: center;
+}
+
+.about-card {
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 30px 40px;
+    text-align: left;
+    flex-basis: 30%;
+    align-self: start;
+    width: 420px;
+    height: 502px;
+    transition: all 0.3s ease-in-out;
+    min-height: 200px;
+}
+
+.about-card h2 {
+    color: rgba(0, 0, 0, 0.85);
+    margin: 0px 0px 10px;
+    font-size: 20px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    line-height: 23px;
+}
+
+.about-card p {
+    color: rgba(0, 0, 0, 0.85);
+    margin: 0;
+    font-size: 14px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 22px;
+    margin-bottom: 10px;
+    transition: opacity 0.3s ease;
+    text-align: justify;
+}
+
+.tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    flex-basis: 70%;
+    flex: 1;
+}
+
+.tool-card {
+    display: flex;
+    align-items: center;
+    flex: 1 1 calc(33.333% - 20px);
+    background-color: white;
+    padding: 40px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: left;
+    min-width: 414px;
+    min-height: 150px;
+    text-decoration: none;
+}
+
+.tool-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-icon {
+    width: 70px;
+    height: 70px;
+    margin-right: 20px;
+}
+
+.card-text {
+    text-align: center;
+    gap: 4px;
+}
+
+.card-text h3 {
+    color: rgba(0, 0, 0, 0.85); /* Black color with 85% opacity */;
+    margin-bottom: 10px;
+    font-size: 17px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    line-height: 19px;
+}
+
+.card-text p {
+    color: rgba(0, 0, 0, 0.65); /* Black color with 65% opacity */;
+    margin: 0;
+    font-size: 14px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 18px;
+}
+
+.background {
+    background-color: #E9EBEE;
+    height: 590px;
+}
+
+.Section1 {
+    padding: 120px 0px 60px 0px;
+    margin-top: -60px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1290px;
+    display: flex;
+    gap: 60px;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.Section1 .text {
+    gap: 10px;
+}
+
+.Info_Section2 {
+    background-color: #E9EBEE;
+}
+
+.Section2 {
+    padding: 60px 0px 60px 0px;
+    margin: auto;
+    max-width: 1290px;
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.Section2 .text {
+    gap: 10px;
+}
+
+.Section3 {
+    padding: 120px 0px 60px 0px;
+    margin-top: -60px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1290px;
+    display: flex;
+    gap: 60px;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.Section3 .text {
+    gap: 10px;
+}
+
+.text h5 {
+    color: rgba(0, 0, 0, 0.85); /* Black color with 85% opacity */;
+    margin-bottom: 10px;
+    font-size: 40px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    line-height: 47px;
+    text-align: center;
+}
+
+.text p {
+    color: rgba(0, 0, 0, 0.65); /* Black color with 85% opacity */;
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 22px;
+    text-align: justify;
+}
+
+footer {
+    background-color: #0052D4;
+    color: white;
+    padding: 20px 0px 20px 0px;
+    text-align: center;
+    height: auto;
+}
+
+footer nav {
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+footer nav a {
+    color: rgba(255, 255, 255, 0.7); /* White color with 70% opacity */
+    margin: 10px 10px;
+    text-decoration: none;
+    transition: color 0.3s;
+    font-size: 17px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 20px;
+}
+
+footer nav a:hover {
+    color: rgba(255, 255, 255, 1); /* White color with 100% opacity on hover */
+}
+
+footer p {
+    color: white;
+    font-size: 14px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 14px;
+    margin-bottom: 0px;
+}
