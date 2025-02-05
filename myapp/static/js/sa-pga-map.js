@@ -585,7 +585,6 @@ document.addEventListener("DOMContentLoaded", function () {
           // Simulate an email processing delay (adjust as needed)
           setTimeout(function () {
               loadingPopup.style.display = "none"; // Hide popup after process completes
-              alert("Email has been sent successfully!"); // Optional confirmation
           }, 3000); // 3 seconds delay
       });
   }
