@@ -562,7 +562,6 @@ const sendEmailToUser = () => {
       if (response.status === "error") {
         alert(response.message);
       }
-      alert(`Results have been emailed to ${response.email}`);
     },
     error: function (xhr, status, error) {
       console.error("Error sending email:", error);
@@ -585,6 +584,7 @@ document.addEventListener("DOMContentLoaded", function () {
           // Simulate an email processing delay (adjust as needed)
           setTimeout(function () {
               loadingPopup.style.display = "none"; // Hide popup after process completes
+              alert(`Results have been emailed to ${response.email}`);
           }, 3000); // 3 seconds delay
       });
   }
