@@ -140,6 +140,7 @@
             width: 40%; /* Adjust this percentage for a narrower width */
             text-align: left; /* Optional: left-align the title */
             align-content: center;
+            height: 27px;
         }
 
         td.SA-value {
@@ -200,7 +201,7 @@
 
         .site-info, .site-info * {
             margin: 0;
-            padding: 0;
+            /* padding: 0; */
         }
 
         .site-info-1 table, .site-info-2 table {
@@ -218,25 +219,25 @@
         }
 
         .graph-container {
-            display: inline-flex;
+            /* display: inline-flex; */
             flex: 1; /* Adjust the width of the graph section */
             justify-content: center;
             align-items: center;
             text-align: center;
             overflow: hidden; /* Hide anything that exceeds the container */
             /* position: relative; */
-            margin: 0;
+            margin: 0px 0px 20px 0px;
+            width: 100%; /* Make the graph responsive to the container */
         }
 
         .graph-container img {
-            width: 80%; /* Make the graph responsive to the container */
-            max-width: 80%; /* Ensure the image fits within the container */
+            width: 50%; /* Make the graph responsive to the container */
+            max-width: 100%; /* Ensure the image fits within the container */
             height: auto; /* Maintain aspect ratio */
             clip-path: inset(40px 74px 18px 58px); /* top, right, bottom, left */
             /* position: absolute;
             top: -260px;
             left: -80px; */
-            justify-content: center;
         }
 
         .site-info-1 h3 {
@@ -294,7 +295,7 @@
 
         /* Style the DMS container */
         .dms-container {
-            display: flex; /* Align items horizontally */
+            /* display: flex; Align items horizontally */
             justify-content: center;
             align-items: center; /* Vertically center the items */
         }
