@@ -299,8 +299,6 @@ main {
 }
 
 .img1 {
-    width: 340px;
-    height: 343px;
     border-radius: 4px;
     box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.1); /* Softer, more diffused shadow */
 }
