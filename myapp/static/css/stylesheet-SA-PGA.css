@@ -564,7 +564,7 @@ footer p {
 .table {
     width: 100%;
     border-collapse: collapse;
-    table-layout: fixed; /* Ensures a stable width */
+    table-layout: auto; /* Ensures a stable width */
     /* height: auto; */
 }
 
@@ -574,15 +574,17 @@ footer p {
 }
 
 td.SA-title {
+    min-width: 150px;
     width: 40%; /* Adjust this percentage for a narrower width */
     text-align: left; /* Optional: left-align the title */
-    align-content: center;
+    align-content: middle;
 }
 
 td.SA-value {
+    min-width: 200px;
     width: 60%; /* The remaining space is for the SA values */
     text-align: center; /* Optional: right-align the values */
-    align-content: center;
+    align-content: middle;
 }
 
 .form-label {
