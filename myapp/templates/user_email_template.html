@@ -369,6 +369,14 @@
                     <div class="site-info-header">
                         <h2>Site Information</h2>
                     </div>
+
+                    <!-- Graph/Image Section -->
+                    <div id="image-container" class="graph-container">
+                        {% if data.calculationData.image_base64 %}
+                            <img src="cid:ASCE-7_Spectral_Plot" alt="Spectral Acceleration Plot">
+                        {% endif %}
+                    </div>     
+
                     <div class="container3">
                         <div class="site-info">
                             <!-- First Table -->
@@ -463,13 +471,7 @@
                                 </table>
                             </div>
                         </div>
-                    </div>          
-                                <!-- Graph/Image Section -->
-                    <div id="image-container" class="graph-container">
-                        {% if data.calculationData.image_base64 %}
-                            <img src="cid:ASCE-7_Spectral_Plot" alt="Spectral Acceleration Plot">
-                        {% endif %}
-                    </div>      
+                    </div> 
                 </div>
             </section>
     
