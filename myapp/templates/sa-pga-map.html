@@ -335,6 +335,25 @@
             </div>
         </section> {% endcomment %}
 
+        <div id="terms-popup" class="popup-overlay">
+            <div class="popup-content">
+                <div class="popup-wrapper">
+                    <div class="popup-left">
+                        <h2>Welcome!</h2>
+                        <p>The results presented are based on available models and estimations used during the implementation of the SHADE Project and may differ from actual conditions. While these serve as a reliable reference for assessment, the National Structural Code of the Philippines (NSCP 2025) should remain the primary standard for structural design provisions to ensure a comprehensive evaluation.</p>
+                        <p>DOST-PHIVOLCS provides this information as a scientific resource and assumes no liability for any damages, losses, or consequences resulting from its use.</p>
+                    </div>
+        
+                    <div class="popup-buttons">
+                        <!-- <button id="decline-btn" class="btn-decline">I DECLINE</button> -->
+                        <button id="accept-btn" class="btn-accept">I ACCEPT</button>
+                    </div>
+                </div>
+                
+                <img src="{% static 'images/EULA.svg' %}" alt="Terms Image" id="popup-image" class="EULA-img">
+            </div>
+        </div>
+        
     </main>
     
     <div style="position: fixed; bottom: 0; width: 100%; background-color: #2f2f2f; color: white; text-align: center; padding: 10px; z-index: 1000;">
