@@ -939,3 +939,140 @@ button {
 .Section3 .text {
     gap: 10px;
 }
+
+/* Popup Overlay */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Popup Content Box */
+.popup-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center; /* Center align everything */
+    justify-content: space-between; /* Spread out the text and image */
+    background: #fff;
+    padding: 60px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 1250px;
+    animation: fadeIn 0.3s ease-in-out;
+    gap: 40px;
+}
+
+.popup-wrapper {
+    display: flex;
+    flex-direction: column; /* Align text and buttons in column */
+    margin-right: 20px; /* Adjust spacing between content and image */
+}
+
+.popup-left {
+    margin-bottom: 20px;
+}
+
+
+.EULA-img {
+    width: 400px; /* Adjust image size */
+    height: auto;
+    margin-left: 20px; /* Space between text and image */
+    border-radius: 8px; /* Optional: Round corners */
+    display: block;
+}
+
+/* Heading Styles */
+.popup-content h2 {
+    margin-bottom: 25px;
+    font-size: 22px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    line-height: 22px;
+}
+
+.popup-content p {
+    text-align: justify;
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 1.6;
+}
+
+/* Button Styles */
+.popup-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Space between the buttons */
+}
+
+.btn-accept {
+    width: 150px; /* Adjust the width as needed (px or %) */
+    padding: 10px; /* Adjust padding for button height */
+    text-align: center;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+.btn-accept:hover {
+    background: #0056b3;
+}
+
+.btn-decline {
+    background: none;
+    color: #007bff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: color 0.3s ease-in-out;
+}
+
+.btn-decline:hover {
+    color: #0056b3;
+}
+
+/* Fade-In Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#terms-popup {
+    display: flex;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    opacity: 1;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+#terms-popup.hide {
+    opacity: 0;
+    transform: translate(-50%, -45%);
+    pointer-events: none;
+}
