@@ -589,3 +589,28 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   }
 });
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const popup = document.getElementById("terms-popup");
+    const acceptBtn = document.getElementById("accept-btn");
+    const declineBtn = document.getElementById("decline-btn");
+
+    // Ensure popup is always visible when the page loads
+    popup.style.display = "flex";
+
+    // Handle Accept Button Click
+    acceptBtn.addEventListener("click", function () {
+        popup.classList.add("hide"); // Add fade-out effect
+
+        // Wait for animation to finish before hiding completely
+        setTimeout(() => {
+            popup.style.display = "none";
+        }, 500);
+    });
+
+    // Handle Decline Button Click
+    declineBtn.addEventListener("click", function () {
+        alert("You must accept the terms to continue.");
+    });
+});
