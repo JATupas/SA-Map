@@ -263,7 +263,7 @@ def send_email_to_user(request):
             email.attach(img)
 
         # Attach the PDF
-        email.attach('user_email.pdf', pdf_content, 'application/pdf')
+        email.attach('Site_Info_Report.pdf', pdf_content, 'application/pdf')
 
         try:
             # Send the email
