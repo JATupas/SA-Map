@@ -139,7 +139,7 @@
 
                                 </form>                          
                                 <div class="button-group">
-                                    <button type="button" id="check-data">Check Data</button>
+                                    <button type="button" id="check-data">Run Analysis</button>
                                 </div>
                                 <div id="loading-popup" style="display: none;" class="loading-popup ">
                                     <div class="popup-content">
@@ -163,19 +163,20 @@
                     <h2>Site Information</h2>
 
                     <div class="site-info-button-group">
-                        <button type="button" id="email-results">Email Results</button>
+                        <button type="button" id="email-results">Generate Report</button>
                     </div>
                 </div>
 
                 <div class="container3">
 
-                    <!-- Graph/Image Section -->
                     <div id="image-container" class="graph-container">
                         {% if image_base64 %}
                             <h3>ASCE 7-05 Plot</h3>
                             <img src="data:image/png;base64,{{ image_base64 }}" alt="Spectral Acceleration Plot">
                         {% endif %}
                     </div>
+                    
+                    
 
                     <div class="site-info">
                         <!-- First Table -->
