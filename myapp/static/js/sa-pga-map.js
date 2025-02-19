@@ -608,9 +608,4 @@ document.addEventListener("DOMContentLoaded", function () {
             popup.style.display = "none";
         }, 500);
     });
-
-    // Handle Decline Button Click
-    declineBtn.addEventListener("click", function () {
-        alert("You must accept the terms to continue.");
-    });
 });

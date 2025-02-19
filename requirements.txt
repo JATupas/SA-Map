@@ -2,6 +2,8 @@ openquake.engine==3.20.1
 pandas==2.2.3
 scipy==1.11.4
 django==4.2.13
+weasyprint
+xhtml2pdf 
 gunicorn
 whitenoise[brotli]
 numpy==1.26.*

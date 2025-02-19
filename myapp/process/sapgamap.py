@@ -159,7 +159,7 @@ def process_sa_pga_map(lat, lon, site, fainput, fvinput):
     
     # Create initial dataframe
     df = pd.DataFrame({
-        'Period': range(17)  # Period from 0 to 16
+        'Period': range(18)  # Period from 0 to 16
     })
 
     # Add additional points (To, Ts)
@@ -247,7 +247,7 @@ def process_sa_pga_map(lat, lon, site, fainput, fvinput):
         SDS_rounded = np.ceil((SDS + 0.1) * 10) / 10
 
     # Title and labels
-    plt.title('ASCE 7-05')
+    plt.title('Design Response Spectra')
     plt.xlabel('Period (T), s')
     plt.ylabel('Spectral Acceleration (g)')
     plt.ylim(0, SDS_rounded )
