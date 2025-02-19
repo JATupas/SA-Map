@@ -144,4 +144,3 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'shadelogs@gmail.com'  # Your Gmail address
 EMAIL_HOST_PASSWORD = 'vfcn kcsf obcl txfv'    # Your Gmail password or App Password
 DEFAULT_FROM_EMAIL = 'shadelogs@gmail.com'
-
