@@ -570,25 +570,36 @@ const sendEmailToUser = () => {
   });
 };
 
-const emailButton = document.getElementById("email-results");
-
-emailButton.addEventListener("click", sendEmailToUser);
-
 document.addEventListener("DOMContentLoaded", function () {
   const emailButton = document.getElementById("email-results");
+  const warningModal = document.getElementById("email-warning-modal");
+  const confirmButton = document.getElementById("confirm-email-send");
+  const cancelButton = document.getElementById("cancel-email-send");
   const loadingPopup = document.getElementById("loading-popup");
 
   if (emailButton) {
       emailButton.addEventListener("click", function () {
+          warningModal.style.display = "flex"; // Show warning popup
+      });
+
+      cancelButton.addEventListener("click", function () {
+          warningModal.style.display = "none"; // Hide warning popup
+      });
+
+      confirmButton.addEventListener("click", function () {
+          warningModal.style.display = "none"; // Hide warning popup
           loadingPopup.style.display = "flex"; // Show loading popup
 
-          // Simulate an email processing delay (adjust as needed)
+          sendEmailToUser(); // Send email after confirmation
+
+          // Hide loading popup after 5 seconds (adjust as needed)
           setTimeout(function () {
-              loadingPopup.style.display = "none"; // Hide popup after process completes
-          }, 5000); // 5 seconds delay
+              loadingPopup.style.display = "none";
+          }, 5000);
       });
   }
 });
+
 
 
 document.addEventListener("DOMContentLoaded", function () {

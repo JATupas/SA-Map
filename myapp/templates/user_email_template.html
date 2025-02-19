@@ -355,6 +355,30 @@
             text-decoration: none;
 
         }
+        .email-notice {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #333;
+        }
+        
+        .email-notice h3 {
+            color: #0052D4;
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+        
+        .email-notice p {
+            margin: 5px 0;
+        }
+        
+        .thank-you {
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -473,6 +497,24 @@
                     </div> 
                 </div>
             </section>
+
+            <div class="email-notice">
+                <h3>CONFIDENTIALITY NOTICE:</h3>
+                <p>
+                    This email from PHIVOLCS contains sensitive and proprietary information intended only for the designated recipient(s). 
+                    Unauthorized access, sharing, or use of this email and its contents is strictly prohibited. If you have received this 
+                    message in error, please inform the sender immediately and delete all copies from your system.
+                </p>
+                
+                <h3>DISCLAIMER:</h3>
+                <p>
+                    PHIVOLCS has taken precautions to safeguard against computer viruses and data corruption; however, it does not assume 
+                    responsibility for any potential risks associated with email transmission. Recipients are advised to scan all 
+                    attachments before opening.
+                </p>
+                
+                <p class="thank-you">Thank you.</p>
+            </div>
     
             {% else %}
                 <p>No data received in the request body.</p>
