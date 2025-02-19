@@ -75,43 +75,6 @@ echo Upgrading pip, setuptools, and wheel...
 echo Installing required dependencies from requirements.txt...
 %PYTHONHOME%\python.exe -m pip install -r requirements.txt
 
-:: Set paths
-set WKHTMLTOPDF_DIR="C:\Program Files\wkhtmltopdf\bin"
-set WKHTMLTOPDF_EXEC=%WKHTMLTOPDF_DIR%\wkhtmltopdf.exe
-set INSTALLER=wkhtmltox-0.12.6-1.msvc2015-win64.exe
-set INSTALL_DIR=%cd%\wkhtmltopdf
-set TARGET_PATH=%cd%\%INSTALLER%
-
-:: Check if wkhtmltopdf is installed
-echo Checking if wkhtmltopdf is already installed...
-if exist %WKHTMLTOPDF_EXEC% (
-    echo wkhtmltopdf is already installed.
-) else (
-    echo wkhtmltopdf not found. Installing...
-
-    :: Check if installer is present
-    if not exist %TARGET_PATH% (
-        echo Error: %INSTALLER% not found in the current directory!
-        echo Please place %INSTALLER% in the same folder as this script.
-        pause
-        exit /b 1
-    )
-    :: Run the installer
-    echo Running the wkhtmltopdf installer...
-    "%TARGET_PATH%" /quiet /norestart
-    if %errorlevel%==0 (
-        echo wkhtmltopdf installation successful!
-    ) else (
-        echo Error: Installation failed!
-        pause
-        exit /b 1
-    )
-)
-
-:: Confirm that wkhtmltopdf is now recognized
-echo Verifying wkhtmltopdf version...
-wkhtmltopdf --version
-
 set GTK_PATH="C:\Program Files\GTK3-Runtime Win64"
 set GTK_EXE="gtk3-runtime-3.24.31-2022-01-04-ts-win64.exe"
 
