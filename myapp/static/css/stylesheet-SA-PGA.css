@@ -1076,3 +1076,195 @@ button {
     transform: translate(-50%, -45%);
     pointer-events: none;
 }
+
+.Disclaimer{
+    position: fixed; 
+    bottom: 0; 
+    width: 100%; 
+    background-color: #2f2f2f; color: white; 
+    text-align: center; 
+    padding: 10px; z-index: 1000;
+}
+
+
+/* Base Styles (Already Included) */
+
+/* Responsive Adjustments */
+@media screen and (max-width: 1024px) {
+    .header-container {
+        flex-direction: row;
+        align-items: center;
+    }
+    
+    header nav {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .Home .container1 {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .Home .container2 {
+        display: grid;
+        gap: 20px;
+        justify-content: center; /* Center items horizontally */
+        align-items: center; /* Center items vertically */
+        justify-items: center;
+    }
+
+    .map-card {
+        background-color: white;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 30px 30px 15px 30px; /* top, right, bottom, left */
+        text-align: left;
+        align-self: start;
+        width: 90%;
+    }
+
+    .form-card {
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: left;
+        min-width: 250px; /* Ensures cards don't shrink too much */
+        width: 90%;
+        height: max-content;
+        text-decoration: none;
+        overflow: hidden;
+        flex: 1;
+    }
+
+    .form-header {
+        display: flex;
+        flex-direction: row;
+        gap: 12px;
+        text-align: center;
+        align-items: center;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Black color with 10% opacity */;
+    }
+    
+    .form-header h2 {
+        color: #0052D4;
+        font-size: 17px;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        font-style: normal;
+        line-height: 24px;
+        margin: 0;
+    }
+    
+    .card-icon {
+        width: 56px;
+        height: 56px;
+    }
+
+    .form-control{
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        padding: 8px;
+        font-size: 14px;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        line-height: 22px;
+    }
+    
+    .Section1, .Section3 {
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+    }
+
+    .popup-content{
+        flex-direction: column;
+        width: 70%;
+        padding: 30px;
+    }
+
+    .Disclaimer{
+        bottom: 0; 
+        width: 100%; 
+        background-color: #2f2f2f; color: white; 
+        text-align: center; 
+        padding: 10px; z-index: 1000;
+    }
+}
+
+@media screen and (max-width: 768px) and (min-width: 600px){
+    .logo {
+        width: 30px;
+        height: 35px;
+    }
+    
+    .text-container h1 {
+        font-size: 10px;
+        width: auto;
+        height: auto;
+    }
+    
+    .text-container h2 {
+        font-size: 12px;
+        width: auto;
+    }
+    
+    header nav a.nav-link {
+        font-size: 14px;
+        margin: 5px;
+    }
+    
+    .Home {
+        padding-top: 50px;
+        /* height: auto; */
+    }
+    
+    .map-card, .form {
+        width: 100%;
+    }
+    
+    .popup-content {
+        flex-direction: column;
+        width: 90%;
+        padding: 30px;
+    }
+    
+    .EULA-img {
+        width: 100%;
+        margin: 0;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    header {
+        flex-direction: column;
+        text-align: center;
+        padding: 10px;
+    }
+    
+    header nav {
+        flex-direction: column;
+    }
+    
+    .Title h1 {
+        font-size: 24px;
+        line-height: 30px;
+    }
+    
+    .Title p {
+        font-size: 14px;
+    }
+    
+    .button-group {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .popup-buttons {
+        flex-direction: column;
+    }
+}
