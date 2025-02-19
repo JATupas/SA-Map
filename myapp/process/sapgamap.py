@@ -191,7 +191,7 @@ def process_sa_pga_map(lat, lon, site, fainput, fvinput):
 
     # Plotting the graph
     plt.figure(figsize=(10, 6))
-    plt.plot(df['Period'], df['SA'], color='blue', marker='o', markersize=6, label="ASCE 7-05")
+    plt.plot(df['Period'], df['SA'], color='blue', marker='o', markersize=6, label="Design Spectrum")
 
     # Ensure interpolated_tl is a scalar (check if it's an int or float, even if it's numpy.int64)
     if isinstance(interpolated_tl, (np.ndarray, np.generic)):
@@ -206,22 +206,6 @@ def process_sa_pga_map(lat, lon, site, fainput, fvinput):
             print(f"Warning: interpolated_tl value {interpolated_tl} not found in 'Period' column.")
     else:
         print(f"Error: interpolated_tl is not a scalar value. It is of type {type(interpolated_tl)}.")
-
-    # # Title and labels
-    # plt.title('ASCE 7-05')
-    # plt.xlabel('Period, T')
-    # plt.ylabel('Spectral Acceleration')
-    # plt.ylim(0, 2)
-    # plt.yticks([i * 0.2 for i in range(11)])
-    # plt.xlim(0, 17)
-    # plt.xticks(range(18))
-    # plt.legend()
-    # plt.grid(True)
-    # buffer = BytesIO()
-    # plt.savefig(buffer, format='png')
-    # plt.close()
-    # buffer.seek(0)
-    # image_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
 
     # Example code snippet to round the values to 5 decimal places
     interpolated_sa1 = round(float(interpolated_sa1), 5)
