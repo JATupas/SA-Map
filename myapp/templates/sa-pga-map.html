@@ -15,8 +15,6 @@
     <!-- Include Leaflet CSS for the map -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-
 </head>
 
 <body>
@@ -357,13 +355,19 @@
         
     </main>
     
-    <div style="position: fixed; bottom: 0; width: 100%; background-color: #2f2f2f; color: white; text-align: center; padding: 10px; z-index: 1000;">
-        <span>
-            This site uses cookies and third-party services to analyze non-identifiable web traffic data. We are committed to protecting and respecting your personal data in compliance with the Data Privacy Act of 2012.
-        </span>
-        <button style="margin-left: 10px; background-color: #3399cc; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;" onclick="this.parentElement.style.display='none'">
-            Accept
-        </button>
+    <div class="Disclaimer">
+        <div class="Disclaimer-text">
+            <span>
+                This site uses cookies and third-party services to analyze non-identifiable web traffic data.
+            </span>
+
+            <span>
+                We are committed to protecting and respecting your personal data in compliance with the Data Privacy Act of 2012.
+            </span>
+        </div>
+            <button class="Disclaimer-Button" onclick="this.parentElement.style.display='none'">
+                Accept
+            </button>
     </div>
     
 
