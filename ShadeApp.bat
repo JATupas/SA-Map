@@ -75,6 +75,17 @@ echo Upgrading pip, setuptools, and wheel...
 echo Installing required dependencies from requirements.txt...
 %PYTHONHOME%\python.exe -m pip install -r requirements.txt
 
+set GTK_PATH="C:\Program Files\GTK3-Runtime Win64"
+set GTK_EXE="gtk3-runtime-3.24.31-2022-01-04-ts-win64.exe"
+
+REM Check if GTK is installed by verifying the existence of the GTK folder
+if not exist %GTK_PATH%\* (
+    echo GTK3 runtime not found. Installing...
+    start /wait %~dp0%GTK_EXE
+) else (
+    echo GTK3 runtime is already installed.
+)
+
 :: Start the Django server
 echo Starting Django server...
 start http://127.0.0.1:8000
