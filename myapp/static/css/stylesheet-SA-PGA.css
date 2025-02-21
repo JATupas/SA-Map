@@ -1340,7 +1340,7 @@ button {
         width: 100%;
         background-color: #2f2f2f;  
         text-align: center; 
-        padding: 10px 20px 10px 20px; /* top, right, bottom, left */
+        padding: 10px 20px 10px 20px;
         z-index: 1000;
     }
 
@@ -1353,7 +1353,7 @@ button {
     }
 
     .Disclaimer-Button {
-        margin: 2px 0px 2px 0px; /* top, right, bottom, left */
+        margin: 2px 0px 2px 0px;
         background-color: #0052D4; 
         color: white; 
         border: none; 

@@ -122,6 +122,8 @@ def get_tl_value_from_polygon(lat, lon, polygon_data):
     return 0  # Return None if no polygon contains the point
 
 def process_sa_pga_map(lat, lon, site, fainput, fvinput):
+    plt.close('all')   
+    image_base64 = None
     # Define the path to the CSV file
     # data_file_path = "C:/Users/shade/ShadeApp/SHADEWebApp/myapp/data/points.csv"
     data_file_path = os.path.join(settings.BASE_DIR, 'myapp', 'data', 'points.csv')
@@ -189,6 +191,9 @@ def process_sa_pga_map(lat, lon, site, fainput, fvinput):
     # Apply the function to the DataFrame
     df['SA'] = df.apply(calculate_sa, axis=1)
 
+    #Clear previous plots
+    plt.clf()
+
     # Plotting the graph
     plt.figure(figsize=(10, 6))
     plt.plot(df['Period'], df['SA'], color='blue', marker='o', markersize=6, label="Design Spectrum")
@@ -230,22 +235,29 @@ def process_sa_pga_map(lat, lon, site, fainput, fvinput):
     if SDS_rounded <= SDS:
         SDS_rounded = np.ceil((SDS + 0.1) * 10) / 10
 
-    # Title and labels
-    plt.title('Design Response Spectra')
-    plt.xlabel('Period (T), s')
-    plt.ylabel('Spectral Acceleration (g)')
-    plt.ylim(0, SDS_rounded )
-    plt.yticks([i * 0.2 for i in range(int(SDS_rounded / 0.2) + 2)])
-    plt.xlim(0, 17)
-    plt.xticks(range(18))
-    plt.legend()
-    plt.grid(True)
-    buffer = BytesIO()
-    plt.savefig(buffer, format='png')
-    plt.close()
-    buffer.seek(0)
-    image_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
 
+    # Title and labels
+    if site != "F": 
+        plt.title('Design Response Spectra')
+        plt.xlabel('Period (T), s')
+        plt.ylabel('Spectral Acceleration (g)')
+        plt.ylim(0, SDS_rounded )
+        plt.yticks([i * 0.2 for i in range(int(SDS_rounded / 0.2) + 2)])
+        plt.xlim(0, 17)
+        plt.xticks(range(18))
+        plt.legend()
+        plt.grid(True)
+        buffer = BytesIO()
+        plt.figtext(0.5, 0.5, "Data shown is an estimate and\nmay not reflect actual values.", ha='center', va='center',
+                    fontsize=30, color='gray', alpha=0.3, rotation=30, weight='bold')
+        plt.savefig(buffer, format='png')
+        plt.close()
+        buffer.seek(0)
+        image_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
+    else:
+        plt.close('all')  
+        image_base64 = None
+    
 
     # print("Interpolated Sa1:", interpolated_sa1)
     # print("Interpolated Sa0.2:", interpolated_sa02)

@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,275 +40,40 @@
             margin: 0;
         }
 
-        .Title h1 {
+        .banner {
+            background: linear-gradient(135deg, #0057B7, #003366, #002244); /* More dynamic gradient */
             color: white;
+            text-align: center;
+            padding: 35px 25px; /* Slightly increased padding for better spacing */
+            width: 75%; /* Adjusted width */
+            margin: 30px auto; /* Centering with more spacing */
+            border-radius: 30px; /* More pronounced curves */
+            box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.4), 
+                        inset 0px 2px 10px rgba(255, 255, 255, 0.2); /* Outer + inner glow effect */
+            position: relative;
+            overflow: hidden;
+        }
+
+        .title {
+            background: rgba(255, 255, 255, 0.15); /* Subtle white overlay */
+            padding: 20px 40px;
+            border-radius: 15px;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .title h1 {
             margin: 0;
-            padding-bottom: 10px;
-            font-size: 40px;
-            font-family: "Roboto", sans-serif;
-            font-weight: 600;
-            font-style: normal;
-            line-height: 47px;
-            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 1px;
         }
 
-        .Title p {
-            color: rgba(255, 255, 255, 0.8); /* White color with 70% opacity */
-            margin: 0;
-            font-size: 18px;
-            font-family: "Roboto", sans-serif;
-            font-weight: 400;
-            font-style: normal;
-            line-height: 21px;
-            letter-spacing: 0.09em;
-            text-align: center;
-        }
-
-        .map-card {
-            background-color: white;
-            border-radius: 4px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 30px 30px 15px 30px; /* top, right, bottom, left */
-            text-align: left;
-            align-self: start;
-            width: 420px;
-            flex: 1;
-        }
-
-        .img1 {
-            width: 340px;
-            height: 343px;
-        }
-
-        .text h4 {
-            color: #AAB5C3;
-            margin-bottom: 10px;
-            font-size: 24px;
-            font-family: "Roboto", sans-serif;
-            font-weight: 500;
-            font-style: normal;
-            line-height: 28px;
-        }
-
-        .text h5 {
-            color: rgba(0, 0, 0, 0.85); /* Black color with 85% opacity */;
-            margin-bottom: 10px;
-            font-size: 40px;
-            font-family: "Roboto", sans-serif;
-            font-weight: 500;
-            font-style: normal;
-            line-height: 47px;
-        }
-
-        .text p {
-            color: rgba(0, 0, 0, 0.65); /* Black color with 85% opacity */;
-            margin-bottom: 10px;
+        .title p {
+            margin: 5px 0 0;
             font-size: 16px;
-            font-family: "Roboto", sans-serif;
-            font-weight: 400;
-            font-style: normal;
-            line-height: 22px;
+            font-weight: 300;
         }
-
-        .text p {
-            color: rgba(0, 0, 0, 0.85); /* Black color with 85% opacity */;
-            margin-bottom: 10px;
-            font-size: 16px;
-            font-family: "Roboto", sans-serif;
-            font-weight: 400;
-            font-style: normal;
-            line-height: 22px;
-        }
-
-        .map {
-            height: 550px; /* Adjust height as needed */
-            width: 100%; /* Ensure it takes full width of its container */
-            border-radius: 4px;
-        }
-
-        .table {
-            width: 100%;
-            border-collapse: collapse;
-            table-layout: fixed; /* Ensures a stable width */
-        }
-
-        .table td {
-            padding: 10px;
-            border: 1px solid #ccc;
-        }
-
-        td.SA-title {
-            width: 40%; /* Adjust this percentage for a narrower width */
-            text-align: left; /* Optional: left-align the title */
-            align-content: center;
-            height: 27px;
-        }
-
-        td.SA-value {
-            width: 60%; /* The remaining space is for the SA values */
-            text-align: center; /* Optional: right-align the values */
-            align-content: center;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 14px;
-            font-family: "Roboto", sans-serif;
-            font-weight: 500;
-            font-style: normal;
-            line-height: 22px;
-        }
-
-        .SA-title{
-            font-size: 14px;
-            font-family: "Roboto", sans-serif;
-            font-weight: 500;
-            font-style: normal;
-            line-height: 22px;
-            width: 100px; /* Set a fixed width */
-        }
-
-        .SA-value{
-            font-size: 14px;
-            font-family: "Roboto", sans-serif;
-            font-weight: 400;
-            font-style: normal;
-            line-height: 22px;
-            width: 100px; /* Set a fixed width */
-        }
-
-        .flex-container {
-            display: flex;
-            justify-content: space-between; /* Adjust spacing between the table and graph */
-            align-items: flex-start; /* Align items to the top */
-            gap: 20px; /* Add some spacing between elements */
-        }
-
-        .site-info {
-            display: flex;
-            flex-direction: row; /* Ensure the tables are aligned horizontally */
-            max-width: 100%; /* Optional: Limit max width */
-            gap: 20px;
-        }
-
-        .site-info-1, .site-info-2 {
-            flex: 1; /* Ensure both tables take equal space */
-            height: auto;
-            padding: 10px; /* Optional: Add padding for spacing */
-        }
-
-        .site-info, .site-info * {
-            margin: 0;
-        }
-
-        .site-info-1 table, .site-info-2 table {
-            width: 100%; /* Make the tables take the full width of their containers */
-            border-collapse: collapse;
-        }
-
-        .SA-title, .SA-value {
-            padding: 10px; /* Optional: Add padding for readability */
-            text-align: left;
-        }
-
-        .latitude-longitude-info {
-            margin-top: 20px; /* Adjust spacing as needed */
-        }
-
-        .graph-container {
-            flex: 1; /* Adjust the width of the graph section */
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            overflow: hidden; /* Hide anything that exceeds the container */
-            margin: 0px 0px 20px 0px;
-            width: 100%; /* Make the graph responsive to the container */
-        }
-
-        .graph-container img {
-            width: 50%; /* Make the graph responsive to the container */
-            max-width: 100%; /* Ensure the image fits within the container */
-            height: auto; /* Maintain aspect ratio */
-            clip-path: inset(40px 74px 18px 58px); /* top, right, bottom, left */
-        }
-
-        .site-info-1 h3 {
-            margin-bottom: 15px;
-            color: rgba(0, 0, 0, 0.85); /* Black color with 85% opacity */;
-            font-size: 16px;
-            font-family: "Roboto", sans-serif;
-            font-weight: 500;
-            font-style: normal;
-            line-height: 24px;
-            margin-bottom: 10px;
-        }
-
-        .table {
-            width: 100%; /* Ensure the table takes full width of its container */
-            border-collapse: collapse; /* Merge table borders */
-        }
-
-        .table td {
-            padding: 8px;
-            border: 1px solid #ddd; /* Optional: Add a border for better visibility */
-        }
-
-        /* Popup Loading Animation */
-
-        .loading-animation {
-            width: 125px;
-            height: 125px;
-        }
-
-        #loading-popup {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000; /* High value to ensure it's above all other elements */
-        }
-
-        .popup-content {
-            background-color: white;
-            padding: 20px;
-            border-radius: 5px;
-            text-align: center;
-        }
-
-        button {
-            margin-top: 10px;
-        }
-
-
-        /* Style the DMS container */
-        .dms-container {
-            justify-content: center;
-            align-items: center; /* Vertically center the items */
-        }
-
-        /* Style for degrees, minutes, and seconds */
-        #lat-degrees, #lon-degrees,
-        #lat-minutes, #lon-minutes,
-        #lat-seconds, #lon-seconds {
-            font-size: 14px;
-            font-family: "Roboto", sans-serif;
-            font-weight: 400;
-            font-style: normal;
-            line-height: 22px;
-            margin-right: 2px; /* Add small spacing to the right of each element */
-        }
-
-        /* Optional: Style the symbols for better spacing */
-        .dms-symbol {
-            margin-right: 10px; /* Add space after °, ' and '' symbols */
-        }
-
 
         /* Style for the map disclaimer */
         .map-disclaimer {
@@ -318,43 +85,18 @@
             padding-top: 8px;
         }
 
-
-        .site-info-section {
-            visibility: hidden; /* Initially hidden */
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out, visibility 0s 0.3s; /* Transition for opacity and visibility */
-        }
-
-        .site-info-section.visible {
-            visibility: visible;
-            opacity: 1;
-            transition: opacity 0.3s ease-in-out, visibility 0s 0s;
-        }
-
-        .user-data-section {
-            margin-bottom: 15px;
-        }
-
         .email-content-container h2 {
             text-align: center;
         }
-
-        .info-table, th, td {
-            border: 2px solid black;
-            border-collapse: collapse;
-            padding: 5px;
+        .email-content-container {
+            width: 100%;
+            background: white;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        .info-table .user-details {
-            text-transform: uppercase;
-        }
-
-        .info-table .user-info-cell {
-            text-align: center;
-            color: black;
-            text-decoration: none;
-
-        }
         .email-notice {
             background-color: #f8f9fa;
             border: 1px solid #ddd;
@@ -379,125 +121,75 @@
         .thank-you {
             font-weight: bold;
         }
+
+        .content {
+            background-color: #f5f5f5; /* Light grey */
+            padding: 20px; /* Adds spacing inside */
+            border-radius: 8px; /* Soft rounded corners */
+            width: 80%; /* Make it a bit smaller */
+            max-width: 500px; /* Set a maximum width */
+            margin: 0 auto 20px; /* Centers it and adds space at the bottom */
+        }
+        .summary {
+            font-size: 16px;
+            text-align: left; /* Aligns text inside to the left */
+            display: inline-block; /* Ensures text block respects width */
+        }
+        .summary strong {
+            color: #003366;
+        }
+        .note {
+            font-size: 14px;
+            color: #777;
+        }
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+    
     </style>
 </head>
 <body>
     <main>
         <div class="email-content-container">
+
             {% if has_data %}
-            <h2 class="email-header">{{data.registrationData.full_name|default:"Your"}} Results</h2>
-            <!-- Site Information and Graph Section -->
-            <section class="site-info-graph-section" id="site-info-section">
-                <div class="site-info-card" id="site-info-card">
-    
-                    <div class="site-info-header">
-                        <h2>Site Information</h2>
-                    </div>
 
-                    <div id="image-container" class="graph-container">
-                        {% if data.calculationData.image_base64 %}
-                            <img src="cid:ASCE-7_Spectral_Plot" alt="Spectral Acceleration Plot">
-                        {% endif %}
-                    </div>   
-                    
-                    <div class="container3">
-                        <div class="site-info">
-                            <!-- First Table -->
-                            <div class="site-info-1">
-                                <table class="table">
-                                    <tbody>
-                                        <tr>
-                                            <td class="SA-title">Latitude (Decimal)</td>
-                                            <td id="long" class="SA-value">{{data.calculationData.current_coord.0|default:0.0}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="SA-title">Latitude (DMS)</td>
-                                            <td id="lat-dms" class="SA-value">
-                                                <div class="dms-container">
-                                                    <span id="lat-degrees">{{data.calculationData.latDegrees|default:0.0}}</span><span class="dms-symbol">°</span>
-                                                    <span id="lat-minutes"></span>{{data.calculationData.latMinutes|default:0.0}}<span class="dms-symbol">'</span>
-                                                    <span id="lat-seconds"></span>{{data.calculationData.latSeconds|default:0.0}}<span class="dms-symbol">''</span>        
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="SA-title">Site Classification</td>
-                                            <td id="site-class-info" class="SA-value">{{data.calculationData.site|default:"No Site"}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="SA-title">Spectral Acceleration at 1.0s (S<sub>1</sub>)</td>
-                                            <td id="sa1-value" class="SA-value">{{data.calculationData.sa1|default:0.0}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="SA-title">Site Coefficient (Fa)</td>
-                                            <td id="Fa-value" class="SA-value">{{data.calculationData.Fa|default:0.0}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="SA-title">MCE parameter at 0.2s adjusted for site class effects (SMS)</td>
-                                            <td id="SMS-value" class="SA-value">{{data.calculationData.SMS|default:0.0}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="SA-title">Design parameter at short periods (SDS)</td>
-                                            <td id="SDS-value" class="SA-value">{{data.calculationData.SDS|default:0.0}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="SA-title">Starting period (Ts)</td>
-                                            <td id="Ts-value" class="SA-value">{{data.calculationData.Ts|default:0.0}}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            
-                            <!-- Second Table -->
-                            <div class="site-info-2">
-                                <table class="table">
-                                    <tbody>
-                                        <tr>
-                                            <td class="SA-title">Longitude (Decimal)</td>
-                                            <td id="lat" class="SA-value">{{data.calculationData.current_coord.1|default:0.0}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="SA-title">Longitude (DMS)</td>
-                                            <td id="lon-dms" class="SA-value">
-                                                <div class="dms-container">
-                                                    <span id="lon-degrees">{{data.calculationData.lonDegrees|default:0.0}}</span><span class="dms-symbol">°</span>
-                                                    <span id="lon-minutes">{{data.calculationData.lonMinutes|default:0.0}}</span><span class="dms-symbol">'</span>
-                                                    <span id="lon-seconds">{{data.calculationData.lonSeconds|default:0.0}}</span><span class="dms-symbol">''</span>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="SA-title">Long-Period Transition Period (T<sub>L</sub>)</td>
-                                            <td id="tl-value" class="SA-value">{{data.calculationData.tl|default:0.0}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="SA-title">Spectral Acceleration at 0.2s (S<sub>s</sub>)</td>
-                                            <td id="sa02-value" class="SA-value">{{data.calculationData.sa02|default:0.0}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="SA-title">Site Coefficient (Fv)</td>
-                                            <td id="Fv-value" class="SA-value">{{data.calculationData.Fv|default:0.0}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="SA-title">MCE parameter at 1.0s adjusted for site class effects (SM1)</td>
-                                            <td id="SM1-value" class="SA-value">{{data.calculationData.SM1|default:0.0}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="SA-title">Design parameter at 1.0s periods (SD1)</td>
-                                            <td id="SD1-value" class="SA-value">{{data.calculationData.SD1|default:0.0}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="SA-title">Transition Period (To)</td>
-                                            <td id="To-value" class="SA-value">{{data.calculationData.To|default:0.0}}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div> 
+            <div class="banner">
+                <div class="title">
+                    <h1>SHADE Project</h1>
+                    <p>Seismic Hazard Assessment for the Design Earthquake of the Philippines</p>
                 </div>
-            </section>
+            </div>
+            <img src="cid:shade_logo" alt="SHADE Logo" style="width:150px; height:auto;">
 
+            <div class="content">
+                <p>Dear {{data.registrationData.full_name|default:"Your"}},</p>
+                <p>Below is a summary of your seismic hazard analysis:</p>
+    
+                <!-- Summary Section -->
+                <div class="summary">
+                    <p><strong>Latitude:</strong> {{data.calculationData.current_coord.0|default:0.0}}</p>
+                    <p><strong>Longitude:</strong> {{data.calculationData.current_coord.1|default:0.0}}</p>
+                    <p><strong>Site Classification:</strong> {{data.calculationData.site|default:"No Site"}}</p>
+                    <p><strong>Spectral Acceleration at 1.0s (S<sub>1</sub>):</strong> {{data.calculationData.sa1|default:0.0}}</p>
+                    <p><strong>Spectral Acceleration at 0.2s (S<sub>s</sub>):</strong> {{data.calculationData.sa02|default:0.0}}</p>
+                    <p><strong>Long-Period Transition Period (T<sub>L</sub>):</strong> {{data.calculationData.tl|default:0.0}}</p>
+                </div>
+    
+                <!-- PDF Attachment Notice -->
+                <p class="note">
+                    The full detailed report is attached as a PDF for your reference.
+                </p>
+            </div>
+
+            <div class="footer">
+                <p>SHADE Project &copy; 2025 | PHIVOLCS</p>
+            </div>
+            
             <div class="email-notice">
                 <h3>CONFIDENTIALITY NOTICE:</h3>
                 <p>

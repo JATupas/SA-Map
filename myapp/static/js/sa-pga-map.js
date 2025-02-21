@@ -1,3 +1,45 @@
+document.addEventListener("DOMContentLoaded", function () {
+  let faInput = document.getElementById("fainput");
+  let fvInput = document.getElementById("fvinput");
+  let siteSelect = document.querySelector(".site-select");
+  let siteOptions = document.querySelectorAll(".site-option-list .option");
+  let siteInput = document.getElementById("site");
+
+  function updateInputsOnSiteSelection(value) {
+      if (value === "F") {
+          faInput.value = "";
+          fvInput.value = "";
+          faInput.style.color = "black"; // Show text when cleared
+          fvInput.style.color = "black";
+      } else {
+          faInput.value = "0";
+          fvInput.value = "0";
+          faInput.style.color = "transparent"; // Hide '0'
+          fvInput.style.color = "transparent";
+      }
+  }
+
+  siteOptions.forEach(option => {
+      option.addEventListener("click", function () {
+          let selectedValue = this.getAttribute("data-value");
+          siteInput.value = selectedValue;
+          document.querySelector(".select").textContent = selectedValue;
+          updateInputsOnSiteSelection(selectedValue);
+      });
+  });
+
+  // Ensure inputs hide '0' when loaded
+  function checkAndDisplayValue(input) {
+      if (input.value === "0") {
+          input.style.color = "transparent"; 
+      }
+  }
+
+  checkAndDisplayValue(faInput);
+  checkAndDisplayValue(fvInput);
+});
+
+
 // Get the input element and error message element
 const faInput = document.getElementById("fainput");
 const errorMessage = document.getElementById("error-message");
@@ -194,6 +236,11 @@ $(document).ready(function () {
     var lonMinutes = document.getElementById("lon-minutes").value;
     var lonSeconds = document.getElementById("lon-seconds").value;
 
+    if (fainput.trim() === "" || fvinput.trim() === "") {
+      alert("Please fill in all required fields before submitting.");
+      return;
+  }
+
     document
       .getElementById("lat-dms")
       .querySelector("#lat-degrees").textContent = latDegrees;
@@ -266,11 +313,13 @@ $(document).ready(function () {
             response.To || "0.0";
 
           if (response.image_base64) {
-            document.getElementById("image-container").innerHTML =
-              '<img src="data:image/png;base64,' +
-              response.image_base64 +
-              '" alt="SA-PGA Map Image">';
+              document.getElementById("image-container").innerHTML =
+                  '<img src="data:image/png;base64,' + response.image_base64 + '" alt="SA-PGA Map Image">';
+          } 
+          else {
+              document.getElementById("image-container").innerHTML = ""; // Clears the image when site is "F"
           }
+          
 
           document.querySelector(".Home .site-info-card").style.display =
             "flex";
@@ -566,6 +615,13 @@ const sendEmailToUser = () => {
     },
     error: function (xhr, status, error) {
       console.error("Error sending email:", error);
+      if (xhr.responseJSON) {
+        console.error("Server Error:", xhr.responseJSON.message);
+        console.error("Traceback:", xhr.responseJSON.trace);
+        alert("Error: " + xhr.responseJSON.message);  // Show Django error in alert
+      } else {
+          alert("Unknown server error occurred.");
+      }
     },
   });
 };
@@ -592,10 +648,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
           sendEmailToUser(); // Send email after confirmation
 
-          // Hide loading popup after 5 seconds (adjust as needed)
+          // Hide loading popup after 10 seconds (adjust as needed)
           setTimeout(function () {
               loadingPopup.style.display = "none";
-          }, 5000);
+          }, 10000);
       });
   }
 });
@@ -605,7 +661,6 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
     const popup = document.getElementById("terms-popup");
     const acceptBtn = document.getElementById("accept-btn");
-    const declineBtn = document.getElementById("decline-btn");
 
     // Ensure popup is always visible when the page loads
     popup.style.display = "flex";
