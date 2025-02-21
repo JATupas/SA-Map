@@ -1,18 +1,21 @@
-
-import os
-import json
-from django.conf import settings
-import pandas as pd
-from scipy.interpolate import griddata
-from django.shortcuts import render
-from django.http import JsonResponse, HttpResponseBadRequest
-from django.template.loader import render_to_string
 import base64
-from email.mime.image import MIMEImage
-from django.core.mail import EmailMultiAlternatives
-from django.views.decorators.csrf import csrf_exempt
+import json
 import numpy as np
+import os
+import pandas as pd
 import sys
+import weasyprint
+from django.conf import settings
+from django.core.mail import EmailMultiAlternatives
+from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
+from django.shortcuts import render
+from django.template.loader import render_to_string
+from django.views.decorators.csrf import csrf_exempt
+from email.mime.image import MIMEImage
+from io import BytesIO
+from scipy.interpolate import griddata
+from weasyprint import HTML
+from tempfile import NamedTemporaryFile
 
 def shade_redesign(request):
     return render(request, 'SHADE REDESIGN.html')
@@ -197,55 +200,169 @@ def send_email(request):
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)})
         
+# def send_email_to_user(request):
+#     if request.method == "POST":
+#         if request.body:
+#             try:
+#                 # Parse JSON from the request body
+#                 data = json.loads(request.body.decode('utf-8'))
+#                 image_data = data.get('calculationData', {}).get("image_base64", "")
+#                 user_email = data.get('registrationData', {}).get('email', '')
 
+#                 # Decode Base64 image and save it as a temporary file
+#                 if image_data:
+#                     image_bytes = base64.b64decode(image_data)
+#                     temp_img = NamedTemporaryFile(delete=False, suffix=".png", dir=settings.MEDIA_ROOT)
+#                     temp_img.write(image_bytes)
+#                     temp_img.close()
+#                     image_path = temp_img.name
+#                 else:
+#                     image_path = None
+
+#                 # Pass data to the template
+#                 context = {
+#                     'data': data,
+#                     'has_data': True,
+#                     'cid': "ASCE-7_Spectral_Plot",  # For email
+#                     'image_base64': image_data,    # For email inline image
+#                     'image_path': image_path       # For PDF image reference
+#                 }
+
+#             except json.JSONDecodeError:
+#                 return JsonResponse({'error': 'Invalid JSON format'}, status=400)
+#         else:
+#             context = {
+#                 'data': None,
+#                 'has_data': False
+#             }
+
+#         # Render HTML email template
+#         html_content = render_to_string('user_email_template.html', context)
+
+#         # Render PDF with WeasyPrint using the image file path
+#         if image_path:
+#             pdf_html_content = render_to_string('user_pdf_template.html', context)
+#             pdf_content = HTML(string=pdf_html_content, base_url=settings.MEDIA_ROOT).write_pdf()
+#         else:
+#             pdf_content = HTML(string=html_content).write_pdf()
+
+#         # Subject and sender info
+#         subject = "Site Information"
+#         from_email = settings.DEFAULT_FROM_EMAIL
+#         recipient_list = [user_email]
+
+#         # Create email object
+#         email = EmailMultiAlternatives(subject, '', from_email, recipient_list)
+#         email.attach_alternative(html_content, "text/html")
+
+#         # Attach the PDF
+#         email.attach('Site_Info_Report.pdf', pdf_content, 'application/pdf')
+
+#         try:
+#             # Send the email
+#             email.send()
+
+#             # Clean up the temporary image file
+#             if image_path:
+#                 os.remove(image_path)
+
+#             return JsonResponse({'status': 'success', 'email': user_email})
+#         except Exception as e:
+#             return JsonResponse({'status': 'error', 'message': str(e)})
+
+from django.core.mail import EmailMultiAlternatives
+from weasyprint import HTML
+from email.mime.image import MIMEImage
+import os
+import json
+import base64
+from django.http import JsonResponse
+from django.template.loader import render_to_string
+from django.conf import settings
+from tempfile import NamedTemporaryFile
 
 def send_email_to_user(request):
     if request.method == "POST":
         if request.body:
             try:
-                # Parse JSON from the request body
                 data = json.loads(request.body.decode('utf-8'))
+                image_data = data.get('calculationData', {}).get("image_base64", "")
+                user_email = data.get('registrationData', {}).get('email', '')
 
-                # image data
+                # Decode base64 image and save as temporary file
+                if image_data:
+                    image_bytes = base64.b64decode(image_data)
+                    temp_img = NamedTemporaryFile(delete=False, suffix=".png", dir=settings.MEDIA_ROOT)
+                    temp_img.write(image_bytes)
+                    temp_img.close()
+                    image_path = temp_img.name
+                else:
+                    image_path = None
 
-                image_data = base64.b64decode(data.get('calculationData', "").get("image_base64", ""))
-                user_email = data.get('registrationData','').get('email', '')
+                # Static logo path
+                static_logo_path = os.path.join(settings.BASE_DIR, "myapp", "static", "images", "shade_logo.png")
 
-                # Pass data to the template
+
+                # Email context
                 context = {
                     'data': data,
                     'has_data': True,
-                    'cid': "ASCE-7_Spectral_Plot"
+                    'image_path': image_path,      # Used for PDF (not email)
+                    'cid': "ASCE-7_Spectral_Plot",  # Remove this from email
+                    'image_base64': image_data,
+                    'logo_cid': "shade_logo",       # Keep this for email
                 }
+
             except json.JSONDecodeError:
-                # Handle invalid JSON format
                 return JsonResponse({'error': 'Invalid JSON format'}, status=400)
         else:
-            # Handle empty body
-            context = {
-                'data': None,
-                'has_data': False
-            }
-        
-        # Render html email template
+            context = {'data': None, 'has_data': False}
+
+        # Render email template
         html_content = render_to_string('user_email_template.html', context)
 
-        subject = "Site Information"  # changed to specific user name
+        # Render PDF with WeasyPrint (ensure static files are referenced correctly)
+        if image_path:
+            pdf_html_content = render_to_string('user_pdf_template.html', context)
+            pdf_content = HTML(string=pdf_html_content, base_url=settings.MEDIA_ROOT).write_pdf()
+        else:
+            pdf_content = HTML(string=html_content).write_pdf()
+
+        # Create email object
+        subject = "Site Information"
         from_email = settings.DEFAULT_FROM_EMAIL
         recipient_list = [user_email]
-
         email = EmailMultiAlternatives(subject, '', from_email, recipient_list)
         email.attach_alternative(html_content, "text/html")
 
-        # Image Configuration
-        img = MIMEImage(image_data)
-        img.add_header('Content-ID', '<ASCE-7_Spectral_Plot>')  # Use the same CID as in the template
-        img.add_header('Content-Disposition', 'inline', filename="ASCE-7 Spectral Plot.png")  # Add the filename
-        email.attach(img)
+        # Attach the PDF
+        email.attach('Site_Info_Report.pdf', pdf_content, 'application/pdf')
+
+        # Attach the static logo for email
+        with open(static_logo_path, "rb") as logo_file:
+            logo_attachment = MIMEImage(logo_file.read(), _subtype="png")
+            logo_attachment.add_header("Content-ID", "<shade_logo>")
+            logo_attachment.add_header("Content-Disposition", "inline", filename="shade_logo.png")
+            email.attach(logo_attachment)
+
+        # Attach the dynamic image for email (if exists)
+        # if image_path:
+        #     with open(image_path, "rb") as dyn_img_file:
+        #         dyn_img_attachment = MIMEImage(dyn_img_file.read(), _subtype="png")
+        #         dyn_img_attachment.add_header("Content-ID", "<ASCE-7_Spectral_Plot>")
+        #         dyn_img_attachment.add_header("Content-Disposition", "inline", filename="plot.png")
+        #         email.attach(dyn_img_attachment)
+
         try:
+            print("Attempting to send email...")
             email.send()
+            print("Email sent successfully.")
+
+            # Clean up temporary image file
+            if image_path:
+                os.remove(image_path)
+
             return JsonResponse({'status': 'success', 'email': user_email})
         except Exception as e:
-            return JsonResponse({'status': 'error', 'message': str(e)})
-        
-
+            print("Error while sending email:", str(e))
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)

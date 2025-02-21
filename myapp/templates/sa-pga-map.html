@@ -127,17 +127,17 @@
 
                                     <div class="mb-3" style="display: none;">
                                         <label for="fainput" class="form-label">Fa</label>
-                                        <input type="text" id="fainput" class="form-control" value="1">
+                                        <input type="text" id="fainput" class="form-control" value="0">
                                         <span id="error-message" style="color: red; display: none;">Error: Value cannot be 0</span>
                                     </div>
                                     <div class="mb-3" style="display: none;">
                                         <label for="fvinput" class="form-label">Fv</label>
-                                        <input type="text" id="fvinput" class="form-control" value="1">
+                                        <input type="text" id="fvinput" class="form-control" value="0">
                                     </div>
 
                                 </form>                          
                                 <div class="button-group">
-                                    <button type="button" id="check-data">Check Data</button>
+                                    <button type="button" id="check-data">Run Analysis</button>
                                 </div>
                                 <div id="loading-popup" style="display: none;" class="loading-popup ">
                                     <div class="popup-content">
@@ -161,19 +161,31 @@
                     <h2>Site Information</h2>
 
                     <div class="site-info-button-group">
-                        <button type="button" id="email-results">Email Results</button>
+                        <button type="button" id="email-results">Generate Report</button>
+                    </div>
+                </div>
+
+                <!-- Warning Modal -->
+                <div id="email-warning-modal" class="modal">
+                    <div class="modal-content">
+                        <p>By proceeding, you allow the report to be sent to the email you provided and acknowledge that PHIVOLCS shall not be liable for any misuse of the data.</p>
+                        <div class="modal-buttons">
+                            <button id="confirm-email-send">Proceed</button>
+                            <button id="cancel-email-send">Cancel</button>
+                        </div>
                     </div>
                 </div>
 
                 <div class="container3">
 
-                    <!-- Graph/Image Section -->
                     <div id="image-container" class="graph-container">
                         {% if image_base64 %}
                             <h3>ASCE 7-05 Plot</h3>
                             <img src="data:image/png;base64,{{ image_base64 }}" alt="Spectral Acceleration Plot">
                         {% endif %}
                     </div>
+                    
+                    
 
                     <div class="site-info">
                         <!-- First Table -->
@@ -282,11 +294,12 @@
 
         <section class="Info_Section1">
             <div class="Section1" id="About-section">
-                <img src="{% static 'images/Openquake.png' %}" alt="Img 1" class="img1">
+                <img src="{% static 'images/ASEP.png' %}" alt="Img 1" class="img1">
                 <div class="text">
                     <!-- <h4>Section title</h4> -->
-                    <h5>OpenQuake Engine</h5>
-                    <p>The OpenQuake Engine is an open-source software developed for earthquake hazard and risk modeling by the GEM (Global Earthquake Model) Foundation and its collaborators. Written Primarily in python, the Openquake Engine provides developers with tools that they can integrate into other applications. By accessing and modifying the OpenQuake source code, the developers have a versatile framework that is customized for the specific types of seismic analysis needed, from small-scale tools for specific regions to large-scale, high-performance risk assessment systems.</p>
+                    <h5>Association of Structural Engineers of the Philippines (ASEP)</h5>
+                    <p>The Association of Structural Engineers of the Philippines (ASEP) is a premier professional organization dedicated to advancing structural engineering in the country. Committed to ensuring the resilience and safety of structures, ASEP plays a pivotal role in the continuous development of the National Structural Code of the Philippines (NSCP) and promotes best practices in earthquake engineering, disaster risk reduction, and structural innovation.
+                        As the collaborative partner of SHADE, ASEP brings its expertise in structural analysis and seismic hazard assessment to enhance the project's impact.  Through this partnership, ASEP and SHADE work together to strengthen seismic resilience and promote data-driven solutions for safer built environments.</p>
                 </div>
             </div>
         </section>
@@ -317,6 +330,9 @@
                         updated provisions of the American Society of Civil Engineers (ASCE) on seismic loading from 7-05, 7-10, and 7-16. With the Association of Structural Engineers of the Philippines (ASEP) as a project 
                         partner and collaborator, these efforts to provide the necessary seismic hazard maps are to ensure accurate seismic loading design considerations for earthquake-resistant civil engineering structures 
                         in the country. </p>
+                        <p>
+                            Click the link to register and download a digital copy of the <a href="https://www.phivolcs.dost.gov.ph/index.php/publications/books/seismic-hazard-atlas-for-the-design-earthquake-of-the-philippines" class="registration-link" target="_blank">Seismic Hazard Atlas for the Design Earthquake of the Philippines</a>.
+                        </p>
                 </div>
             </div>
         </section>
@@ -357,11 +373,7 @@
     <div class="Disclaimer">
         <div class="Disclaimer-text">
             <span>
-                This site uses cookies and third-party services to analyze non-identifiable web traffic data.
-            </span>
-
-            <span>
-                We are committed to protecting and respecting your personal data in compliance with the Data Privacy Act of 2012.
+                This site uses cookies and third-party services to analyze non-identifiable web traffic data. We are committed to protecting and respecting your personal data in compliance with the Data Privacy Act of 2012.
             </span>
         </div>
             <button class="Disclaimer-Button" onclick="this.parentElement.style.display='none'">
