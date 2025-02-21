@@ -551,7 +551,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Function to update the background height based on the visibility of the site-info-section
   function updateBackgroundHeight() {
     if (siteInfoSection.classList.contains("visible")) {
-      background.style.height = "1600px"; // Set height to 1600px when visible
+      background.style.height = "1725px"; // Set height to 1600px when visible
     } else {
       background.style.height = "600px"; // Set height to 600px when hidden
     }
