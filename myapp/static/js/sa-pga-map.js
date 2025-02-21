@@ -1,45 +1,3 @@
-document.addEventListener("DOMContentLoaded", function () {
-  let faInput = document.getElementById("fainput");
-  let fvInput = document.getElementById("fvinput");
-  let siteSelect = document.querySelector(".site-select");
-  let siteOptions = document.querySelectorAll(".site-option-list .option");
-  let siteInput = document.getElementById("site");
-
-  function updateInputsOnSiteSelection(value) {
-      if (value === "F") {
-          faInput.value = "";
-          fvInput.value = "";
-          faInput.style.color = "black"; // Show text when cleared
-          fvInput.style.color = "black";
-      } else {
-          faInput.value = "0";
-          fvInput.value = "0";
-          faInput.style.color = "transparent"; // Hide '0'
-          fvInput.style.color = "transparent";
-      }
-  }
-
-  siteOptions.forEach(option => {
-      option.addEventListener("click", function () {
-          let selectedValue = this.getAttribute("data-value");
-          siteInput.value = selectedValue;
-          document.querySelector(".select").textContent = selectedValue;
-          updateInputsOnSiteSelection(selectedValue);
-      });
-  });
-
-  // Ensure inputs hide '0' when loaded
-  function checkAndDisplayValue(input) {
-      if (input.value === "0") {
-          input.style.color = "transparent"; 
-      }
-  }
-
-  checkAndDisplayValue(faInput);
-  checkAndDisplayValue(fvInput);
-});
-
-
 // Get the input element and error message element
 const faInput = document.getElementById("fainput");
 const errorMessage = document.getElementById("error-message");
@@ -151,7 +109,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 $(document).ready(function () {
   // Initialize the map after the page has fully loaded
-  var map = L.map("map").setView([13.41, 122.56], 6); // Set initial coordinates
+  window.map = L.map("map").setView([13.41, 122.56], 6); // Set initial coordinates
 
   var marker = null; // Marker variable to store the current marker on the map
 
@@ -236,11 +194,6 @@ $(document).ready(function () {
     var lonMinutes = document.getElementById("lon-minutes").value;
     var lonSeconds = document.getElementById("lon-seconds").value;
 
-    if (fainput.trim() === "" || fvinput.trim() === "") {
-      alert("Please fill in all required fields before submitting.");
-      return;
-  }
-
     document
       .getElementById("lat-dms")
       .querySelector("#lat-degrees").textContent = latDegrees;
@@ -313,13 +266,11 @@ $(document).ready(function () {
             response.To || "0.0";
 
           if (response.image_base64) {
-              document.getElementById("image-container").innerHTML =
-                  '<img src="data:image/png;base64,' + response.image_base64 + '" alt="SA-PGA Map Image">';
-          } 
-          else {
-              document.getElementById("image-container").innerHTML = ""; // Clears the image when site is "F"
+            document.getElementById("image-container").innerHTML =
+              '<img src="data:image/png;base64,' +
+              response.image_base64 +
+              '" alt="SA-PGA Map Image">';
           }
-          
 
           document.querySelector(".Home .site-info-card").style.display =
             "flex";
@@ -329,7 +280,7 @@ $(document).ready(function () {
             map.removeLayer(marker); // Remove any existing marker
           }
           marker = L.marker([newLat, newLon]).addTo(map); // Add the new marker
-          map.setView([newLat, newLon], 11); // Zoom in to the new marker
+          map.setView([newLat, newLon], 17); // Zoom in to the new marker
           popup.style.display = "none"; // Close the popup
           console.log("user registration data:", registrationData);
           // let userData = {
@@ -548,14 +499,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const checkDataButton = document.getElementById("check-data");
   const background = document.getElementById("background");
 
-  // Function to update the background height based on the visibility of the site-info-section and screen width
+  // Function to update the background height based on the visibility of the site-info-section
   function updateBackgroundHeight() {
-    const isMaxWidth768 = window.matchMedia("(max-width: 768px)").matches;
-
     if (siteInfoSection.classList.contains("visible")) {
-      background.style.height = isMaxWidth768 ? "2400px" : "1725px"; // 2000px for <=768px, else 1725px
+      background.style.height = "1600px"; // Set height to 1600px when visible
     } else {
-      background.style.height = isMaxWidth768 ? "1100px" : "600px"; // 1100px for <=768px, else 600px
+      background.style.height = "600px"; // Set height to 600px when hidden
     }
   }
 
@@ -588,85 +537,86 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Update height on window resize for responsiveness
-  window.addEventListener("resize", updateBackgroundHeight);
-
   // Initial check to set the correct background height on page load
   updateBackgroundHeight();
 });
 
-
-const sendEmailToUser = () => {
-  const data = {
-    registrationData: registrationData,
-    calculationData: rawData,
-  };
-
-  // ajax script to send send email to user
+const sendEmailToUser = (imageFile) => {
+  const formData = new FormData();
+  const loadingPopup = document.getElementById("loading-popup");
+  formData.append("registrationData", JSON.stringify(registrationData));
+  formData.append("calculationData", JSON.stringify(rawData));
+  formData.append("imageFile", imageFile, "map_snapshot.png"); // Attach the image file
 
   $.ajax({
-    url: userEmailUrl,
-    type: "POST",
-    data: JSON.stringify(data),
-    dataType: "json",
-    contentType: "application/json; charset=utf-8",
-    headers: {
-      "X-CSRFToken": csrfToken, // Add CSRF token to the request headers
-    },
-    success: function (response) {
-      if (response.status === "error") {
-        alert(response.message);
-      }
-      alert(`Results have been emailed to ${response.email}`);
-    },
-    error: function (xhr, status, error) {
-      console.error("Error sending email:", error);
-      if (xhr.responseJSON) {
-        console.error("Server Error:", xhr.responseJSON.message);
-        console.error("Traceback:", xhr.responseJSON.trace);
-        alert("Error: " + xhr.responseJSON.message);  // Show Django error in alert
-      } else {
-          alert("Unknown server error occurred.");
-      }
-    },
+      url: userEmailUrl,
+      type: "POST",
+      data: formData,
+      processData: false, // Prevent jQuery from processing the data
+      contentType: false, // Prevent jQuery from setting content type
+      headers: {
+          "X-CSRFToken": csrfToken, // Add CSRF token to the request headers
+      },
+      success: function (response) {
+          if (response.status === "error") {
+              alert(response.message);
+          }
+          alert(`Results have been emailed to ${response.email}`);
+          loadingPopup.style.display = "none";
+      },
+      error: function (xhr, status, error) {
+          console.error("Error sending email:", error);
+          if (xhr.responseJSON) {
+              console.error("Server Error:", xhr.responseJSON.message);
+              console.error("Traceback:", xhr.responseJSON.trace);
+              alert("Error: " + xhr.responseJSON.message);  // Show Django error in alert
+          } else {
+              alert("Unknown server error occurred.");
+          }
+      },
   });
 };
 
-document.addEventListener("DOMContentLoaded", function () {
-  const emailButton = document.getElementById("email-results");
-  const warningModal = document.getElementById("email-warning-modal");
-  const confirmButton = document.getElementById("confirm-email-send");
-  const cancelButton = document.getElementById("cancel-email-send");
-  const loadingPopup = document.getElementById("loading-popup");
 
-  if (emailButton) {
-      emailButton.addEventListener("click", function () {
-          warningModal.style.display = "flex"; // Show warning popup
-      });
 
-      cancelButton.addEventListener("click", function () {
-          warningModal.style.display = "none"; // Hide warning popup
-      });
 
-      confirmButton.addEventListener("click", function () {
-          warningModal.style.display = "none"; // Hide warning popup
-          loadingPopup.style.display = "flex"; // Show loading popup
 
-          sendEmailToUser(); // Send email after confirmation
+// document.addEventListener("DOMContentLoaded", function () {
+//   const emailButton = document.getElementById("email-results");
+//   const warningModal = document.getElementById("email-warning-modal");
+//   const confirmButton = document.getElementById("confirm-email-send");
+//   const cancelButton = document.getElementById("cancel-email-send");
+//   const loadingPopup = document.getElementById("loading-popup");
 
-          // Hide loading popup after 10 seconds (adjust as needed)
-          setTimeout(function () {
-              loadingPopup.style.display = "none";
-          }, 10000);
-      });
-  }
-});
+//   if (emailButton) {
+//       emailButton.addEventListener("click", function () {
+//           warningModal.style.display = "flex"; // Show warning popup
+//       });
+
+//       cancelButton.addEventListener("click", function () {
+//           warningModal.style.display = "none"; // Hide warning popup
+//       });
+
+//       confirmButton.addEventListener("click", function () {
+//           warningModal.style.display = "none"; // Hide warning popup
+//           loadingPopup.style.display = "flex"; // Show loading popup
+
+//           sendEmailToUser(); // Send email after confirmation
+
+//           // Hide loading popup after 5 seconds (adjust as needed)
+//           setTimeout(function () {
+//               loadingPopup.style.display = "none";
+//           }, 5000);
+//       });
+//   }
+// });
 
 
 
 document.addEventListener("DOMContentLoaded", function () {
     const popup = document.getElementById("terms-popup");
     const acceptBtn = document.getElementById("accept-btn");
+    const declineBtn = document.getElementById("decline-btn");
 
     // Ensure popup is always visible when the page loads
     popup.style.display = "flex";
@@ -680,4 +630,66 @@ document.addEventListener("DOMContentLoaded", function () {
             popup.style.display = "none";
         }, 500);
     });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const emailButton = document.getElementById("email-results");
+  const warningModal = document.getElementById("email-warning-modal");
+  const confirmButton = document.getElementById("confirm-email-send");
+  const cancelButton = document.getElementById("cancel-email-send");
+  const loadingPopup = document.getElementById("loading-popup");
+  const mapPreviewContainer = document.getElementById("map-preview-container");
+  const downloadMapButton = document.getElementById("download-map-button");
+
+  if (emailButton) {
+      emailButton.addEventListener("click", function () {
+          warningModal.style.display = "flex";
+      });
+
+      cancelButton.addEventListener("click", function () {
+          warningModal.style.display = "none"; // Hide warning popup
+      });
+
+      confirmButton.addEventListener("click", function () {
+          warningModal.style.display = "none"; // Hide warning popup
+          loadingPopup.style.display = "flex"; // Show loading popup
+      
+          captureLeafletMap((imageFile) => {  // Capture map as a file (Blob)
+            if (!imageFile) {
+                console.error("Map image capture failed!");
+                return;
+            }
+            console.log("Captured Image File:", imageFile);
+
+            sendEmailToUser(imageFile); // Send image as a file
+          });
+      });
+    
+  }
+
+  function captureLeafletMap(callback) {
+    if (window.map) {
+        leafletImage(window.map, function (err, canvas) {
+            if (err) {
+                console.error("Error capturing Leaflet map:", err);
+                return;
+            }
+
+            canvas.toBlob(function (blob) {
+                if (!blob) {
+                    console.error("Failed to convert canvas to Blob.");
+                    return;
+                }
+
+                const file = new File([blob], "map_capture.png", { type: "image/png" });
+
+                if (typeof callback === "function") {
+                    callback(file); // Pass the image file to the callback
+                }
+            }, "image/png");
+        });
+    } else {
+        console.warn("Leaflet map is not initialized.");
+    }
+  }
 });
