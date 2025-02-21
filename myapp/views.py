@@ -270,88 +270,92 @@ def send_email(request):
 #         except Exception as e:
 #             return JsonResponse({'status': 'error', 'message': str(e)})
 
-from django.core.mail import EmailMultiAlternatives
-from weasyprint import HTML
-from email.mime.image import MIMEImage
-import os
-import json
-import base64
-from django.http import JsonResponse
-from django.template.loader import render_to_string
-from django.conf import settings
-from tempfile import NamedTemporaryFile
-
 def send_email_to_user(request):
     if request.method == "POST":
-        if request.body:
-            try:
-                data = json.loads(request.body.decode('utf-8'))
-                image_data = data.get('calculationData', {}).get("image_base64", "")
-                user_email = data.get('registrationData', {}).get('email', '')
+        try:
+            # Extract JSON data from FormData
+            registration_data = json.loads(request.POST.get("registrationData", "{}"))
+            calculation_data = json.loads(request.POST.get("calculationData", "{}"))
+            image_data = calculation_data.get("image_base64", "")
+            user_email = registration_data.get("email", "")
 
-                # Decode base64 image and save as temporary file
-                if image_data:
-                    image_bytes = base64.b64decode(image_data)
-                    temp_img = NamedTemporaryFile(delete=False, suffix=".png", dir=settings.MEDIA_ROOT)
-                    temp_img.write(image_bytes)
-                    temp_img.close()
-                    image_path = temp_img.name
-                else:
-                    image_path = None
+            # Handle the uploaded file (map_snapshot.png)
+            image_path = None
+            if "imageFile" in request.FILES:
+                image_file = request.FILES["imageFile"]
+                temp_img = NamedTemporaryFile(delete=False, suffix=".png", dir=settings.MEDIA_ROOT)
+                for chunk in image_file.chunks():
+                    temp_img.write(chunk)
+                temp_img.close()
+                image_path = temp_img.name
+                
+            image_data_path = None
+            if image_data:
+                image_bytes = base64.b64decode(image_data)
+                temp_img = NamedTemporaryFile(delete=False, suffix=".png", dir=settings.MEDIA_ROOT)
+                temp_img.write(image_bytes)
+                temp_img.close()
+                image_data_path = temp_img.name
+                
 
-                # Static logo path
-                static_logo_path = os.path.join(settings.BASE_DIR, "myapp", "static", "images", "shade_logo.png")
+            # Static logo path
+            static_logo_path = os.path.join(settings.BASE_DIR, "myapp", "static", "images", "shade_logo.png")
 
+            # Email context
+            context = {
+                "data": {
+                    "registrationData": registration_data,
+                    "calculationData": calculation_data
+                },
+                "has_data": True,
+                "image_data_path": image_data_path,
+                "image_path": image_path,
+                "logo_cid": "shade_logo",
+            }
 
-                # Email context
-                context = {
-                    'data': data,
-                    'has_data': True,
-                    'image_path': image_path,      # Used for PDF (not email)
-                    'cid': "ASCE-7_Spectral_Plot",  # Remove this from email
-                    'image_base64': image_data,
-                    'logo_cid': "shade_logo",       # Keep this for email
-                }
-
-            except json.JSONDecodeError:
-                return JsonResponse({'error': 'Invalid JSON format'}, status=400)
-        else:
-            context = {'data': None, 'has_data': False}
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid JSON format"}, status=400)
 
         # Render email template
-        html_content = render_to_string('user_email_template.html', context)
+        html_content = render_to_string("user_email_template.html", context)
 
-        # Render PDF with WeasyPrint (ensure static files are referenced correctly)
+        # Modify PDF HTML to include embedded image (CID or base64)
+        image_base64 = None
         if image_path:
-            pdf_html_content = render_to_string('user_pdf_template.html', context)
-            pdf_content = HTML(string=pdf_html_content, base_url=settings.MEDIA_ROOT).write_pdf()
-        else:
-            pdf_content = HTML(string=html_content).write_pdf()
+            with open(image_path, "rb") as img_file:
+                image_base64 = base64.b64encode(img_file.read()).decode("utf-8")
+
+        image_data_base64 = None
+        if image_data_path:
+            with open(image_data_path, "rb") as img_file:
+                image_data_base64 = base64.b64encode(img_file.read()).decode("utf-8")
+
+        # Render PDF content
+        pdf_html_content = render_to_string("user_pdf_template.html", {
+            **context,
+            "image_base64": image_base64,  # Embed the main image as base64 into the PDF
+            "image_data_base64": image_data_base64,  # Embed the additional base64 image into the PDF
+        })
+
+        pdf_content = HTML(string=pdf_html_content, base_url=settings.MEDIA_ROOT).write_pdf()
+
 
         # Create email object
         subject = "Site Information"
         from_email = settings.DEFAULT_FROM_EMAIL
         recipient_list = [user_email]
-        email = EmailMultiAlternatives(subject, '', from_email, recipient_list)
+        email = EmailMultiAlternatives(subject, "", from_email, recipient_list)
         email.attach_alternative(html_content, "text/html")
 
-        # Attach the PDF
-        email.attach('Site_Info_Report.pdf', pdf_content, 'application/pdf')
+        # Attach PDF
+        email.attach("Site_Info_Report.pdf", pdf_content, "application/pdf")
 
-        # Attach the static logo for email
+        # Attach static logo for email
         with open(static_logo_path, "rb") as logo_file:
             logo_attachment = MIMEImage(logo_file.read(), _subtype="png")
             logo_attachment.add_header("Content-ID", "<shade_logo>")
             logo_attachment.add_header("Content-Disposition", "inline", filename="shade_logo.png")
             email.attach(logo_attachment)
-
-        # Attach the dynamic image for email (if exists)
-        # if image_path:
-        #     with open(image_path, "rb") as dyn_img_file:
-        #         dyn_img_attachment = MIMEImage(dyn_img_file.read(), _subtype="png")
-        #         dyn_img_attachment.add_header("Content-ID", "<ASCE-7_Spectral_Plot>")
-        #         dyn_img_attachment.add_header("Content-Disposition", "inline", filename="plot.png")
-        #         email.attach(dyn_img_attachment)
 
         try:
             print("Attempting to send email...")
@@ -361,8 +365,10 @@ def send_email_to_user(request):
             # Clean up temporary image file
             if image_path:
                 os.remove(image_path)
+            if image_path:
+                os.remove(image_data_path)
 
-            return JsonResponse({'status': 'success', 'email': user_email})
+            return JsonResponse({"status": "success", "email": user_email})
         except Exception as e:
             print("Error while sending email:", str(e))
-            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+            return JsonResponse({"status": "error", "message": str(e)}, status=500)
