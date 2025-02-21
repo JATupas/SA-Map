@@ -548,12 +548,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const checkDataButton = document.getElementById("check-data");
   const background = document.getElementById("background");
 
-  // Function to update the background height based on the visibility of the site-info-section
+  // Function to update the background height based on the visibility of the site-info-section and screen width
   function updateBackgroundHeight() {
+    const isMaxWidth768 = window.matchMedia("(max-width: 768px)").matches;
+
     if (siteInfoSection.classList.contains("visible")) {
-      background.style.height = "1725px"; // Set height to 1600px when visible
+      background.style.height = isMaxWidth768 ? "2400px" : "1725px"; // 2000px for <=768px, else 1725px
     } else {
-      background.style.height = "600px"; // Set height to 600px when hidden
+      background.style.height = isMaxWidth768 ? "1100px" : "600px"; // 1100px for <=768px, else 600px
     }
   }
 
@@ -586,9 +588,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  // Update height on window resize for responsiveness
+  window.addEventListener("resize", updateBackgroundHeight);
+
   // Initial check to set the correct background height on page load
   updateBackgroundHeight();
 });
+
 
 const sendEmailToUser = () => {
   const data = {
