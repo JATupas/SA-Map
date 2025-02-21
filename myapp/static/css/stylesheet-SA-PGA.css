@@ -575,16 +575,17 @@ footer p {
 
 td.SA-title {
     min-width: 150px;
-    width: 40%; /* Adjust this percentage for a narrower width */
+    width: 50%; /* Adjust this percentage for a narrower width */
+    height: 60px;
     text-align: left; /* Optional: left-align the title */
-    align-content: middle;
+    align-content: center;
 }
 
 td.SA-value {
     min-width: 200px;
-    width: 60%; /* The remaining space is for the SA values */
+    width: 50%; /* The remaining space is for the SA values */
     text-align: center; /* Optional: right-align the values */
-    align-content: middle;
+    align-content: center;
 }
 
 .form-label {
@@ -955,7 +956,7 @@ button {
 }
 
 /* Popup Content Box */
-.popup-content {
+.Disclaimer-popup-content {
     display: flex;
     flex-direction: row;
     align-items: center; /* Center align everything */
@@ -990,7 +991,7 @@ button {
 }
 
 /* Heading Styles */
-.popup-content h2 {
+.Disclaimer-popup-content h2 {
     margin-bottom: 25px;
     font-size: 22px;
     font-family: "Roboto", sans-serif;
@@ -999,7 +1000,7 @@ button {
     line-height: 22px;
 }
 
-.popup-content p {
+.Disclaimer-popup-content p {
     text-align: justify;
     margin-bottom: 20px;
     font-size: 16px;
@@ -1134,6 +1135,21 @@ button {
         align-items: flex-start;
     }
 
+    .Home .container3 {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        justify-content: space-between;
+        background-color: white;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 0px 30px 30px 30px; /* top, right, bottom, left */
+        text-align: left;
+        width: 920px;
+        height: auto;
+        align-items: center;
+    }
+
     .map-card {
         background-color: white;
         border-radius: 4px;
@@ -1200,6 +1216,10 @@ button {
         font-weight: 400;
         font-style: normal;
         line-height: 22px;
+    }
+
+    .site-option-list {
+        width: 322px;
     }
     
     .Section1, .Section3 {
@@ -1307,7 +1327,24 @@ button {
         width: 40%;
     }
 
-    .popup-content{
+    .graph-container img {
+        clip-path: inset(0px); 
+    }
+    
+    td.SA-title {
+        min-width: 150px;
+        height: 60px;
+        width: 50%;
+        text-align: left;
+        align-content: center;
+    }
+    
+    td.SA-value {
+        text-align: center; /* Optional: right-align the values */
+        align-content: center;
+    }
+
+    .Disclaimer-popup-content{
         flex-direction: row;
         width: 90%;
         padding: 30px;
@@ -1548,7 +1585,7 @@ button {
         width: 40%;
     }
 
-    .popup-content{
+    .Disclaimer-popup-content{
         flex-direction: row;
         width: 90%;
         padding: 30px;
