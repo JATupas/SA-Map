@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,28 +40,25 @@
             margin: 0;
         }
 
-        .Title h1 {
-            color: white;
-            margin: 0;
-            padding-bottom: 10px;
-            font-size: 40px;
-            font-family: "Roboto", sans-serif;
-            font-weight: 600;
-            font-style: normal;
-            line-height: 47px;
+        .title {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: rgb(0, 0, 0);
             text-align: center;
+            background: none; /* Ensure no background */
         }
 
-        .Title p {
-            color: rgba(255, 255, 255, 0.8); /* White color with 70% opacity */
+        .title h1 {
+            font-size: 24px;
             margin: 0;
-            font-size: 18px;
-            font-family: "Roboto", sans-serif;
-            font-weight: 400;
-            font-style: normal;
-            line-height: 21px;
-            letter-spacing: 0.09em;
-            text-align: center;
+            font-weight: bold;
+        }
+
+        .title p {
+            font-size: 16px;
+            margin: 5px 0 0;
         }
 
         .map-card {
