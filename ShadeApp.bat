@@ -98,6 +98,11 @@ if not exist "%GTK_PATH%*" (
     echo GTK3 runtime is already installed.
 )
 
+:: Start TileServer-GL
+echo Starting TileServer-GL...
+start "" cmd /k "tileserver-gl --mbtiles C:\Users\shade\ShadeApp\SA-Map\myapp\static\maps\osm-2020-02-10-v3.11_asia_philippines.mbtiles --port 8080"
+timeout /t 5
+
 :: Start the Django server
 echo Starting Django server...
 start http://127.0.0.1:8000
