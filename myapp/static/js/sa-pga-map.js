@@ -681,3 +681,16 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 500);
     });
 });
+
+
+// 📜 script.js - Handles hamburger menu toggle and animation
+document.addEventListener('DOMContentLoaded', () => {
+  const menuToggle = document.getElementById('menu-toggle');
+  const navMenu = document.getElementById('nav-menu');
+  const hamburger = document.querySelector('.hamburger');
+
+  menuToggle.addEventListener('click', () => {
+    navMenu.classList.toggle('active');
+    hamburger.classList.toggle('open');
+  });
+});
