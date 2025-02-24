@@ -1161,11 +1161,13 @@ body {
   /* Hamburger Icon */
   .hamburger-container {
     display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
     width: 30px;
     height: 30px;
     position: relative;
-    background-color: #0052D4;
   }
   
   .hamburger,
@@ -1173,7 +1175,7 @@ body {
   .hamburger::after {
     width: 30px;
     height: 3px;
-    background-color: black;
+    background-color: #0052D4;
     display: block;
     position: absolute;
     transition: all 0.3s ease;
@@ -1183,7 +1185,7 @@ body {
   .hamburger {
     top: 50%;
     transform: translateY(-50%) translate3d(0px, 10px, 0px) scale3d(1, 1, 1) rotateZ(0deg);
-    opacity: 0;
+    opacity: 1;
   }
   
   .hamburger::before,
@@ -1548,8 +1550,12 @@ body {
       display: none;
     }
   
+    .nav-menu {
+        display: none;
+    }
+
     .hamburger-container {
-      display: block;
+      display: flex;
       cursor: pointer;
     }
 
