@@ -122,26 +122,33 @@ $(document).ready(function () {
 
 
   // Function to convert Decimal Degrees to DMS
+  // Convert Decimal Degrees to DMS
   function convertToDMS(decimalDegree) {
-    const degrees = Math.floor(decimalDegree); // Extract degrees
-    const minutesDecimal = Math.abs((decimalDegree - degrees) * 60); // Convert remaining to minutes
-    const minutes = Math.floor(minutesDecimal); // Extract whole minutes
-    const seconds = ((minutesDecimal - minutes) * 60).toFixed(5); // Convert remaining to seconds with 5 decimals
+    const degrees = Math.floor(decimalDegree);
+    const minutesDecimal = Math.abs((decimalDegree - degrees) * 60);
+    const minutes = Math.floor(minutesDecimal);
+    const seconds = ((minutesDecimal - minutes) * 60).toFixed(5);
     return { degrees, minutes, seconds };
   }
 
+  // Convert DMS to Decimal Degrees
+  function convertToDecimalDegrees(degrees, minutes, seconds) {
+    const sign = degrees < 0 ? -1 : 1;
+    return sign * (Math.abs(degrees) + minutes / 60 + seconds / 3600);
+  }
+
+  // Function to update DMS fields from Decimal Degrees input
   function updateDMS() {
     let lat = parseFloat(document.getElementById("current-lat").value);
     let lon = parseFloat(document.getElementById("current-lon").value);
 
-    if (!isNaN(lat) && !isNaN(lon)) {
-        // Update DMS fields for Latitude
+    if (!isNaN(lat)) {
         const latDMS = convertToDMS(lat);
         document.getElementById("lat-degrees").value = latDMS.degrees;
         document.getElementById("lat-minutes").value = latDMS.minutes;
         document.getElementById("lat-seconds").value = latDMS.seconds;
-
-        // Update DMS fields for Longitude
+    }
+    if (!isNaN(lon)) {
         const lonDMS = convertToDMS(lon);
         document.getElementById("lon-degrees").value = lonDMS.degrees;
         document.getElementById("lon-minutes").value = lonDMS.minutes;
@@ -149,6 +156,34 @@ $(document).ready(function () {
     }
   }
 
+  // Function to update Decimal Degrees from DMS input
+  function updateDecimalDegrees() {
+    let latDegrees = parseFloat(document.getElementById("lat-degrees").value) || 0;
+    let latMinutes = parseFloat(document.getElementById("lat-minutes").value) || 0;
+    let latSeconds = parseFloat(document.getElementById("lat-seconds").value) || 0;
+
+    let lonDegrees = parseFloat(document.getElementById("lon-degrees").value) || 0;
+    let lonMinutes = parseFloat(document.getElementById("lon-minutes").value) || 0;
+    let lonSeconds = parseFloat(document.getElementById("lon-seconds").value) || 0;
+
+    let lat = convertToDecimalDegrees(latDegrees, latMinutes, latSeconds);
+    let lon = convertToDecimalDegrees(lonDegrees, lonMinutes, lonSeconds);
+
+    document.getElementById("current-lat").value = lat.toFixed(6);
+    document.getElementById("current-lon").value = lon.toFixed(6);
+  }
+
+  // Add event listeners for real-time syncing
+  document.getElementById("current-lat").addEventListener("input", updateDMS);
+  document.getElementById("current-lon").addEventListener("input", updateDMS);
+
+  document.getElementById("lat-degrees").addEventListener("input", updateDecimalDegrees);
+  document.getElementById("lat-minutes").addEventListener("input", updateDecimalDegrees);
+  document.getElementById("lat-seconds").addEventListener("input", updateDecimalDegrees);
+
+  document.getElementById("lon-degrees").addEventListener("input", updateDecimalDegrees);
+  document.getElementById("lon-minutes").addEventListener("input", updateDecimalDegrees);
+  document.getElementById("lon-seconds").addEventListener("input", updateDecimalDegrees);
 
   // Map click event
   map.on("click", function (e) {
@@ -357,99 +392,6 @@ $(document).ready(function () {
       alert("Please fill in all required fields before submitting.");
     }
   });
-});
-
-// Function to convert Decimal Degrees to DMS
-function convertToDMS(decimalDegree) {
-  const degrees = Math.floor(decimalDegree); // Extract degrees
-  const minutesDecimal = Math.abs((decimalDegree - degrees) * 60); // Convert remaining to minutes
-  const minutes = Math.floor(minutesDecimal); // Extract whole minutes
-  const seconds = ((minutesDecimal - minutes) * 60).toFixed(5); // Convert remaining to seconds with 5 decimals
-  return { degrees, minutes, seconds };
-}
-
-// Function to convert DMS to Decimal Degrees
-function convertToDecimalDegrees(degrees, minutes, seconds) {
-  const decimalDegrees = Math.abs(degrees) + minutes / 60 + seconds / 3600; // Convert DMS to decimal
-  return degrees < 0 ? -decimalDegrees : decimalDegrees; // Handle negative degrees
-}
-
-// Update DMS fields when Decimal Degrees change
-function updateDMSFields(lat, lon) {
-  const latDMS = convertToDMS(lat);
-  document.getElementById("lat-degrees").textContent = latDMS.degrees;
-  document.getElementById("lat-minutes").textContent = latDMS.minutes;
-  document.getElementById("lat-seconds").textContent = latDMS.seconds;
-
-  const lonDMS = convertToDMS(lon);
-  document.getElementById("lon-degrees").textContent = lonDMS.degrees;
-  document.getElementById("lon-minutes").textContent = lonDMS.minutes;
-  document.getElementById("lon-seconds").textContent = lonDMS.seconds;
-}
-
-// Update Decimal Degrees when DMS fields change
-function updateDecimalFields() {
-  const latDegrees = parseInt(
-    document.getElementById("lat-degrees").value || 0,
-    10
-  );
-  const latMinutes = parseFloat(
-    document.getElementById("lat-minutes").value || 0
-  );
-  const latSeconds = parseFloat(
-    document.getElementById("lat-seconds").value || 0
-  );
-  const latDecimal = convertToDecimalDegrees(
-    latDegrees,
-    latMinutes,
-    latSeconds
-  );
-  document.getElementById("current-lat").value = latDecimal.toFixed(6);
-
-  const lonDegrees = parseInt(
-    document.getElementById("lon-degrees").value || 0,
-    10
-  );
-  const lonMinutes = parseFloat(
-    document.getElementById("lon-minutes").value || 0
-  );
-  const lonSeconds = parseFloat(
-    document.getElementById("lon-seconds").value || 0
-  );
-  const lonDecimal = convertToDecimalDegrees(
-    lonDegrees,
-    lonMinutes,
-    lonSeconds
-  );
-  document.getElementById("current-lon").value = lonDecimal.toFixed(6);
-}
-
-// Event Listeners for Decimal Degrees Fields
-document.getElementById("current-lat").addEventListener("input", () => {
-  const lat = parseFloat(document.getElementById("current-lat").value || 0);
-  const lon = parseFloat(document.getElementById("current-lon").value || 0);
-  updateDMSFields(lat, lon);
-});
-
-document.getElementById("current-lon").addEventListener("input", () => {
-  const lat = parseFloat(document.getElementById("current-lat").value || 0);
-  const lon = parseFloat(document.getElementById("current-lon").value || 0);
-  updateDMSFields(lat, lon);
-});
-
-// Event Listeners for DMS Fields
-const dmsFields = [
-  "lat-degrees",
-  "lat-minutes",
-  "lat-seconds",
-  "lon-degrees",
-  "lon-minutes",
-  "lon-seconds",
-];
-dmsFields.forEach((fieldId) => {
-  document
-    .getElementById(fieldId)
-    .addEventListener("input", updateDecimalFields);
 });
 
 // Select radio buttons

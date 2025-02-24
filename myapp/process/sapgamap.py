@@ -137,8 +137,8 @@ def process_sa_pga_map(lat, lon, site, fainput, fvinput):
     given_point = [lat, lon]
     
     # Perform interpolation to find the nearest values
-    interpolated_sa1 = griddata(points, values_sa1, given_point, method='nearest')
-    interpolated_sa02 = griddata(points, values_sa02, given_point, method='nearest')
+    interpolated_sa1 = griddata(points, values_sa1, given_point, method='linear')
+    interpolated_sa02 = griddata(points, values_sa02, given_point, method='linear')
 
     polygon_data = load_polygon_data_from_csv()
     interpolated_tl = get_tl_value_from_polygon(lat, lon, polygon_data)
