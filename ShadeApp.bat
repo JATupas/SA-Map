@@ -98,10 +98,37 @@ if not exist "%GTK_PATH%*" (
     echo GTK3 runtime is already installed.
 )
 
+:: Check if TileServer-GL is installed
+where tileserver-gl >nul 2>nul
+if %ERRORLEVEL% NEQ 0 (
+    echo Installing TileServer-GL...
+    
+    :: Ensure npm is available
+    where npm >nul 2>nul
+    if %ERRORLEVEL% NEQ 0 (
+        echo ERROR: npm not found. Ensure Node.js installed correctly.
+        exit /b 1
+    ) else (
+        echo Node.js installed.
+    )
+
+    :: Run npm install with elevated privileges
+    powershell Start-Process npm -ArgumentList 'install -g tileserver-gl' -Verb RunAs -Wait
+)
+
+:: Verify TileServer-GL installation
+where tileserver-gl >nul 2>nul
+if %ERRORLEVEL% NEQ 0 (
+    echo ERROR: TileServer-GL installation failed.
+    exit /b 1
+) else (
+        echo TileServer-GL installed.
+)
+
 :: Start TileServer-GL
 echo Starting TileServer-GL...
 start "" cmd /k "tileserver-gl --mbtiles C:\Users\shade\ShadeApp\SA-Map\myapp\static\maps\osm-2020-02-10-v3.11_asia_philippines.mbtiles --port 8080"
-timeout /t 5
+timeout /t 3
 
 :: Start the Django server
 echo Starting Django server...
