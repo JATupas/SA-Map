@@ -109,15 +109,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
 $(document).ready(function () {
   // Initialize the map after the page has fully loaded
-  window.map = L.map("map").setView([13.41, 122.56], 6); // Set initial coordinates
+  window.map = L.map("map").setView([13.41, 121], 6); // Set initial coordinates
 
   var marker = null; // Marker variable to store the current marker on the map
 
   // Add a tile layer to the map
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    attribution:
-      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  L.tileLayer('http://localhost:8080/styles/basic-preview/512/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors',
+    maxZoom: 18,
+    tileSize: 256
   }).addTo(map);
+
 
   // Function to convert Decimal Degrees to DMS
   function convertToDMS(decimalDegree) {
@@ -128,6 +130,26 @@ $(document).ready(function () {
     return { degrees, minutes, seconds };
   }
 
+  function updateDMS() {
+    let lat = parseFloat(document.getElementById("current-lat").value);
+    let lon = parseFloat(document.getElementById("current-lon").value);
+
+    if (!isNaN(lat) && !isNaN(lon)) {
+        // Update DMS fields for Latitude
+        const latDMS = convertToDMS(lat);
+        document.getElementById("lat-degrees").value = latDMS.degrees;
+        document.getElementById("lat-minutes").value = latDMS.minutes;
+        document.getElementById("lat-seconds").value = latDMS.seconds;
+
+        // Update DMS fields for Longitude
+        const lonDMS = convertToDMS(lon);
+        document.getElementById("lon-degrees").value = lonDMS.degrees;
+        document.getElementById("lon-minutes").value = lonDMS.minutes;
+        document.getElementById("lon-seconds").value = lonDMS.seconds;
+    }
+  }
+
+
   // Map click event
   map.on("click", function (e) {
     var lat = e.latlng.lat;
@@ -137,17 +159,7 @@ $(document).ready(function () {
     document.getElementById("current-lat").value = lat;
     document.getElementById("current-lon").value = lon;
 
-    // Update DMS fields for Latitude
-    const latDMS = convertToDMS(lat);
-    document.getElementById("lat-degrees").value = latDMS.degrees;
-    document.getElementById("lat-minutes").value = latDMS.minutes;
-    document.getElementById("lat-seconds").value = latDMS.seconds;
-
-    // Update DMS fields for Longitude
-    const lonDMS = convertToDMS(lon);
-    document.getElementById("lon-degrees").value = lonDMS.degrees;
-    document.getElementById("lon-minutes").value = lonDMS.minutes;
-    document.getElementById("lon-seconds").value = lonDMS.seconds;
+    updateDMS();
 
     // Check if the point is outside the Philippines
     if (lat < 4 || lat > 21 || lon < 116 || lon > 127) {
