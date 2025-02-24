@@ -1162,11 +1162,11 @@ body {
   .hamburger-container {
     display: none;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between; /* evenly distribute the lines */
     align-items: center;
     cursor: pointer;
     width: 30px;
-    height: 30px;
+    height: 30px; /* Adjusted for three 3px lines with 6px spacing each */
     position: relative;
   }
   
@@ -1567,6 +1567,7 @@ body {
     header nav {
         flex-wrap: wrap;
         justify-content: center;
+        gap: 20px;
     }
 
     .background {
