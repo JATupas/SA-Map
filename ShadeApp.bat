@@ -107,9 +107,8 @@ if %ERRORLEVEL% NEQ 0 (
     where npm >nul 2>nul
     if %ERRORLEVEL% NEQ 0 (
         echo ERROR: npm not found. Ensure Node.js installed correctly.
+        pause
         exit /b 1
-    ) else (
-        echo Node.js installed.
     )
 
     :: Run npm install with elevated privileges
@@ -120,17 +119,16 @@ if %ERRORLEVEL% NEQ 0 (
 where tileserver-gl >nul 2>nul
 if %ERRORLEVEL% NEQ 0 (
     echo ERROR: TileServer-GL installation failed.
+    pause
     exit /b 1
-) else (
-        echo TileServer-GL installed.
 )
 
 :: Start TileServer-GL
 echo Starting TileServer-GL...
-start "" cmd /k "tileserver-gl --mbtiles C:\Users\shade\ShadeApp\SA-Map\myapp\static\maps\osm-2020-02-10-v3.11_asia_philippines.mbtiles --port 8080"
-timeout /t 3
+start "" cmd /k "tileserver-gl --mbtiles "%CD%\myapp\static\maps\osm-2020-02-10-v3.11_asia_philippines.mbtiles" --port 8080"
+timeout /t 5
 
-:: Start the Django server
+:: Start Django server
 echo Starting Django server...
 start http://127.0.0.1:8000
 %PYTHONHOME%\python.exe manage.py migrate
