@@ -109,7 +109,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
 $(document).ready(function () {
   // Initialize the map after the page has fully loaded
-  window.map = L.map("map").setView([13.41, 121], 6); // Set initial coordinates
+  window.map = L.map("map", {
+    center: [13.41, 121], 
+    zoom: 6,
+    minZoom: 6,
+    maxZoom: 18,
+    maxBounds: [
+        [3.5, 114],  // Southwest corner (Lower-left of PH)
+        [21.5, 127]  // Northeast corner (Upper-right of PH)
+    ],
+    maxBoundsViscosity: 1.0
+  }); // Set initial coordinates
 
   var marker = null; // Marker variable to store the current marker on the map
 
