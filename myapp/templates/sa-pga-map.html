@@ -28,10 +28,10 @@
                 </div>
             </div>
             <nav>
-                <!-- <a href="{% url 'shade_redesign' %}" class="nav-link">Home</a>
+                <a href="{% url 'shade_redesign' %}" class="nav-link">Home</a>
                 <a href="#About-section" class="nav-link">About</a>
                 <span class="separator">|</span>
-                <a href="{% url 'contact_us' %}" class="nav-link">Contact Us</a> -->
+                <a href="{% url 'contact_us' %}" class="nav-link">Contact Us</a>
                 <a href="{% url 'register' %}" class="nav-button">User Information</a>
                 <!-- <b href="#" class="nav-link">Register</b>
                 <a href="#" class="nav-button">Log In</a> -->
@@ -47,9 +47,7 @@
         <a href="{% url 'shade_redesign' %}" class="nav-link">Home</a>
         <a href="#About-section" class="nav-link">About</a>
         <a href="{% url 'contact_us' %}" class="nav-link">Contact Us</a>
-        <a href="#">Home</a>
-        <a href="#">Designs</a>
-        <div class="get-in-touch">Get In Touch</div>
+        <a href="{% url 'register' %}" class="nav-link user-link">User Information</a>
     </nav>
 
     <main>

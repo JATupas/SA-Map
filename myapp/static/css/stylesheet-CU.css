@@ -492,13 +492,6 @@ footer p {
     margin-bottom: 0px;
 }
 
-
-
-
-
-
-
-
 .card {
     background: #ffffff;
     border: none;
@@ -563,3 +556,178 @@ footer p {
     gap: 10px;
 }
 
+/* Hamburger Icon */
+.hamburger-container {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between; /* evenly distribute the lines */
+    align-items: center;
+    cursor: pointer;
+    width: 30px;
+    height: 30px; /* Adjusted for three 3px lines with 6px spacing each */
+    position: relative;
+    top: 40%;
+  }
+  
+.hamburger,
+.hamburger::before,
+.hamburger::after {
+    width: 30px;
+    height: 3px;
+    background-color: #0052D4;
+    display: block;
+    position: absolute;
+    transition: all 0.3s ease;
+    transform-style: preserve-3d;
+}
+  
+.hamburger {
+    position: relative;
+    top: 0; /* Remove top: 50% */
+    transform: none; /* Remove translateY(-50%) */
+}
+  
+.hamburger::before,
+.hamburger::after {
+    content: '';
+    left: 0;
+}
+  
+.hamburger::before {
+    top: -10px;
+}
+  
+.hamburger::after {
+    top: 10px;
+}
+  
+/* X Icon Transformation */
+.hamburger.open {
+    opacity: 1;
+    transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateZ(45deg);
+}
+  
+.hamburger.open::before {
+    transform: rotateZ(90deg) translate3d(0px, 0px, 0px);
+    top: 0;
+}
+  
+.hamburger.open::after {
+    opacity: 0;
+    transform: translateY(0); /* Fix shifting */
+}
+
+@media (min-width: 769px) {
+    .nav-menu {
+        display: none;
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    /* Hide nav links only when not inside .nav-menu */
+    nav > .nav-link,
+    nav > .separator {
+        display: none;
+    }
+
+    .nav-menu {
+        display: flex;
+        position: absolute;
+        top: 62px; /* Adjust as needed */
+        left: 0;
+        width: 100%;
+        background: #f8f9fa; /* Background color */
+        padding: 0; /* Remove default padding */
+        text-align: center;
+        flex-direction: column;
+        gap: 15px;
+
+        /* Add transition properties */
+        opacity: 0;
+        transform: translateY(-10px);
+        visibility: hidden;
+        transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, visibility 0.3s;
+
+        /* Drop shadow */
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* X-offset, Y-offset, blur, opacity */
+    }
+
+    /* Show nav menu when active */
+    .nav-menu.active {
+        display: flex;
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        gap: 0;
+
+        /* Gradient Background */
+        background: linear-gradient(to right, #4FACFE, #0052D4);
+        background-size: 200% 100%; /* Makes the gradient move */
+        background-position: right;
+    }
+
+    /* Styling for links inside the dropdown */
+    .nav-menu a {
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 14px;
+        font-family: "Roboto", sans-serif;
+        font-weight: 600;
+        font-style: normal;
+        line-height: 24px;
+        display: block; /* Full-width clickable area */
+        padding: 15px 15px;
+        text-transform: uppercase; /* Make text all caps */
+        letter-spacing: 1.5px; /* Add spacing between letters */
+    }
+    
+    .hamburger-container {
+      display: flex;
+      cursor: pointer;
+    }
+
+    .header-container {
+        flex-direction: row;
+        align-items: center;
+    }
+    
+    header nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+    
+    .form {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        flex-basis: 40%;
+        width: 700px;
+    }
+
+    .form-header,
+    .form-header-1,
+    .form-header-2 {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        text-align: center;
+        align-items: center;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Black color with 10% opacity */;
+    }
+    
+    .form-header h2,
+    .form-header-1 h2,
+    .form-header-2 h2 {
+        color: #0052D4;
+        font-size: 16px;
+        font-family: "Roboto", sans-serif;
+        font-weight: 600;
+        font-style: normal;
+        line-height: 24px;
+        margin: 0;
+    }
+    
+}
