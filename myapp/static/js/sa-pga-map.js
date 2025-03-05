@@ -550,12 +550,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Function to update the background height based on the visibility of the site-info-section and screen width
   function updateBackgroundHeight() {
-    const isMaxWidth768 = window.matchMedia("(max-width: 768px)").matches;
+    const isMaxWidth768 = window.matchMedia("(min-width: 768px)").matches;
+    const isMaxWidth360 = window.matchMedia("(min-width: 360px)").matches;
 
     if (siteInfoSection.classList.contains("visible")) {
-      background.style.height = isMaxWidth768 ? "2400px" : "1725px"; // 2000px for <=768px, else 1725px
-    } else {
-      background.style.height = isMaxWidth768 ? "1100px" : "600px"; // 1100px for <=768px, else 600px
+      if (isMaxWidth360) {
+        background.style.height = "2750px"; // Override height for <=360px
+      } else if (isMaxWidth768) {
+        background.style.height = "2400px"; // Height for <=768px
+      } else {
+        background.style.height = "1725px"; // Default height
+      }
+    } else { 
+      if (isMaxWidth360) {
+        background.style.height = "1050px"; // Hidden state for <=360px
+      } else if (isMaxWidth768) {
+        background.style.height = "1100px"; // Hidden state for <=768px
+      } else {
+        background.style.height = "600px"; // Default hidden state
+      }
     }
   }
 
