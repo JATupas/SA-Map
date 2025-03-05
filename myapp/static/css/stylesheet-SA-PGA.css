@@ -1962,7 +1962,7 @@ body {
     .hamburger::before,
     .hamburger::after {
         width: 32px;  /* Make lines smaller */
-        height: 2px;  /* Thinner lines */
+        height: 2.5px;  /* Thinner lines */
     }
 
     .hamburger::before {
@@ -2427,15 +2427,13 @@ body {
         width: 24px;  /* Reduce size */
         height: 24px;
         display: block !important;
-        visibility: visible !important;
-        position: relative !important;
     }
 
     .hamburger,
     .hamburger::before,
     .hamburger::after {
         width: 24px;  /* Make lines smaller */
-        height: 2px;  /* Thinner lines */
+        height: 2.5px;  /* Thinner lines */
     }
 
     .hamburger::before {
