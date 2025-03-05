@@ -2328,14 +2328,14 @@ body {
     }
 
     .Disclaimer-text{
-        font-size: 9px; 
+        font-size: 12px; 
     }
 
     .Disclaimer-Button {
         margin: 0;
         padding: 8px 15px 8px; 
         border-radius: 4px; 
-        font-size: 10px; 
+        font-size: 12px; 
     }
 
     .popup-content p {
