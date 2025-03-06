@@ -300,6 +300,13 @@ def send_email_to_user(request):
 
             # Static logo path
             static_logo_path = os.path.join(settings.BASE_DIR, "myapp", "static", "images", "shade_logo.png")
+            home_icon_path = os.path.join(settings.BASE_DIR, "myapp", "static", "images", "HOME.png")
+
+            # Convert `HOME.png` to base64 for embedding in PDF
+            home_icon_base64 = None
+            if os.path.exists(home_icon_path):
+                with open(home_icon_path, "rb") as home_icon_file:
+                    home_icon_base64 = base64.b64encode(home_icon_file.read()).decode("utf-8")
 
             # Email context
             context = {
@@ -311,6 +318,7 @@ def send_email_to_user(request):
                 "image_data_path": image_data_path,
                 "image_path": image_path,
                 "logo_cid": "shade_logo",
+                "home_icon_base64": home_icon_base64,
             }
 
         except json.JSONDecodeError:
@@ -372,3 +380,4 @@ def send_email_to_user(request):
         except Exception as e:
             print("Error while sending email:", str(e))
             return JsonResponse({"status": "error", "message": str(e)}, status=500)
+        
