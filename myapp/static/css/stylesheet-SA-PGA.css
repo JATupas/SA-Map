@@ -2371,7 +2371,7 @@ body {
         visibility: visible !important;
     }
   
-    .nav-menu {
+    .nav-menu { 
         display: flex;
         position: absolute;
         top: 62px; /* Adjust as needed */
