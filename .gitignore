@@ -22,6 +22,3 @@ python-embedded/
 
 # sqlite
 db.sqlite3
-
-#mbtile
-myapp/static/maps/*.mbtiles
