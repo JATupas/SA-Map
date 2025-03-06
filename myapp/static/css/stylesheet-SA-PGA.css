@@ -1107,6 +1107,118 @@ button {
     cursor: pointer;
 }
 
+
+/* 🎨 style.css - Styles for responsive header and hamburger menu */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden;
+  }
+  
+  /* Header Section */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: white;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .logo {
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+  
+  .resume-btn {
+    background-color: #ff5e72;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .nav-links {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .nav-links a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+  }
+  
+  .nav-links a:hover {
+    color: #ff5e72;
+  }
+  
+  /* Hamburger Icon */
+  .hamburger-container {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between; /* evenly distribute the lines */
+    align-items: center;
+    cursor: pointer;
+    width: 30px;
+    height: 30px; /* Adjusted for three 3px lines with 6px spacing each */
+    position: relative;
+    top: 40%;
+  }
+  
+  .hamburger,
+  .hamburger::before,
+  .hamburger::after {
+    width: 30px;
+    height: 3px;
+    background-color: #0052D4;
+    display: block;
+    position: absolute;
+    transition: all 0.3s ease;
+    transform-style: preserve-3d;
+  }
+  
+  .hamburger {
+    position: relative;
+    top: 0; /* Remove top: 50% */
+    transform: none; /* Remove translateY(-50%) */
+  }
+  
+  .hamburger::before,
+  .hamburger::after {
+    content: '';
+    left: 0;
+  }
+  
+  .hamburger::before {
+    top: -10px;
+  }
+  
+  .hamburger::after {
+    top: 10px;
+  }
+  
+  /* X Icon Transformation */
+  .hamburger.open {
+    opacity: 1;
+    transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateZ(45deg);
+  }
+  
+  .hamburger.open::before {
+    transform: rotateZ(90deg) translate3d(0px, 0px, 0px);
+    top: 0;
+  }
+  
+  .hamburger.open::after {
+    opacity: 0;
+    transform: translateY(0); /* Fix shifting */
+  }
+
 /* Base Styles (Already Included) */
 
 /* Responsive Adjustments for Tablets and Small Desktops in */
@@ -1389,9 +1501,103 @@ button {
     }
 }
 
+@media (min-width: 769px) {
+    .nav-menu {
+        display: none;
+        opacity: 0;
+        visibility: hidden;
+    }
+}
 
 /* Responsive Adjustments for Tablets and Large Phones in Landscape Mode */
-@media screen and (max-width: 768px) {
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+    html, body {
+        overflow-x: hidden;
+        max-width: 100vw;
+    }
+
+    /* Hide nav links only when not inside .nav-menu */
+    nav > .nav-link,
+    nav > .nav-link.user-link,
+    nav > .separator {
+        display: none;
+    }
+  
+    .nav-menu {
+        display: flex;
+        position: absolute;
+        top: 62px; /* Adjust as needed */
+        left: 0;
+        width: 100%;
+        background: #f8f9fa; /* Background color */
+        padding: 0; /* Remove default padding */
+        text-align: center;
+        flex-direction: column;
+        gap: 15px;
+
+        /* Add transition properties */
+        opacity: 0;
+        transform: translateY(-10px);
+        visibility: hidden;
+        transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, visibility 0.3s;
+
+        /* Drop shadow */
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* X-offset, Y-offset, blur, opacity */
+    }
+
+    /* Show nav menu when active */
+    .nav-menu.active {
+        display: flex;
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        gap: 0;
+
+        /* Gradient Background */
+        background: linear-gradient(to right, #4FACFE, #0052D4);
+        background-size: 200% 100%; /* Makes the gradient move */
+        background-position: right;
+    }
+
+    /* Styling for links inside the dropdown */
+    .nav-menu a {
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 14px;
+        font-family: "Roboto", sans-serif;
+        font-weight: 600;
+        font-style: normal;
+        line-height: 24px;
+        display: block; /* Full-width clickable area */
+        padding: 15px 15px;
+        text-transform: uppercase; /* Make text all caps */
+        letter-spacing: 1.5px; /* Add spacing between letters */
+    }
+
+    .hamburger-container {
+      display: flex;
+      cursor: pointer;
+      width: 28px;  /* Slightly smaller */
+      height: 28px;
+    }
+
+    .hamburger,
+    .hamburger::before,
+    .hamburger::after {
+        width: 28px;  /* Adjust line width */
+        height: 2.5px;  /* Slightly thinner lines */
+        will-change: transform;
+        backface-visibility: hidden;
+    }
+
+    .hamburger::before {
+        top: -9px;  /* Adjust spacing */
+    }
+
+    .hamburger::after {
+        top: 9px;
+    }
+
     .header-container {
         flex-direction: row;
         align-items: center;
@@ -1400,6 +1606,7 @@ button {
     header nav {
         flex-wrap: wrap;
         justify-content: center;
+        gap: 15px;
     }
 
     .background {
@@ -1635,7 +1842,7 @@ button {
     }
 
     .EULA-img {
-        width: 50%;
+        width: 30%;
         margin: 0;
     }
 
@@ -1670,35 +1877,979 @@ button {
     }
 }
 
-
 /* Responsive Adjustments for Mobile Phones in Portrait Mode */
-@media screen and (max-width: 480px) {
-    header {
-        flex-direction: column;
+@media screen and (min-width: 500px) and (max-width: 767px){
+    html, body {
+        overflow-x: hidden;
+        max-width: 100vw;
+    }
+
+    /* Hide nav links only when not inside .nav-menu */
+    nav > .nav-link,
+    nav > .separator,
+    nav > .nav-button {
+        display: none;
+    }
+
+    .nav-menu .user-link {
+        display: block !important;
+        visibility: visible !important;
+    }
+  
+    .nav-menu {
+        display: flex;
+        position: absolute;
+        top: 62px; /* Adjust as needed */
+        left: 0;
+        width: 100%;
+        background: #f8f9fa; /* Background color */
+        padding: 0; /* Remove default padding */
         text-align: center;
-        padding: 10px;
+        flex-direction: column;
+        gap: 15px;
+
+        /* Add transition properties */
+        opacity: 0;
+        transform: translateY(-10px);
+        visibility: hidden;
+        transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, visibility 0.3s;
+
+        /* Drop shadow */
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* X-offset, Y-offset, blur, opacity */
+    }
+
+    /* Show nav menu when active */
+    .nav-menu.active {
+        display: flex;
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        gap: 0;
+
+        /* Gradient Background */
+        background: linear-gradient(to right, #4FACFE, #0052D4);
+        background-size: 200% 100%; /* Makes the gradient move */
+        background-position: right;
+    }
+
+    /* Show the User Information link inside nav-menu */
+    .nav-menu .user-link {
+        display: block;
+    }
+
+    /* Styling for links inside the dropdown */
+    .nav-menu a {
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 12px;
+        font-family: "Roboto", sans-serif;
+        font-weight: 600;
+        font-style: normal;
+        line-height: 20px;
+        display: block; /* Full-width clickable area */
+        padding: 13px 15px;
+        text-transform: uppercase; /* Make text all caps */
+        letter-spacing: 1.2px; /* Add spacing between letters */
+    }
+
+    .hamburger-container {
+        width: 32px;  /* Reduce size */
+        height: 32px;
+        display: block !important;
+        visibility: visible !important;
+        position: relative !important;
+    }
+
+    .hamburger,
+    .hamburger::before,
+    .hamburger::after {
+        width: 32px;  /* Make lines smaller */
+        height: 2.5px;  /* Thinner lines */
+        will-change: transform;
+        backface-visibility: hidden;
+    }
+
+    .hamburger::before {
+        top: -9px;  /* Adjust spacing */
+    }
+
+    .hamburger::after {
+        top: 9px;
     }
     
     header nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .logo {
+        width: 30px;
+        height: 32px;
+        margin-right: 10px;
+    }
+    
+    .text-container h2 {
+        margin: 0;
+        font-size: 13px;
+        color: #333;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-style: normal;
+        max-width: 360px;
+        height: 22px;
+        line-height: 22px;
+    }
+    
+    .text-container h1 {
+        font-size: 10px;
+        color: white;
+        font-weight: 700;
+        height: 22px;
+        line-height: 22px;
+        letter-spacing: 0.9px; /* Add spacing between letters */
+        padding: 0px 8px;
+        display: flex;
+        justify-content: center;
+    }
+
+
+    .background {
+        background-color: #E9EBEE;
+        transition: height 0.3s ease-in-out; /* Reduced duration for faster transition */
+    }
+
+    .Title h1 {
+        padding-bottom: 15px;
+        font-size: 30px;
+        line-height: 32px;
+        letter-spacing: 1px;
+    }
+
+    .Title p {
+        font-size: 18px;
+        margin: 0px 25px;
+    }
+    
+    .Home .container1 {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .Home .container2 {
+        padding: 0px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .Home .container3 {
+        width: 320px;
+    }
+
+    .map-card {
+        padding: 20px 20px 15px 20px; /* top, right, bottom, left */
+        text-align: left;
+        align-self: start;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .map-disclaimer {
+        margin-top: 10px;
+        font-size: 12px;
+        color: #555;
+        font-style: italic;
+        margin: 0;
+        padding-top: 8px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .form {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        flex-basis: 40%;
+        width: 480px;
+    }
+
+    .form-card {
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: left;
+        min-width: 250px; /* Ensures cards don't shrink too much */
+        width: 100%;
+        height: max-content;
+        text-decoration: none;
+        overflow: hidden;
+        flex: 1;
+    }
+
+    .form-header {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        text-align: center;
+        align-items: center;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Black color with 10% opacity */;
+    }
+    
+    .form-header h2 {
+        font-size: 13px;
+        line-height: 24px;
+        margin: 0;
+    }
+
+    .form-label {
+        margin-bottom: 8px;
+        font-size: 12px;
+    }
+
+    .toggle-buttons label {
+        font-size: 12px;
+    }
+    
+    .card-icon {
+        width: 46px;
+        height: 46px;
+    }
+
+    .form-control{
+        padding: 8px;
+        font-size: 12px;
+        line-height: 20px;
+    }
+
+    #lat-degrees, #lon-degrees, #lat-minutes, #lon-minutes, #lat-seconds, #lon-seconds {
+        font-size: 12px;
+        line-height: 20px;
+    }
+
+    .select {
+        margin-bottom: 8px;
+        font-size: 12px;
+        line-height: 20px;
+    }
+
+    .site-option-list {
+        width: 272px;
+    }
+
+    .button-group button {
+        padding: 8px 16px;
+        font-size: 12px;
+    }
+
+    .option {
+        padding-left: 20px;
+        font-size: 12px;
+        line-height: 20px;
+    }
+
+    .Section1, .Section2, .Section3 {
+        max-width: 100%;
+        padding: 20px;
+        margin: 0 auto;
+        display: flex;
         flex-direction: column;
     }
     
-    .Title h1 {
+    .Section1, .Section3 {
+        align-items: center;
+        gap: 40px;
+    }
+    
+    .Section1 {
+        padding: 40px 0px;
+        margin: auto;
+        max-width: 400px;
+        gap: 30px;
+    }
+    
+    .Section1 .text {
+        gap: 10px;
+    }
+
+    .Section2 {
+        padding: 40px 0px;
+        margin: auto;
+        max-width: 400px;
+        gap: 30px;
+    }
+    
+    .Section2 .text {
+        gap: 10px;
+    }
+
+    .Section3 {
+        padding: 40px 0px;
+        margin: auto;
+        max-width: 400px;
+        gap: 30px;
+    }
+    
+    .Section3 .text {
+        gap: 10px;
+    }
+    
+    .text h4 {
+        color: #AAB5C3;
+        margin-bottom: 10px;
+        font-size: 24px;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        font-style: normal;
+        line-height: 28px;
+    }
+    
+    .text h5 {
+        margin-bottom: 20px;
         font-size: 24px;
         line-height: 30px;
     }
     
+    .text p {
+        font-size: 14px;
+        line-height: 23px;
+        margin-bottom: 0;
+    }
+
+    .Section2 .text p,
+    .Section3 .text p {
+        margin-bottom: 20px;
+    }
+
+    .img1 {
+        width: 400px;
+    }
+
+
+    .img3 {
+        box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.1);
+        width: 80%;
+    }
+
+    .Home .site-info-card {
+        width: 320px; /* Ensures cards don't shrink too much */
+        height: max-content;
+    }
+
+    .site-info-header {
+        padding: 14px 20px;
+    }
+
+    .site-info-header h2 {
+        font-size: 13px;
+        line-height: 24px;
+        margin: 0;
+    }
+
+    .site-info-button-group button {
+        padding: 8px 16px;
+        font-size: 12px;
+        line-height: 20px;
+    }
+
+    .site-info {
+        display: flex;
+        flex-direction: column;
+        max-width: 100%;
+        gap: 20px;
+    }
+
+    .graph-container img {
+        width: 120%;
+        max-width: 120%;
+        clip-path: inset(0px); 
+    }
+    
+    td.SA-title {
+        min-width: 120px;
+        height: 80px;
+        width: 100%;
+        text-align: left;
+        align-content: center;
+        font-size: 12px;
+    }
+    
+    td.SA-value {
+        text-align: center; /* Optional: right-align the values */
+        align-content: center;
+        min-width: 150px;
+        height: 60px;
+        width: 100%;
+        font-size: 12px;
+    }
+
+    #lat-degrees, #lon-degrees, #lat-minutes, #lon-minutes, #lat-seconds, #lon-seconds {
+        font-size: 12px;
+    }
+
+    .Disclaimer-popup-content{
+        flex-direction: column-reverse;
+        width: 90%;
+        padding: 20px 30px;
+        gap: 20px;
+    }
+
+    .EULA-img {
+        width: 40%;
+        margin: 0;
+    }
+
+    .popup-wrapper {
+        margin-right: 0px;
+    }
+
+    .Disclaimer-popup-content h2 {
+        margin-bottom: 14px;
+        font-size: 18px;
+    }
+
+    .Disclaimer-popup-content p {
+        margin-bottom: 20px;
+        font-size: 12px;
+        line-height: 18px;
+    }
+
+    .btn-accept {
+        width: 140px;
+        margin-top: 0;
+        padding: 10px 15px;
+        font-size: 10px;
+        letter-spacing: 0.9px;
+    }
+
+    .Disclaimer{
+        display: flex;
+        text-align: center; 
+        padding: 10px 20px 10px 20px;
+        align-items: center;
+    }
+
+    .Disclaimer-text{
+        font-size: 12px; 
+    }
+
+    .Disclaimer-Button {
+        margin: 0;
+        padding: 8px 15px 8px; 
+        border-radius: 4px; 
+        font-size: 12px; 
+    }
+
+    .popup-content p {
+        font-size: 13px;
+    }
+
+    .loading-animation {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+/* Responsive Adjustments for Mobile Phones in Portrait Mode */
+@media screen and (min-width: 360px) and (max-width: 499px){
+    html, body {
+        overflow-x: hidden;
+        max-width: 100vw;
+    }
+
+    /* Hide nav links only when not inside .nav-menu */
+    nav > .nav-link,
+    nav > .separator,
+    nav > .nav-button {
+        display: none;
+    }
+
+    .nav-menu .user-link {
+        display: block !important;
+        visibility: visible !important;
+    }
+  
+    .nav-menu { 
+        display: flex;
+        position: absolute;
+        top: 62px; /* Adjust as needed */
+        left: 0;
+        width: 100%;
+        background: #f8f9fa; /* Background color */
+        padding: 0; /* Remove default padding */
+        text-align: center;
+        flex-direction: column;
+        gap: 15px;
+
+        /* Add transition properties */
+        opacity: 0;
+        transform: translateY(-10px);
+        visibility: hidden;
+        transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, visibility 0.3s;
+
+        /* Drop shadow */
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* X-offset, Y-offset, blur, opacity */
+    }
+
+    /* Show nav menu when active */
+    .nav-menu.active {
+        display: flex;
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        gap: 0;
+
+        /* Gradient Background */
+        background: linear-gradient(to right, #4FACFE, #0052D4);
+        background-size: 200% 100%; /* Makes the gradient move */
+        background-position: right;
+    }
+
+    /* Show the User Information link inside nav-menu */
+    .nav-menu .user-link {
+        display: block;
+    }
+
+    /* Styling for links inside the dropdown */
+    .nav-menu a {
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 12px;
+        font-family: "Roboto", sans-serif;
+        font-weight: 600;
+        font-style: normal;
+        line-height: 20px;
+        display: block; /* Full-width clickable area */
+        padding: 13px 15px;
+        text-transform: uppercase; /* Make text all caps */
+        letter-spacing: 1.2px; /* Add spacing between letters */
+    }
+
+    .hamburger-container {
+        width: 24px;  /* Reduce size */
+        height: 24px;
+        display: block !important;
+    }
+
+    .hamburger,
+    .hamburger::before,
+    .hamburger::after {
+        width: 24px;  /* Make lines smaller */
+        height: 2.5px;  /* Thinner lines */
+        will-change: transform;
+        backface-visibility: hidden;
+    }
+
+    .hamburger::before {
+        top: -8px;  /* Adjust spacing */
+    }
+
+    .hamburger::after {
+        top: 8px;
+    }
+    
+    header nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .logo {
+        width: 30px;
+        height: 32px;
+        margin-right: 10px;
+    }
+    
+    .text-container h2 {
+        margin: 0;
+        font-size: 12px;
+        color: #333;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-style: normal;
+        max-width: 360px;
+        height: 22px;
+        line-height: 22px;
+    }
+    
+    .text-container h1 {
+        font-size: 10px;
+        color: white;
+        font-weight: 700;
+        height: 22px;
+        line-height: 22px;
+        letter-spacing: 0.9px; /* Add spacing between letters */
+        padding: 0px 8px;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .text-container h2::after {
+        content: "DOST-PHIVOLCS";
+        display: block;
+        letter-spacing: 0.6px; /* Add spacing between letters */
+    }
+
+    .text-container {
+        width: 200px;
+    }
+
+    .text-container h2 {
+        visibility: hidden;
+        position: relative;
+    }
+
+    .text-container h2::after {
+        visibility: visible;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .background {
+        background-color: #E9EBEE;
+        transition: height 0.3s ease-in-out; /* Reduced duration for faster transition */
+    }
+
+    .Title h1 {
+        padding-bottom: 10px;
+        font-size: 24px;
+        line-height: 32px;
+        letter-spacing: 1px;
+    }
+
     .Title p {
         font-size: 14px;
     }
     
-    .button-group {
+    .Home .container1 {
         flex-direction: column;
         align-items: center;
     }
-    
-    .popup-buttons {
+
+    .Home .container2 {
+        padding: 0px;
+        display: flex;
         flex-direction: column;
+        align-items: center;
+    }
+
+    .Home .container3 {
+        width: 320px;
+    }
+
+    .map-card {
+        padding: 20px 20px 15px 20px; /* top, right, bottom, left */
+        text-align: left;
+        align-self: start;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .map-disclaimer {
+        margin-top: 10px;
+        font-size: 12px;
+        color: #555;
+        font-style: italic;
+        margin: 0;
+        padding-top: 8px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .form {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        flex-basis: 40%;
+        width: 320px;
+    }
+
+    .form-card {
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: left;
+        min-width: 250px; /* Ensures cards don't shrink too much */
+        width: 100%;
+        height: max-content;
+        text-decoration: none;
+        overflow: hidden;
+        flex: 1;
+        max-width: 320px; /* Avoid going too wide */
+    }
+
+    .form-header {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        text-align: center;
+        align-items: center;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Black color with 10% opacity */;
+    }
+    
+    .form-header h2 {
+        font-size: 13px;
+        line-height: 24px;
+        margin: 0;
+    }
+
+    .form-label {
+        margin-bottom: 8px;
+        font-size: 12px;
+    }
+
+    .toggle-buttons label {
+        font-size: 12px;
+    }
+    
+    .card-icon {
+        width: 46px;
+        height: 46px;
+    }
+
+    .form-control{
+        padding: 8px;
+        font-size: 12px;
+        line-height: 20px;
+    }
+
+    #lat-degrees, #lon-degrees, #lat-minutes, #lon-minutes, #lat-seconds, #lon-seconds {
+        font-size: 12px;
+        line-height: 20px;
+    }
+
+    .select {
+        margin-bottom: 8px;
+        font-size: 12px;
+        line-height: 20px;
+    }
+
+    .site-option-list {
+        width: 272px;
+    }
+
+    .button-group button {
+        padding: 8px 16px;
+        font-size: 12px;
+    }
+
+    .option {
+        padding-left: 20px;
+        font-size: 12px;
+        line-height: 20px;
+    }
+
+    .Section1, .Section2, .Section3 {
+        max-width: 100%;
+        padding: 20px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .Section1, .Section3 {
+        align-items: center;
+        gap: 40px;
+    }
+    
+    .Section1 {
+        padding: 40px;
+        margin: auto;
+        max-width: 360px;
+        gap: 30px;
+    }
+    
+    .Section1 .text {
+        gap: 10px;
+    }
+
+    .Section2 {
+        padding: 40px;
+        margin: auto;
+        max-width: 360px;
+        gap: 30px;
+    }
+    
+    .Section2 .text {
+        gap: 10px;
+    }
+
+    .Section3 {
+        padding: 40px;
+        margin: auto;
+        max-width: 360px;
+        gap: 30px;
+    }
+    
+    .Section3 .text {
+        gap: 10px;
+    }
+    
+    .text h4 {
+        color: #AAB5C3;
+        margin-bottom: 10px;
+        font-size: 24px;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        font-style: normal;
+        line-height: 28px;
+    }
+    
+    .text h5 {
+        margin-bottom: 18px;
+        font-size: 18px;
+        line-height: 22px;
+    }
+    
+    .text p {
+        font-size: 12px;
+        line-height: 20px;
+        margin-bottom: 0;
+    }
+
+    .Section2 .text p,
+    .Section3 .text p {
+        margin-bottom: 20px;
+    }
+
+    .img1 {
+        width: 300px;
+    }
+
+
+    .img3 {
+        box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.1);
+        width: 80%;
+    }
+
+    .Home .site-info-card {
+        width: 320px; /* Ensures cards don't shrink too much */
+        height: max-content;
+    }
+
+    .site-info-header {
+        padding: 14px 20px;
+    }
+
+    .site-info-header h2 {
+        font-size: 13px;
+        line-height: 24px;
+        margin: 0;
+    }
+
+    .site-info-button-group button {
+        padding: 8px 16px;
+        font-size: 12px;
+        line-height: 20px;
+    }
+
+    .site-info {
+        display: flex;
+        flex-direction: column;
+        max-width: 100%;
+        gap: 20px;
+    }
+
+    .graph-container img {
+        width: 120%;
+        max-width: 120%;
+        clip-path: inset(0px); 
+    }
+    
+    td.SA-title {
+        min-width: 120px;
+        height: 80px;
+        width: 100%;
+        text-align: left;
+        align-content: center;
+        font-size: 12px;
+    }
+    
+    td.SA-value {
+        text-align: center; /* Optional: right-align the values */
+        align-content: center;
+        min-width: 150px;
+        height: 60px;
+        width: 100%;
+        font-size: 12px;
+    }
+
+    #lat-degrees, #lon-degrees, #lat-minutes, #lon-minutes, #lat-seconds, #lon-seconds {
+        font-size: 12px;
+    }
+
+    .Disclaimer-popup-content{
+        flex-direction: column-reverse;
+        width: 90%;
+        padding: 20px 30px;
+        gap: 20px;
+    }
+
+    .EULA-img {
+        width: 40%;
+        margin: 0;
+    }
+
+    .popup-wrapper {
+        margin-right: 0px;
+    }
+
+    .Disclaimer-popup-content h2 {
+        margin-bottom: 10px;
+        font-size: 14px;
+    }
+
+    .Disclaimer-popup-content p {
+        margin-bottom: 15px;
+        font-size: 10px;
+        line-height: 18px;
+    }
+
+    .btn-accept {
+        width: 140px;
+        margin-top: 0;
+        padding: 10px 15px;
+        font-size: 10px;
+        letter-spacing: 0.9px;
+    }
+
+    .Disclaimer{
+        display: flex;
+        text-align: center; 
+        padding: 10px 20px 10px 20px;
+        align-items: center;
+    }
+
+    .Disclaimer-text{
+        font-size: 9px; 
+    }
+
+    .Disclaimer-Button {
+        margin: 0;
+        padding: 8px 15px 8px; 
+        border-radius: 4px; 
+        font-size: 10px; 
+    }
+
+    .popup-content p {
+        font-size: 13px;
+    }
+
+    .loading-animation {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+@media (orientation: landscape) {
+    .Disclaimer-popup-content {
+        max-height: 70vh; /* Adjust as needed */
+        overflow-y: auto;
     }
 }
 
@@ -1733,6 +2884,7 @@ button {
     border: none;
     border-radius: 5px;
 }
+
 #confirm-email-send, 
 #cancel-email-send {
     background-color: white;
