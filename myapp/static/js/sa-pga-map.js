@@ -465,10 +465,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Function to update the background height based on the visibility of the site-info-section
   function updateBackgroundHeight() {
+    const isMaxWidth768 = window.matchMedia("(min-width: 768px)").matches;
+    const isMaxWidth360 = window.matchMedia("(min-width: 360px)").matches;
+
     if (siteInfoSection.classList.contains("visible")) {
-      background.style.height = "1600px"; // Set height to 1600px when visible
-    } else {
-      background.style.height = "600px"; // Set height to 600px when hidden
+      if (isMaxWidth360) {
+        background.style.height = "2750px"; // Override height for <=360px
+      } else if (isMaxWidth768) {
+        background.style.height = "2400px"; // Height for <=768px
+      } else {
+        background.style.height = "1725px"; // Default height
+      }
+    } else { 
+      if (isMaxWidth360) {
+        background.style.height = "1050px"; // Hidden state for <=360px
+      } else if (isMaxWidth768) {
+        background.style.height = "1100px"; // Hidden state for <=768px
+      } else {
+        background.style.height = "600px"; // Default hidden state
+      }
     }
   }
 
@@ -595,6 +610,18 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 500);
     });
 });
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const menuToggle = document.getElementById('menu-toggle');
+    const navMenu = document.getElementById('nav-menu');
+    const hamburger = document.querySelector('.hamburger');
+
+    menuToggle.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+      hamburger.classList.toggle('open');
+    });
+  });
 
 document.addEventListener("DOMContentLoaded", function () {
   const emailButton = document.getElementById("email-results");
