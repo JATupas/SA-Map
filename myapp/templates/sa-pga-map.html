@@ -188,7 +188,6 @@
                 </div>
 
                 <div class="container3">
-
                     <div id="image-container" class="graph-container">
                         {% if image_base64 %}
                             <h3>ASCE 7-05 Plot</h3>
@@ -425,5 +424,7 @@
         const userEmailUrl = "{% url 'send_email_to_user' %}"
     </script>
     <script src="{% static 'js/sa-pga-map.js' %}"></script>
+    <script src="https://unpkg.com/leaflet-image@latest/leaflet-image.js"></script>
+
 </body>
 </html>
