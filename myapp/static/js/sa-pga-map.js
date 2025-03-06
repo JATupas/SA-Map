@@ -1,45 +1,3 @@
-document.addEventListener("DOMContentLoaded", function () {
-  let faInput = document.getElementById("fainput");
-  let fvInput = document.getElementById("fvinput");
-  let siteSelect = document.querySelector(".site-select");
-  let siteOptions = document.querySelectorAll(".site-option-list .option");
-  let siteInput = document.getElementById("site");
-
-  function updateInputsOnSiteSelection(value) {
-      if (value === "F") {
-          faInput.value = "";
-          fvInput.value = "";
-          faInput.style.color = "black"; // Show text when cleared
-          fvInput.style.color = "black";
-      } else {
-          faInput.value = "0";
-          fvInput.value = "0";
-          faInput.style.color = "transparent"; // Hide '0'
-          fvInput.style.color = "transparent";
-      }
-  }
-
-  siteOptions.forEach(option => {
-      option.addEventListener("click", function () {
-          let selectedValue = this.getAttribute("data-value");
-          siteInput.value = selectedValue;
-          document.querySelector(".select").textContent = selectedValue;
-          updateInputsOnSiteSelection(selectedValue);
-      });
-  });
-
-  // Ensure inputs hide '0' when loaded
-  function checkAndDisplayValue(input) {
-      if (input.value === "0") {
-          input.style.color = "transparent"; 
-      }
-  }
-
-  checkAndDisplayValue(faInput);
-  checkAndDisplayValue(fvInput);
-});
-
-
 // Get the input element and error message element
 const faInput = document.getElementById("fainput");
 const errorMessage = document.getElementById("error-message");
@@ -151,24 +109,91 @@ document.addEventListener("DOMContentLoaded", function () {
 
 $(document).ready(function () {
   // Initialize the map after the page has fully loaded
-  var map = L.map("map").setView([13.41, 122.56], 6); // Set initial coordinates
+  window.map = L.map("map", {
+    center: [13.41, 121], 
+    zoom: 6,
+    minZoom: 6,
+    maxZoom: 18,
+    maxBounds: [
+        [3.5, 114],  // Southwest corner (Lower-left of PH)
+        [21.5, 127]  // Northeast corner (Upper-right of PH)
+    ],
+    maxBoundsViscosity: 1.0
+  }); // Set initial coordinates
 
   var marker = null; // Marker variable to store the current marker on the map
 
   // Add a tile layer to the map
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    attribution:
-      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  L.tileLayer('http://localhost:8080/styles/basic-preview/512/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors',
+    maxZoom: 18,
+    tileSize: 256
   }).addTo(map);
 
+
   // Function to convert Decimal Degrees to DMS
+  // Convert Decimal Degrees to DMS
   function convertToDMS(decimalDegree) {
-    const degrees = Math.floor(decimalDegree); // Extract degrees
-    const minutesDecimal = Math.abs((decimalDegree - degrees) * 60); // Convert remaining to minutes
-    const minutes = Math.floor(minutesDecimal); // Extract whole minutes
-    const seconds = ((minutesDecimal - minutes) * 60).toFixed(5); // Convert remaining to seconds with 5 decimals
+    const degrees = Math.floor(decimalDegree);
+    const minutesDecimal = Math.abs((decimalDegree - degrees) * 60);
+    const minutes = Math.floor(minutesDecimal);
+    const seconds = ((minutesDecimal - minutes) * 60).toFixed(5);
     return { degrees, minutes, seconds };
   }
+
+  // Convert DMS to Decimal Degrees
+  function convertToDecimalDegrees(degrees, minutes, seconds) {
+    const sign = degrees < 0 ? -1 : 1;
+    return sign * (Math.abs(degrees) + minutes / 60 + seconds / 3600);
+  }
+
+  // Function to update DMS fields from Decimal Degrees input
+  function updateDMS() {
+    let lat = parseFloat(document.getElementById("current-lat").value);
+    let lon = parseFloat(document.getElementById("current-lon").value);
+
+    if (!isNaN(lat)) {
+        const latDMS = convertToDMS(lat);
+        document.getElementById("lat-degrees").value = latDMS.degrees;
+        document.getElementById("lat-minutes").value = latDMS.minutes;
+        document.getElementById("lat-seconds").value = latDMS.seconds;
+    }
+    if (!isNaN(lon)) {
+        const lonDMS = convertToDMS(lon);
+        document.getElementById("lon-degrees").value = lonDMS.degrees;
+        document.getElementById("lon-minutes").value = lonDMS.minutes;
+        document.getElementById("lon-seconds").value = lonDMS.seconds;
+    }
+  }
+
+  // Function to update Decimal Degrees from DMS input
+  function updateDecimalDegrees() {
+    let latDegrees = parseFloat(document.getElementById("lat-degrees").value) || 0;
+    let latMinutes = parseFloat(document.getElementById("lat-minutes").value) || 0;
+    let latSeconds = parseFloat(document.getElementById("lat-seconds").value) || 0;
+
+    let lonDegrees = parseFloat(document.getElementById("lon-degrees").value) || 0;
+    let lonMinutes = parseFloat(document.getElementById("lon-minutes").value) || 0;
+    let lonSeconds = parseFloat(document.getElementById("lon-seconds").value) || 0;
+
+    let lat = convertToDecimalDegrees(latDegrees, latMinutes, latSeconds);
+    let lon = convertToDecimalDegrees(lonDegrees, lonMinutes, lonSeconds);
+
+    document.getElementById("current-lat").value = lat.toFixed(6);
+    document.getElementById("current-lon").value = lon.toFixed(6);
+  }
+
+  // Add event listeners for real-time syncing
+  document.getElementById("current-lat").addEventListener("input", updateDMS);
+  document.getElementById("current-lon").addEventListener("input", updateDMS);
+
+  document.getElementById("lat-degrees").addEventListener("input", updateDecimalDegrees);
+  document.getElementById("lat-minutes").addEventListener("input", updateDecimalDegrees);
+  document.getElementById("lat-seconds").addEventListener("input", updateDecimalDegrees);
+
+  document.getElementById("lon-degrees").addEventListener("input", updateDecimalDegrees);
+  document.getElementById("lon-minutes").addEventListener("input", updateDecimalDegrees);
+  document.getElementById("lon-seconds").addEventListener("input", updateDecimalDegrees);
 
   // Map click event
   map.on("click", function (e) {
@@ -179,17 +204,7 @@ $(document).ready(function () {
     document.getElementById("current-lat").value = lat;
     document.getElementById("current-lon").value = lon;
 
-    // Update DMS fields for Latitude
-    const latDMS = convertToDMS(lat);
-    document.getElementById("lat-degrees").value = latDMS.degrees;
-    document.getElementById("lat-minutes").value = latDMS.minutes;
-    document.getElementById("lat-seconds").value = latDMS.seconds;
-
-    // Update DMS fields for Longitude
-    const lonDMS = convertToDMS(lon);
-    document.getElementById("lon-degrees").value = lonDMS.degrees;
-    document.getElementById("lon-minutes").value = lonDMS.minutes;
-    document.getElementById("lon-seconds").value = lonDMS.seconds;
+    updateDMS();
 
     // Check if the point is outside the Philippines
     if (lat < 4 || lat > 21 || lon < 116 || lon > 127) {
@@ -235,11 +250,6 @@ $(document).ready(function () {
     var lonDegrees = document.getElementById("lon-degrees").value;
     var lonMinutes = document.getElementById("lon-minutes").value;
     var lonSeconds = document.getElementById("lon-seconds").value;
-
-    if (fainput.trim() === "" || fvinput.trim() === "") {
-      alert("Please fill in all required fields before submitting.");
-      return;
-  }
 
     document
       .getElementById("lat-dms")
@@ -313,13 +323,11 @@ $(document).ready(function () {
             response.To || "0.0";
 
           if (response.image_base64) {
-              document.getElementById("image-container").innerHTML =
-                  '<img src="data:image/png;base64,' + response.image_base64 + '" alt="SA-PGA Map Image">';
-          } 
-          else {
-              document.getElementById("image-container").innerHTML = ""; // Clears the image when site is "F"
+            document.getElementById("image-container").innerHTML =
+              '<img src="data:image/png;base64,' +
+              response.image_base64 +
+              '" alt="SA-PGA Map Image">';
           }
-          
 
           document.querySelector(".Home .site-info-card").style.display =
             "flex";
@@ -329,7 +337,7 @@ $(document).ready(function () {
             map.removeLayer(marker); // Remove any existing marker
           }
           marker = L.marker([newLat, newLon]).addTo(map); // Add the new marker
-          map.setView([newLat, newLon], 11); // Zoom in to the new marker
+          map.setView([newLat, newLon], 17); // Zoom in to the new marker
           popup.style.display = "none"; // Close the popup
           console.log("user registration data:", registrationData);
           // let userData = {
@@ -396,99 +404,6 @@ $(document).ready(function () {
   });
 });
 
-// Function to convert Decimal Degrees to DMS
-function convertToDMS(decimalDegree) {
-  const degrees = Math.floor(decimalDegree); // Extract degrees
-  const minutesDecimal = Math.abs((decimalDegree - degrees) * 60); // Convert remaining to minutes
-  const minutes = Math.floor(minutesDecimal); // Extract whole minutes
-  const seconds = ((minutesDecimal - minutes) * 60).toFixed(5); // Convert remaining to seconds with 5 decimals
-  return { degrees, minutes, seconds };
-}
-
-// Function to convert DMS to Decimal Degrees
-function convertToDecimalDegrees(degrees, minutes, seconds) {
-  const decimalDegrees = Math.abs(degrees) + minutes / 60 + seconds / 3600; // Convert DMS to decimal
-  return degrees < 0 ? -decimalDegrees : decimalDegrees; // Handle negative degrees
-}
-
-// Update DMS fields when Decimal Degrees change
-function updateDMSFields(lat, lon) {
-  const latDMS = convertToDMS(lat);
-  document.getElementById("lat-degrees").textContent = latDMS.degrees;
-  document.getElementById("lat-minutes").textContent = latDMS.minutes;
-  document.getElementById("lat-seconds").textContent = latDMS.seconds;
-
-  const lonDMS = convertToDMS(lon);
-  document.getElementById("lon-degrees").textContent = lonDMS.degrees;
-  document.getElementById("lon-minutes").textContent = lonDMS.minutes;
-  document.getElementById("lon-seconds").textContent = lonDMS.seconds;
-}
-
-// Update Decimal Degrees when DMS fields change
-function updateDecimalFields() {
-  const latDegrees = parseInt(
-    document.getElementById("lat-degrees").value || 0,
-    10
-  );
-  const latMinutes = parseFloat(
-    document.getElementById("lat-minutes").value || 0
-  );
-  const latSeconds = parseFloat(
-    document.getElementById("lat-seconds").value || 0
-  );
-  const latDecimal = convertToDecimalDegrees(
-    latDegrees,
-    latMinutes,
-    latSeconds
-  );
-  document.getElementById("current-lat").value = latDecimal.toFixed(6);
-
-  const lonDegrees = parseInt(
-    document.getElementById("lon-degrees").value || 0,
-    10
-  );
-  const lonMinutes = parseFloat(
-    document.getElementById("lon-minutes").value || 0
-  );
-  const lonSeconds = parseFloat(
-    document.getElementById("lon-seconds").value || 0
-  );
-  const lonDecimal = convertToDecimalDegrees(
-    lonDegrees,
-    lonMinutes,
-    lonSeconds
-  );
-  document.getElementById("current-lon").value = lonDecimal.toFixed(6);
-}
-
-// Event Listeners for Decimal Degrees Fields
-document.getElementById("current-lat").addEventListener("input", () => {
-  const lat = parseFloat(document.getElementById("current-lat").value || 0);
-  const lon = parseFloat(document.getElementById("current-lon").value || 0);
-  updateDMSFields(lat, lon);
-});
-
-document.getElementById("current-lon").addEventListener("input", () => {
-  const lat = parseFloat(document.getElementById("current-lat").value || 0);
-  const lon = parseFloat(document.getElementById("current-lon").value || 0);
-  updateDMSFields(lat, lon);
-});
-
-// Event Listeners for DMS Fields
-const dmsFields = [
-  "lat-degrees",
-  "lat-minutes",
-  "lat-seconds",
-  "lon-degrees",
-  "lon-minutes",
-  "lon-seconds",
-];
-dmsFields.forEach((fieldId) => {
-  document
-    .getElementById(fieldId)
-    .addEventListener("input", updateDecimalFields);
-});
-
 // Select radio buttons
 const toggleDms = document.getElementById("toggle-dms"); // For DMS radio button
 const toggleDecimal = document.getElementById("toggle-decimal"); // For Decimal Degrees radio button
@@ -548,7 +463,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const checkDataButton = document.getElementById("check-data");
   const background = document.getElementById("background");
 
-  // Function to update the background height based on the visibility of the site-info-section and screen width
+  // Function to update the background height based on the visibility of the site-info-section
   function updateBackgroundHeight() {
     const isMaxWidth768 = window.matchMedia("(min-width: 768px)").matches;
     const isMaxWidth360 = window.matchMedia("(min-width: 360px)").matches;
@@ -601,85 +516,86 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Update height on window resize for responsiveness
-  window.addEventListener("resize", updateBackgroundHeight);
-
   // Initial check to set the correct background height on page load
   updateBackgroundHeight();
 });
 
-
-const sendEmailToUser = () => {
-  const data = {
-    registrationData: registrationData,
-    calculationData: rawData,
-  };
-
-  // ajax script to send send email to user
+const sendEmailToUser = (imageFile) => {
+  const formData = new FormData();
+  const loadingPopup = document.getElementById("loading-popup");
+  formData.append("registrationData", JSON.stringify(registrationData));
+  formData.append("calculationData", JSON.stringify(rawData));
+  formData.append("imageFile", imageFile, "map_snapshot.png"); // Attach the image file
 
   $.ajax({
-    url: userEmailUrl,
-    type: "POST",
-    data: JSON.stringify(data),
-    dataType: "json",
-    contentType: "application/json; charset=utf-8",
-    headers: {
-      "X-CSRFToken": csrfToken, // Add CSRF token to the request headers
-    },
-    success: function (response) {
-      if (response.status === "error") {
-        alert(response.message);
-      }
-      alert(`Results have been emailed to ${response.email}`);
-    },
-    error: function (xhr, status, error) {
-      console.error("Error sending email:", error);
-      if (xhr.responseJSON) {
-        console.error("Server Error:", xhr.responseJSON.message);
-        console.error("Traceback:", xhr.responseJSON.trace);
-        alert("Error: " + xhr.responseJSON.message);  // Show Django error in alert
-      } else {
-          alert("Unknown server error occurred.");
-      }
-    },
+      url: userEmailUrl,
+      type: "POST",
+      data: formData,
+      processData: false, // Prevent jQuery from processing the data
+      contentType: false, // Prevent jQuery from setting content type
+      headers: {
+          "X-CSRFToken": csrfToken, // Add CSRF token to the request headers
+      },
+      success: function (response) {
+          if (response.status === "error") {
+              alert(response.message);
+          }
+          alert(`Results have been emailed to ${response.email}`);
+          loadingPopup.style.display = "none";
+      },
+      error: function (xhr, status, error) {
+          console.error("Error sending email:", error);
+          if (xhr.responseJSON) {
+              console.error("Server Error:", xhr.responseJSON.message);
+              console.error("Traceback:", xhr.responseJSON.trace);
+              alert("Error: " + xhr.responseJSON.message);  // Show Django error in alert
+          } else {
+              alert("Unknown server error occurred.");
+          }
+      },
   });
 };
 
-document.addEventListener("DOMContentLoaded", function () {
-  const emailButton = document.getElementById("email-results");
-  const warningModal = document.getElementById("email-warning-modal");
-  const confirmButton = document.getElementById("confirm-email-send");
-  const cancelButton = document.getElementById("cancel-email-send");
-  const loadingPopup = document.getElementById("loading-popup");
 
-  if (emailButton) {
-      emailButton.addEventListener("click", function () {
-          warningModal.style.display = "flex"; // Show warning popup
-      });
 
-      cancelButton.addEventListener("click", function () {
-          warningModal.style.display = "none"; // Hide warning popup
-      });
 
-      confirmButton.addEventListener("click", function () {
-          warningModal.style.display = "none"; // Hide warning popup
-          loadingPopup.style.display = "flex"; // Show loading popup
 
-          sendEmailToUser(); // Send email after confirmation
+// document.addEventListener("DOMContentLoaded", function () {
+//   const emailButton = document.getElementById("email-results");
+//   const warningModal = document.getElementById("email-warning-modal");
+//   const confirmButton = document.getElementById("confirm-email-send");
+//   const cancelButton = document.getElementById("cancel-email-send");
+//   const loadingPopup = document.getElementById("loading-popup");
 
-          // Hide loading popup after 10 seconds (adjust as needed)
-          setTimeout(function () {
-              loadingPopup.style.display = "none";
-          }, 10000);
-      });
-  }
-});
+//   if (emailButton) {
+//       emailButton.addEventListener("click", function () {
+//           warningModal.style.display = "flex"; // Show warning popup
+//       });
+
+//       cancelButton.addEventListener("click", function () {
+//           warningModal.style.display = "none"; // Hide warning popup
+//       });
+
+//       confirmButton.addEventListener("click", function () {
+//           warningModal.style.display = "none"; // Hide warning popup
+//           loadingPopup.style.display = "flex"; // Show loading popup
+
+//           sendEmailToUser(); // Send email after confirmation
+
+//           // Hide loading popup after 5 seconds (adjust as needed)
+//           setTimeout(function () {
+//               loadingPopup.style.display = "none";
+//           }, 5000);
+//       });
+//   }
+// });
 
 
 
 document.addEventListener("DOMContentLoaded", function () {
     const popup = document.getElementById("terms-popup");
     const acceptBtn = document.getElementById("accept-btn");
+    const declineBtn = document.getElementById("decline-btn");
 
     // Ensure popup is always visible when the page loads
     popup.style.display = "flex";
@@ -697,12 +613,74 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 document.addEventListener('DOMContentLoaded', () => {
-  const menuToggle = document.getElementById('menu-toggle');
-  const navMenu = document.getElementById('nav-menu');
-  const hamburger = document.querySelector('.hamburger');
+    const menuToggle = document.getElementById('menu-toggle');
+    const navMenu = document.getElementById('nav-menu');
+    const hamburger = document.querySelector('.hamburger');
 
-  menuToggle.addEventListener('click', () => {
-    navMenu.classList.toggle('active');
-    hamburger.classList.toggle('open');
+    menuToggle.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+      hamburger.classList.toggle('open');
+    });
   });
+
+document.addEventListener("DOMContentLoaded", function () {
+  const emailButton = document.getElementById("email-results");
+  const warningModal = document.getElementById("email-warning-modal");
+  const confirmButton = document.getElementById("confirm-email-send");
+  const cancelButton = document.getElementById("cancel-email-send");
+  const loadingPopup = document.getElementById("loading-popup");
+  const mapPreviewContainer = document.getElementById("map-preview-container");
+  const downloadMapButton = document.getElementById("download-map-button");
+
+  if (emailButton) {
+      emailButton.addEventListener("click", function () {
+          warningModal.style.display = "flex";
+      });
+
+      cancelButton.addEventListener("click", function () {
+          warningModal.style.display = "none"; // Hide warning popup
+      });
+
+      confirmButton.addEventListener("click", function () {
+          warningModal.style.display = "none"; // Hide warning popup
+          loadingPopup.style.display = "flex"; // Show loading popup
+      
+          captureLeafletMap((imageFile) => {  // Capture map as a file (Blob)
+            if (!imageFile) {
+                console.error("Map image capture failed!");
+                return;
+            }
+            console.log("Captured Image File:", imageFile);
+
+            sendEmailToUser(imageFile); // Send image as a file
+          });
+      });
+    
+  }
+
+  function captureLeafletMap(callback) {
+    if (window.map) {
+        leafletImage(window.map, function (err, canvas) {
+            if (err) {
+                console.error("Error capturing Leaflet map:", err);
+                return;
+            }
+
+            canvas.toBlob(function (blob) {
+                if (!blob) {
+                    console.error("Failed to convert canvas to Blob.");
+                    return;
+                }
+
+                const file = new File([blob], "map_capture.png", { type: "image/png" });
+
+                if (typeof callback === "function") {
+                    callback(file); // Pass the image file to the callback
+                }
+            }, "image/png");
+        });
+    } else {
+        console.warn("Leaflet map is not initialized.");
+    }
+  }
 });

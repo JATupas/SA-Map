@@ -374,9 +374,12 @@
                             <img src="data:image/png;base64,{{ image_base64 }}" alt="Spectral Acceleration Plot">
                         {% endif %}
                     </div>
-                    
-                    
-                    
+
+                    <div id="map-image-container" class="graph-container">
+                        {% if image_data_base64 %}
+                            <img src="data:image/png;base64,{{ image_data_base64 }}" alt="Additional Image">
+                        {% endif %}
+                    </div>    
                     
                     <div class="container3">
                         <div class="site-info">
