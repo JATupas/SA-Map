@@ -2297,7 +2297,7 @@ body {
     }
 
     .EULA-img {
-        width: 50%;
+        width: 40%;
         margin: 0;
     }
 
@@ -2843,6 +2843,13 @@ body {
     .loading-animation {
         width: 100px;
         height: 100px;
+    }
+}
+
+@media (orientation: landscape) {
+    .Disclaimer-popup-content {
+        max-height: 70vh; /* Adjust as needed */
+        overflow-y: auto;
     }
 }
 
