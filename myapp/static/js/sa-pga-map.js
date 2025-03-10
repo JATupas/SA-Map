@@ -463,26 +463,31 @@ document.addEventListener("DOMContentLoaded", () => {
   const checkDataButton = document.getElementById("check-data");
   const background = document.getElementById("background");
 
-  // Function to update the background height based on the visibility of the site-info-section
+  // Function to update the background height based on visibility and screen width
   function updateBackgroundHeight() {
-    const isMaxWidth768 = window.matchMedia("(min-width: 768px)").matches;
-    const isMaxWidth360 = window.matchMedia("(min-width: 360px)").matches;
+    const isMaxWidth360 = window.matchMedia("(max-width: 360px)").matches;
+    const isMaxWidth1023 = window.matchMedia("(max-width: 1023px)").matches;
+    const isMinWidth1024 = window.matchMedia("(min-width: 1024px)").matches;
 
     if (siteInfoSection.classList.contains("visible")) {
-      if (isMaxWidth360) {
-        background.style.height = "2750px"; // Override height for <=360px
-      } else if (isMaxWidth768) {
-        background.style.height = "2400px"; // Height for <=768px
+      if (isMinWidth1024) {
+        background.style.height = "1725px"; // Height for min-width 1024px
+      } else if (isMaxWidth1023) {
+        background.style.height = "2400px"; // Height for max-width 768px
+      } else if (isMaxWidth360) {
+        background.style.height = "2750px"; // Height for max-width 360px
       } else {
-        background.style.height = "1725px"; // Default height
+        background.style.height = "1725px"; // Default visible height
       }
     } else { 
-      if (isMaxWidth360) {
-        background.style.height = "1050px"; // Hidden state for <=360px
-      } else if (isMaxWidth768) {
-        background.style.height = "1100px"; // Hidden state for <=768px
+      if (isMinWidth1024) {
+        background.style.height = "600px"; // Hidden state for min-width 1024px
+      } else if (isMaxWidth1023) {
+        background.style.height = "1100px"; // Hidden state for max-width 768px
+      } else if (isMaxWidth360) {
+        background.style.height = "1050px"; // Hidden state for max-width 360px
       } else {
-        background.style.height = "600px"; // Default hidden state
+        background.style.height = "600px"; // Default hidden height
       }
     }
   }
@@ -490,35 +495,32 @@ document.addEventListener("DOMContentLoaded", () => {
   // Function to trigger auto-scroll after loading popup is hidden
   const observer = new MutationObserver(() => {
     if (loadingPopup.style.display === "none") {
-      // Trigger simultaneous show of the background and site-info-section
-      siteInfoSection.classList.add("visible"); // Make the section visible
-      updateBackgroundHeight(); // Update the background height immediately
-
-      // Auto-scroll to the "Site Information" section
+      siteInfoSection.classList.add("visible");
+      updateBackgroundHeight();
       siteInfoSection.scrollIntoView({ behavior: "smooth" });
-
-      observer.disconnect(); // Stop observing after the popup is hidden
+      observer.disconnect();
     }
   });
 
   // Add click event listener to "Check Data" button
   checkDataButton.addEventListener("click", () => {
-    // Hide the loading popup and show the site info section
     loadingPopup.style.display = "none";
+    siteInfoSection.classList.add("visible");
+    updateBackgroundHeight();
 
-    // Use visibility and opacity transition for a smooth reveal
-    siteInfoSection.classList.add("visible"); // Make the section visible
-
-    // Observe changes to the style attribute of the loading popup
     observer.observe(loadingPopup, {
       attributes: true,
       attributeFilter: ["style"],
     });
   });
 
-  // Initial check to set the correct background height on page load
+  // Update height on window resize
+  window.addEventListener("resize", updateBackgroundHeight);
+
+  // Initial background height update on page load
   updateBackgroundHeight();
 });
+
 
 const sendEmailToUser = (imageFile) => {
   const formData = new FormData();
