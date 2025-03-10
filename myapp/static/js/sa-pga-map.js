@@ -466,13 +466,13 @@ document.addEventListener("DOMContentLoaded", () => {
   // Function to update the background height based on visibility and screen width
   function updateBackgroundHeight() {
     const isMaxWidth360 = window.matchMedia("(max-width: 360px)").matches;
-    const isMaxWidth768 = window.matchMedia("(max-width: 768px)").matches;
+    const isMaxWidth1023 = window.matchMedia("(max-width: 1023px)").matches;
     const isMinWidth1024 = window.matchMedia("(min-width: 1024px)").matches;
 
     if (siteInfoSection.classList.contains("visible")) {
       if (isMinWidth1024) {
         background.style.height = "1725px"; // Height for min-width 1024px
-      } else if (isMaxWidth768) {
+      } else if (isMaxWidth1023) {
         background.style.height = "2400px"; // Height for max-width 768px
       } else if (isMaxWidth360) {
         background.style.height = "2750px"; // Height for max-width 360px
@@ -482,7 +482,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } else { 
       if (isMinWidth1024) {
         background.style.height = "600px"; // Hidden state for min-width 1024px
-      } else if (isMaxWidth768) {
+      } else if (isMaxWidth1023) {
         background.style.height = "1100px"; // Hidden state for max-width 768px
       } else if (isMaxWidth360) {
         background.style.height = "1050px"; // Hidden state for max-width 360px
