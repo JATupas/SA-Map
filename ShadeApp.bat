@@ -102,6 +102,7 @@ if not exist "%GTK_PATH%*" (
 where tileserver-gl >nul 2>nul
 if %ERRORLEVEL% NEQ 0 (
     echo Installing TileServer-GL...
+    npm install -g tileserver-gl
     
     :: Ensure npm is available
     where npm >nul 2>nul
