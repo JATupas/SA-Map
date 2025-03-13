@@ -1,102 +1,60 @@
-{% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=\, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>SHADE Project Email</title>
     <style>
         body {
             font-family: "Roboto", sans-serif;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-
-        main {
-            padding: 0px 0px 0px 0px;
-        }
-
-        /* Style for the Site Information Header */
-
-        .site-info-header {
-            text-align: center;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Black color with 10% opacity */;
-            height: auto;
-            padding: 14px 30px;
-        }
-
-        .site-info-header h2 {
-            color: rgba(0, 0, 0, 0.85); /* Black color with 85% opacity */;
-            font-size: 17px;
-            font-family: "Roboto", sans-serif;
-            font-weight: 500;
-            font-style: normal;
-            line-height: 24px;
-            margin: 0;
-        }
-
-        .banner {
-            background: linear-gradient(135deg, #0057B7, #003366, #002244); /* More dynamic gradient */
-            color: white;
-            text-align: center;
-            padding: 35px 25px; /* Slightly increased padding for better spacing */
-            width: 75%; /* Adjusted width */
-            margin: 30px auto; /* Centering with more spacing */
-            border-radius: 30px; /* More pronounced curves */
-            box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.4), 
-                        inset 0px 2px 10px rgba(255, 255, 255, 0.2); /* Outer + inner glow effect */
-            position: relative;
-            overflow: hidden;
-        }
-
-        .title {
-            background: rgba(255, 255, 255, 0.15); /* Subtle white overlay */
-            padding: 20px 40px;
-            border-radius: 15px;
-            display: inline-block;
+            background-color: #f5f5f5;
             text-align: center;
         }
-
-        .title h1 {
-            margin: 0;
-            font-size: 28px;
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
-
-        .title p {
-            margin: 5px 0 0;
-            font-size: 16px;
-            font-weight: 300;
-        }
-
-        /* Style for the map disclaimer */
-        .map-disclaimer {
-            margin-top: 10px;
-            font-size: 14px;
-            color: #555;
-            font-style: italic; /* Makes the text italic */
-            margin: 0;
-            padding-top: 8px;
-        }
-
-        .email-content-container h2 {
-            text-align: center;
-        }
-        .email-content-container {
-            width: 100%;
+        .container {
+            max-width: 55%;
+            margin: 0 auto;
             background: white;
-            margin: 20px auto;
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-
+        .header {
+            text-align: center;
+            width: 100%;
+            background-color: #2C3546; /* Header */
+            color: white;
+            padding: 20px;
+            border-radius: 8px 8px 0 0;
+            display: table; /* Table layout for email compatibility */
+        }
+        .header h1 {
+            font-size: 20px;
+            margin: 5px 0;
+        }
+        .banner img {
+            width: 100px;
+            margin-top: 10px;
+        }
+        .banner {
+            display: table;
+            justify-content: center;
+            width: 100%;
+        }
+        .content {
+            padding: 20px;
+            text-align: left;
+            width: 100%;
+        }
+        .summary p {
+            margin: 5px 0;
+            margin-left: 40px;
+        }
         .email-notice {
             background-color: #f8f9fa;
             border: 1px solid #ddd;
@@ -107,112 +65,98 @@
             line-height: 1.5;
             color: #333;
         }
-        
         .email-notice h3 {
             color: #0052D4;
             margin-bottom: 5px;
             font-size: 16px;
         }
-        
         .email-notice p {
             margin: 5px 0;
         }
-        
         .thank-you {
             font-weight: bold;
         }
-
-        .content {
-            background-color: #f5f5f5; /* Light grey */
-            padding: 20px; /* Adds spacing inside */
-            border-radius: 8px; /* Soft rounded corners */
-            width: 80%; /* Make it a bit smaller */
-            max-width: 500px; /* Set a maximum width */
-            margin: 0 auto 20px; /* Centers it and adds space at the bottom */
-        }
-        .summary {
-            font-size: 16px;
-            text-align: left; /* Aligns text inside to the left */
-            display: inline-block; /* Ensures text block respects width */
-        }
-        .summary strong {
-            color: #003366;
-        }
-        .note {
-            font-size: 14px;
-            color: #777;
-        }
         .footer {
-            text-align: center;
+            background-color: #2C3546;
+            color: white;
             font-size: 12px;
-            color: #666;
-            padding-top: 20px;
-            border-top: 1px solid #ddd;
+            border-radius: 0 0 8px 8px;
+            display: table; /* Table layout for email compatibility */
+            text-align: center;
+            width: 100%;
+            padding: 20px;
         }
-    
+        .footer p {
+            margin: 5px 0;
+            width: 100%;
+            text-align: center;
+        }
+        .header table,
+        .footer table {
+            width: 100%;
+            text-align: center;
+        }
+        .header table td,
+        .footer table td {
+            display: block; /* Stack items */
+            width: 100%;
+        }
     </style>
 </head>
 <body>
-    <main>
-        <div class="email-content-container">
+    <div class="container">
 
-            {% if has_data %}
-
+        <div class="header">
             <div class="banner">
-                <div class="title">
-                    <h1>SHADE Project</h1>
-                    <p>Seismic Hazard Assessment for the Design Earthquake of the Philippines</p>
-                </div>
+                <img src="cid:shade_logo" alt="SHADE Logo" style="width:50px; height:auto;">
             </div>
-            <img src="cid:shade_logo" alt="SHADE Logo" style="width:150px; height:auto;">
-
-
-            <div class="content">
-                <p>Dear {{data.registrationData.full_name|default:"Your"}},</p>
-                <p>Below is a summary of your seismic hazard analysis:</p>
-    
-                <!-- Summary Section -->
-                <div class="summary">
-                    <p><strong>Latitude:</strong> {{data.calculationData.current_coord.0|default:0.0}}</p>
-                    <p><strong>Longitude:</strong> {{data.calculationData.current_coord.1|default:0.0}}</p>
-                    <p><strong>Site Classification:</strong> {{data.calculationData.site|default:"No Site"}}</p>
-                    <p><strong>Spectral Acceleration at 1.0s (S<sub>1</sub>):</strong> {{data.calculationData.sa1|default:0.0}}</p>
-                    <p><strong>Spectral Acceleration at 0.2s (S<sub>s</sub>):</strong> {{data.calculationData.sa02|default:0.0}}</p>
-                    <p><strong>Long-Period Transition Period (T<sub>L</sub>):</strong> {{data.calculationData.tl|default:0.0}}</p>
-                </div>
-    
-                <!-- PDF Attachment Notice -->
-                <p class="note">
-                    The full detailed report is attached as a PDF for your reference.
-                </p>
-            </div>
-
-            <div class="footer">
-                <p>SHADE Project &copy; 2025 | PHIVOLCS</p>
-            </div>
-            
-            <div class="email-notice">
-                <h3>CONFIDENTIALITY NOTICE:</h3>
-                <p>
-                    This email from PHIVOLCS contains sensitive and proprietary information intended only for the designated recipient(s). 
-                    Unauthorized access, sharing, or use of this email and its contents is strictly prohibited. If you have received this 
-                    message in error, please inform the sender immediately and delete all copies from your system.
-                </p>
-                
-                <h3>DISCLAIMER:</h3>
-                <p>
-                    PHIVOLCS has taken precautions to safeguard against computer viruses and data corruption; however, it does not assume 
-                    responsibility for any potential risks associated with email transmission. Recipients are advised to scan all 
-                    attachments before opening.
-                </p>
-                
-                <p class="thank-you">Thank you.</p>
-            </div>
-    
-            {% else %}
-                <p>No data received in the request body.</p>
-            {% endif %}
+            <h1>Seismic Hazard Assessment for the Design Earthquake of the Philippines</h1>
+            <p>Your seismic hazard analysis summary is ready.</p>
         </div>
-    </main>    
+
+        <div class="content">
+            <p>Dear {{data.registrationData.full_name|default:"Your"}},</p>
+            <p>Below is a summary of your seismic hazard analysis:</p>
+
+            <!-- Summary Section -->
+            <div class="summary">
+                <p><strong>Latitude:</strong> {{data.calculationData.current_coord.0|default:0.0}}</p>
+                <p><strong>Longitude:</strong> {{data.calculationData.current_coord.1|default:0.0}}</p>
+                <p><strong>Site Classification:</strong> {{data.calculationData.site|default:"No Site"}}</p>
+                <p><strong>Spectral Acceleration at 1.0s (S<sub>1</sub>):</strong> {{data.calculationData.sa1|default:0.0}}</p>
+                <p><strong>Spectral Acceleration at 0.2s (S<sub>s</sub>):</strong> {{data.calculationData.sa02|default:0.0}}</p>
+                <p><strong>Long-Period Transition Period (T<sub>L</sub>):</strong> {{data.calculationData.tl|default:0.0}}</p>
+            </div>
+
+            <!-- PDF Attachment Notice -->
+            <p class="note">
+                The full detailed report is attached as a PDF for your reference.
+            </p>
+        </div>
+
+        <div class="footer">
+            <p>SHADE Project &copy; 2025 | PHIVOLCS</p>
+            <p>PHIVOLCS Bldg. C.P. Garcia Avenue, Diliman, Quezon City, Philippines - 1101</p>
+        </div>
+
+    </div>
+
+    <div class="email-notice">
+        <h3>CONFIDENTIALITY NOTICE:</h3>
+        <p>
+            This email from PHIVOLCS contains sensitive and proprietary information intended only for the designated recipient(s). 
+            Unauthorized access, sharing, or use of this email and its contents is strictly prohibited. If you have received this 
+            message in error, please inform the sender immediately and delete all copies from your system.
+        </p>
+        
+        <h3>DISCLAIMER:</h3>
+        <p>
+            PHIVOLCS has taken precautions to safeguard against computer viruses and data corruption; however, it does not assume 
+            responsibility for any potential risks associated with email transmission. Recipients are advised to scan all 
+            attachments before opening.
+        </p>
+        
+        <p class="thank-you">Thank you.</p>
+    </div>
 </body>
 </html>
