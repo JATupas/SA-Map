@@ -380,3 +380,4 @@ def send_email_to_user(request):
         except Exception as e:
             print("Error while sending email:", str(e))
             return JsonResponse({"status": "error", "message": str(e)}, status=500)
+        
