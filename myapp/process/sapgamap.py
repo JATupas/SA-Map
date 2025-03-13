@@ -248,8 +248,8 @@ def process_sa_pga_map(lat, lon, site, fainput, fvinput):
         plt.legend()
         plt.grid(True)
         buffer = BytesIO()
-        plt.figtext(0.5, 0.5, "Data shown is an estimate and\nmay not reflect actual values.", ha='center', va='center',
-                    fontsize=30, color='gray', alpha=0.3, rotation=30, weight='bold')
+        plt.figtext(0.5, 0.5, "For reference purposes only.\nThis response spectrum is \ngenerated based on input \nparameters and assumptions.", ha='center', va='center',
+                    fontsize=30, color='gray', alpha=0.3, rotation=25, weight='bold')
         plt.savefig(buffer, format='png')
         plt.close()
         buffer.seek(0)
