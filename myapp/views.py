@@ -300,7 +300,7 @@ def send_email_to_user(request):
 
             # Static logo path
             static_logo_path = os.path.join(settings.BASE_DIR, "myapp", "static", "images", "shade_logo.png")
-            home_icon_path = os.path.join(settings.BASE_DIR, "myapp", "static", "images", "HOME.png")
+            home_icon_path = os.path.join(settings.BASE_DIR, "myapp", "static", "images", "Letterhead.svg")
 
             # Convert `HOME.png` to base64 for embedding in PDF
             home_icon_base64 = None

@@ -471,33 +471,53 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (siteInfoSection.classList.contains("visible")) {
       if (isMinWidth1024) {
-        background.style.height = "1725px"; // Height for min-width 1024px
+        background.style.height = "1725px"; 
       } else if (isMaxWidth1023) {
-        background.style.height = "2400px"; // Height for max-width 768px
+        background.style.height = "2400px"; 
       } else if (isMaxWidth360) {
-        background.style.height = "2750px"; // Height for max-width 360px
+        background.style.height = "2750px"; 
       } else {
-        background.style.height = "1725px"; // Default visible height
+        background.style.height = "1725px"; 
       }
     } else { 
       if (isMinWidth1024) {
-        background.style.height = "600px"; // Hidden state for min-width 1024px
+        background.style.height = "600px"; 
       } else if (isMaxWidth1023) {
-        background.style.height = "1100px"; // Hidden state for max-width 768px
+        background.style.height = "1100px"; 
       } else if (isMaxWidth360) {
-        background.style.height = "1050px"; // Hidden state for max-width 360px
+        background.style.height = "1050px"; 
       } else {
-        background.style.height = "600px"; // Default hidden height
+        background.style.height = "600px"; 
       }
     }
   }
 
-  // Function to trigger auto-scroll after loading popup is hidden
+  // Function to handle visibility and update background height when fully visible
+  function showSiteInfoSection() {
+    siteInfoSection.classList.add("visible");
+
+    // Use requestAnimationFrame to wait for DOM update
+    requestAnimationFrame(() => {
+      // Use Intersection Observer to detect when it's actually visible
+      const observer = new IntersectionObserver(
+        (entries, observer) => {
+          if (entries[0].isIntersecting) {
+            updateBackgroundHeight(); // Resize background after section is visible
+            observer.disconnect(); // Stop observing once done
+          }
+        },
+        { threshold: 0.5 } // Trigger when 50% of the section is visible
+      );
+
+      observer.observe(siteInfoSection);
+      siteInfoSection.scrollIntoView({ behavior: "smooth" });
+    });
+  }
+
+  // Observer to detect when loading popup is hidden
   const observer = new MutationObserver(() => {
     if (loadingPopup.style.display === "none") {
-      siteInfoSection.classList.add("visible");
-      updateBackgroundHeight();
-      siteInfoSection.scrollIntoView({ behavior: "smooth" });
+      showSiteInfoSection();
       observer.disconnect();
     }
   });
@@ -505,8 +525,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // Add click event listener to "Check Data" button
   checkDataButton.addEventListener("click", () => {
     loadingPopup.style.display = "none";
-    siteInfoSection.classList.add("visible");
-    updateBackgroundHeight();
+
+    // Delay execution to ensure the section renders before resizing the background
+    setTimeout(() => {
+      showSiteInfoSection();
+    }, 200); // Adjust if needed
 
     observer.observe(loadingPopup, {
       attributes: true,
