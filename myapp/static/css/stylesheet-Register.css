@@ -335,3 +335,284 @@ input[type="text"] {
     cursor: pointer;
 }
 
+
+@media screen and (max-width: 1024px) {
+    .form-container {
+        width: 50%;
+    }
+
+    .user-info-text {
+        width: 65% !important;
+        margin-bottom: 40px;
+    }
+
+    .profession-option-list {
+        width: 272px;
+    }
+
+    .brand-container img {
+        width: 80%;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+    .form-container {
+        width: 50%;
+    }
+
+    .user-info-text {
+        width: 80% !important;
+        margin-bottom: 40px;
+    }
+
+    .register-form {
+        width: 80%;
+    }
+
+    .form-container input, .form-container select {
+        font-size: 12px;
+    }
+
+    .select {
+        font-size: 12px;
+    }
+
+    .profession-option-list {
+        width: 260px;
+    }
+
+    .profession-select {
+        height: 36px;
+    }
+
+    .brand-container img {
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 500px) and (max-width: 767px){
+    *, *::before, *::after {
+        box-sizing: border-box;
+    }
+    
+    html, body {
+        min-height: 100vh;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+    
+    
+    .form-wrapper {
+        display: flex;
+        flex-direction: column-reverse;
+        min-height: 100vh;
+        height: 100vh; /* Ensures it fills the full viewport */
+        width: 100%;
+        flex-grow: 1;
+    }
+
+    .form-container {
+        flex: 1; /* Makes it fill available space */
+        width: 100%;
+        padding-top: 60px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .form-container label {
+        font-size: 13px;
+    }
+
+    .form-container button {
+        font-size: 15px;
+    }
+
+    .user-info-text {
+        width: 65% !important;
+        margin-bottom: 40px;
+    }
+
+    .register-form {
+        width: 75%;
+    } 
+
+    .form-container input, .form-container select {
+        font-size: 12px;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .select {
+        font-size: 12px;
+    }
+
+    .profession-option-list {
+        top: 665px !important;
+        width: 330px;
+        height: 170px;
+    }
+
+    .profession-select {
+        height: 36px;
+        margin-bottom: 20px;
+    }
+
+    .brand-container img {
+        width: 60%;
+        max-width: 100%;
+        height: auto;
+    }
+
+    .brand-container {
+        width: 100%;
+        height: 30vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex: 1; /* Ensures it fills remaining space */
+    }
+
+    .Disclaimer{
+        display: flex;
+        text-align: center; 
+        padding: 10px 20px 10px 20px;
+        align-items: center;
+    }
+
+    .Disclaimer-text{
+        font-size: 12px; 
+    }
+
+    .Disclaimer-Button {
+        margin: 0;
+        padding: 8px 15px 8px; 
+        border-radius: 4px; 
+        font-size: 12px; 
+    }
+}
+
+@media screen and (min-width: 360px) and (max-width: 499px){
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html, body {
+        min-height: 100vh;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+    
+    .form-wrapper {
+        display: flex;
+        flex-direction: column-reverse;
+        min-height: 100vh;
+        height: auto; /* Ensures it fills the full viewport */
+        width: 100vh;
+        flex-grow: 1;
+    }
+    
+    .form-container * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .form-container {
+        flex: 1; /* Makes it fill available space */
+        height: auto; /* Prevents forced height */
+        width: 100%;
+        padding-top: 0px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .form-container label {
+        font-size: 13px;
+    }
+
+    .form-container button {
+        font-size: 15px;
+        margin-top: 15px;
+    }
+
+    .user-info-text {
+        width: 75% !important;
+        margin-bottom: 30px;
+    }
+
+    .register-form {
+        max-width: 80%;
+        width: 80%; /* Ensures it fits smaller screens */
+    }
+     
+    .form-container input, .form-container select {
+        font-size: 12px;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .select {
+        font-size: 12px;
+    }
+
+    .profession-option-list {
+        top: 630px !important;
+        width: 300px;
+        height: 170px;
+    }
+
+    .option {
+        padding: 10px;
+    }
+
+    .profession-select {
+        height: 36px;
+        margin-bottom: 20px;
+        padding: 8px;
+    }
+
+    .brand-container img {
+        width: 70%;
+        max-width: 100%;
+        height: auto;
+    }
+
+    .brand-container {
+        width: 100%;
+        height: 30vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex: 1; /* Ensures it fills remaining space */
+        flex-grow: 0;
+    }
+
+    .Disclaimer{
+        display: flex;
+        text-align: center; 
+        padding: 10px 20px 10px 20px;
+        align-items: center;
+        flex-wrap: nowrap !important;
+        flex-direction: row;
+    }
+
+    .Disclaimer-text{
+        font-size: 12px; 
+    }
+
+    .Disclaimer-Button {
+        margin: 0;
+        padding: 8px 15px 8px; 
+        border-radius: 4px; 
+        font-size: 12px; 
+    }
+}
