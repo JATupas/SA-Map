@@ -23,64 +23,6 @@ function validateInput() {
 // Call the validation function when the input value changes
 faInput.addEventListener("input", validateInput);
 
-document.addEventListener("DOMContentLoaded", () => {
-  const latField = document.getElementById("current-lat");
-  const lonField = document.getElementById("current-lon");
-  const popup = document.getElementById("popup");
-
-  const boundingBox = {
-    minLat: 4,
-    maxLat: 21,
-    minLon: 116,
-    maxLon: 127,
-  };
-
-  const showPopup = (message) => {
-    popup.style.display = "flex";
-    popup.innerHTML = `
-            <div class="card">
-                <p>${message}</p>
-                <button id="closePopup">Close</button>
-            </div>`;
-
-    // Close popup event listener
-    document.addEventListener("click", function handleClosePopup(event) {
-      if (event.target && event.target.id === "closePopup") {
-        popup.style.display = "none";
-        document.removeEventListener("click", handleClosePopup);
-      }
-    });
-  };
-
-  const validateCoordinates = () => {
-    const latValue = parseFloat(latField.value);
-    const lonValue = parseFloat(lonField.value);
-
-    if (!isNaN(latValue) && !isNaN(lonValue)) {
-      if (
-        latValue < boundingBox.minLat ||
-        latValue > boundingBox.maxLat ||
-        lonValue < boundingBox.minLon ||
-        lonValue > boundingBox.maxLon
-      ) {
-        showPopup(
-          "This point is outside of the Philippines, there is no available data for the selected coordinates."
-        );
-        document.getElementById("current-lat").value = "";
-        document.getElementById("current-lon").value = "";
-      }
-    }
-    // else {
-    //     showPopup("Invalid input! Please enter numeric values for latitude and longitude.");
-    //     document.getElementById("current-lat").value = "";
-    //     document.getElementById("current-lon").value = "";
-    // }
-  };
-
-  latField.addEventListener("change", validateCoordinates);
-  lonField.addEventListener("change", validateCoordinates);
-});
-
 document.addEventListener("DOMContentLoaded", function () {
   const inputElement = document.getElementById("site");
   const faDiv = document.getElementById("fainput").parentElement;
@@ -231,9 +173,117 @@ $(document).ready(function () {
       map.removeLayer(marker);
     }
 
-
     // Add a new marker at the clicked location
-    marker = L.marker([lat, lon]).addTo(map);
+    window.marker.setLatLng([lat, lon]);
+    document.getElementById("poi-search").value = "";
+  });
+
+  const latField = document.getElementById("current-lat");
+  const lonField = document.getElementById("current-lon");
+  const popup = document.getElementById("popup");
+
+  const boundingBox = {
+    minLat: 4,
+    maxLat: 21,
+    minLon: 116,
+    maxLon: 127,
+  };
+
+  const showPopup = (message) => {
+    popup.style.display = "flex";
+    popup.innerHTML = `
+            <div class="card">
+                <p>${message}</p>
+                <button id="closePopup">Close</button>
+            </div>`;
+
+    // Close popup event listener
+    document.addEventListener("click", function handleClosePopup(event) {
+      if (event.target && event.target.id === "closePopup") {
+        popup.style.display = "none";
+        document.removeEventListener("click", handleClosePopup);
+      }
+    });
+  };
+
+  const validateCoordinates = () => {
+    const latValue = parseFloat(latField.value);
+    const lonValue = parseFloat(lonField.value);
+
+    if (!isNaN(latValue) && !isNaN(lonValue)) {
+      if (
+        latValue < boundingBox.minLat ||
+        latValue > boundingBox.maxLat ||
+        lonValue < boundingBox.minLon ||
+        lonValue > boundingBox.maxLon
+      ) {
+        showPopup(
+          "This point is outside of the Philippines, there is no available data for the selected coordinates."
+        );
+        document.getElementById("current-lat").value = "";
+        document.getElementById("current-lon").value = "";
+
+        if (marker) {
+          marker.remove();
+          marker = null;
+        }
+    } else {
+        // If valid, add marker
+        window.marker.setLatLng([latValue, lonValue]); // Add a new marker
+          document.getElementById("poi-search").value = "";
+      }
+    }
+  };
+  latField.addEventListener("change", validateCoordinates);
+  lonField.addEventListener("change", validateCoordinates);
+
+  const searchInput = document.getElementById("poi-search");
+  const dataList = document.getElementById("poi-list");
+
+  // Load GeoJSON POI Data
+  fetch("/static/maps/ph_poi.geojson")
+      .then(response => response.json())
+      .then(data => {
+          data.features.forEach(feature => {
+              if (feature.properties && feature.geometry) {
+                  let poiName = feature.properties.name || "Unnamed Place";
+                  let lat = feature.geometry.coordinates[1]; // GeoJSON stores [lon, lat]
+                  let lon = feature.geometry.coordinates[0];
+
+                  let option = document.createElement("option");
+                  option.value = poiName;
+                  option.dataset.lat = lat;
+                  option.dataset.lon = lon;
+                  dataList.appendChild(option);
+              }
+          });
+      })
+      .catch(error => console.error("Error loading POI data:", error));
+
+  // Handle Selection from Search Bar
+  searchInput.addEventListener("input", function () {
+      let selectedOption = [...dataList.options].find(opt => opt.value === this.value);
+      if (selectedOption) {
+          let lat = selectedOption.dataset.lat;
+          let lon = selectedOption.dataset.lon;
+
+          console.log(`Selected: ${this.value} (Lat: ${lat}, Lon: ${lon})`);
+
+          // Update lat/lon input fields
+          latField.value = lat;
+          lonField.value = lon;
+          document.getElementById("current-lat").dispatchEvent(new Event("input"));
+          document.getElementById("current-lon").dispatchEvent(new Event("input"));
+
+          // If Leaflet.js map exists, add or update marker
+          if (typeof map !== "undefined") {
+              if (window.marker) {
+                  window.marker.setLatLng([lat, lon]); // Move existing marker
+              } else {
+                  window.marker = L.marker([lat, lon]).addTo(map); // Add new marker
+              }
+          }
+      }
   });
 
   // Add functionality to the "Check Data" button (for AJAX to update site information)
@@ -407,19 +457,23 @@ $(document).ready(function () {
 // Select radio buttons
 const toggleDms = document.getElementById("toggle-dms"); // For DMS radio button
 const toggleDecimal = document.getElementById("toggle-decimal"); // For Decimal Degrees radio button
+const togglePoi = document.getElementById("toggle-poi");
 
 // Select elements for the fields
 const decimalFields = document.getElementById("decimal-degrees-fields");
 const degminsecFields = document.getElementById("dms-fields");
+const poiFields = document.getElementById("poi-fields");
 
 // Set initial state based on the default checked radio button
 decimalFields.style.display = "block"; // Display decimal degrees fields by default
 degminsecFields.style.display = "none"; // Hide DMS fields initially
+poiFields.style.display = "none";
 
 // Toggle functionality when radio button changes
 toggleDms.addEventListener("change", () => {
   if (toggleDms.checked) {
     decimalFields.style.display = "none"; // Hide decimal degrees fields
+    poiFields.style.display = "none";
     degminsecFields.style.display = "block"; // Show DMS fields
   }
 });
@@ -427,7 +481,16 @@ toggleDms.addEventListener("change", () => {
 toggleDecimal.addEventListener("change", () => {
   if (toggleDecimal.checked) {
     degminsecFields.style.display = "none"; // Hide DMS fields
+    poiFields.style.display = "none";
     decimalFields.style.display = "block"; // Show decimal degrees fields
+  }
+});
+
+togglePoi.addEventListener("change", () => {
+  if (togglePoi.checked) {
+    degminsecFields.style.display = "none"; // Hide DMS fields
+    poiFields.style.display = "block";
+    decimalFields.style.display = "none"; // Show decimal degrees fields
   }
 });
 

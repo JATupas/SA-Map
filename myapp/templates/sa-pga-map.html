@@ -84,6 +84,9 @@
 
                                         <input type="radio" id="toggle-dms" name="view-toggle" value="dms">
                                         <label for="toggle-dms">DMS</label>
+
+                                        <input type="radio" id="toggle-poi" name="view-toggle" value="poi">
+                                        <label for="toggle-poi">Search</label>
                                     </div>                                                                      
                                     
                                     <div id="dms-fields" style="display: none;">
@@ -115,6 +118,14 @@
                                         <div class="mb-3">
                                             <label for="current-lat" class="form-label">Latitude (Decimal Degrees)</label>
                                             <input type="text" id="current-lat" class="form-control" placeholder="0.0">
+                                        </div>
+                                    </div>
+
+                                    <div id="poi-fields">
+                                        <div class="mb-3">
+                                            <label for="poi-search" class="form-label">Search for a Place</label>
+                                            <input type="text" id="poi-search" class="form-control" list="poi-list" placeholder="Search for a place...">
+                                            <datalist id="poi-list"></datalist>
                                         </div>
                                     </div>
 
