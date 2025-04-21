@@ -747,13 +747,16 @@ button {
 
 .toggle-buttons label {
     flex: 1; /* Each label takes up equal space */
-    padding: 10px 20px;
+    padding: 10px 10px;
     cursor: pointer;
     font-size: 14px;
     text-align: center;
     background-color: white;
     border-right: 1px solid #ccc;
     transition: background-color 0.3s ease, color 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .toggle-buttons label:last-child {
@@ -2905,4 +2908,44 @@ body {
     background-color: red;
     border: 2px solid red;
     color: white;
+}
+
+
+.location-option-list {
+    width: 425px; /* Fixed width to test */
+    background-color: white;
+    border-radius: 4px;
+    margin-top: 8px;
+    visibility: hidden;
+    position: absolute;
+    box-sizing: border-box; /* Ensures padding and border are included in the width */
+    border: 1px solid #ccc; /* Border for the options */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Drop shadow */
+    z-index: 1000; /* Ensure the options are above other content */
+
+    /* Scrollable functionality */
+    max-height: 300px; /* Limit the height to make it scrollable */
+    overflow-y: auto; /* Add vertical scrolling */
+    padding: 5px; /* Add some inner spacing for better readability */
+    scrollbar-color: #ccc transparent; /* For Firefox: customize scrollbar colors */
+}
+
+.location-option-list.active{
+    visibility: visible;
+}
+
+.option {
+    padding: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 22px;
+}
+
+.option:hover {
+    /* background-color: rgba(0, 82, 212, .85); Tang Blue with 85% opacity; */
+    background-color: #e3f8ff;
+    transition: background-color 0.3s;
 }
