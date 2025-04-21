@@ -8,5 +8,6 @@ urlpatterns = [
     path('contact-us/', views.contact_us, name='contact_us'),
     path('send_email/', views.send_email, name='send_email'),
     path('send_email_to_user/', views.send_email_to_user, name='send_email_to_user'),
+    path('search-pois/', views.search_pois, name='search_pois'),
     # Add more paths as needed
 ]

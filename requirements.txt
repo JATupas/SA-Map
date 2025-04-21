@@ -13,3 +13,4 @@ fiona==1.9.5
 geopandas==0.14.1
 numba==0.59.1
 openpyxl==3.1.2
+mysqlclient

@@ -16,6 +16,8 @@ from io import BytesIO
 from scipy.interpolate import griddata
 from weasyprint import HTML
 from tempfile import NamedTemporaryFile
+from django.db.models import Q
+from .models import POI
 
 def shade_redesign(request):
     return render(request, 'SHADE REDESIGN.html')
@@ -199,76 +201,22 @@ def send_email(request):
             return JsonResponse({'status': 'success'})
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)})
-        
-# def send_email_to_user(request):
-#     if request.method == "POST":
-#         if request.body:
-#             try:
-#                 # Parse JSON from the request body
-#                 data = json.loads(request.body.decode('utf-8'))
-#                 image_data = data.get('calculationData', {}).get("image_base64", "")
-#                 user_email = data.get('registrationData', {}).get('email', '')
 
-#                 # Decode Base64 image and save it as a temporary file
-#                 if image_data:
-#                     image_bytes = base64.b64decode(image_data)
-#                     temp_img = NamedTemporaryFile(delete=False, suffix=".png", dir=settings.MEDIA_ROOT)
-#                     temp_img.write(image_bytes)
-#                     temp_img.close()
-#                     image_path = temp_img.name
-#                 else:
-#                     image_path = None
-
-#                 # Pass data to the template
-#                 context = {
-#                     'data': data,
-#                     'has_data': True,
-#                     'cid': "ASCE-7_Spectral_Plot",  # For email
-#                     'image_base64': image_data,    # For email inline image
-#                     'image_path': image_path       # For PDF image reference
-#                 }
-
-#             except json.JSONDecodeError:
-#                 return JsonResponse({'error': 'Invalid JSON format'}, status=400)
-#         else:
-#             context = {
-#                 'data': None,
-#                 'has_data': False
-#             }
-
-#         # Render HTML email template
-#         html_content = render_to_string('user_email_template.html', context)
-
-#         # Render PDF with WeasyPrint using the image file path
-#         if image_path:
-#             pdf_html_content = render_to_string('user_pdf_template.html', context)
-#             pdf_content = HTML(string=pdf_html_content, base_url=settings.MEDIA_ROOT).write_pdf()
-#         else:
-#             pdf_content = HTML(string=html_content).write_pdf()
-
-#         # Subject and sender info
-#         subject = "Site Information"
-#         from_email = settings.DEFAULT_FROM_EMAIL
-#         recipient_list = [user_email]
-
-#         # Create email object
-#         email = EmailMultiAlternatives(subject, '', from_email, recipient_list)
-#         email.attach_alternative(html_content, "text/html")
-
-#         # Attach the PDF
-#         email.attach('Site_Info_Report.pdf', pdf_content, 'application/pdf')
-
-#         try:
-#             # Send the email
-#             email.send()
-
-#             # Clean up the temporary image file
-#             if image_path:
-#                 os.remove(image_path)
-
-#             return JsonResponse({'status': 'success', 'email': user_email})
-#         except Exception as e:
-#             return JsonResponse({'status': 'error', 'message': str(e)})
+def search_pois(request):
+    query = request.GET.get('q', '')
+    if query:
+        results = POI.objects.filter(name__icontains=query)[:20]  # Limit results
+        data = [
+            {
+                "name": poi.name,
+                "lat": poi.latitude,
+                "lon": poi.longitude,
+            }
+            for poi in results
+        ]
+    else:
+        data = []
+    return JsonResponse(data, safe=False)
 
 def send_email_to_user(request):
     if request.method == "POST":

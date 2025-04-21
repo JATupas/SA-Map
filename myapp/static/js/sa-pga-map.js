@@ -240,27 +240,27 @@ $(document).ready(function () {
   const searchInput = document.getElementById("poi-search");
   const dataList = document.getElementById("poi-list");
 
-  // Load GeoJSON POI Data
-  fetch("/static/maps/ph_poi.geojson")
-      .then(response => response.json())
-      .then(data => {
-          data.features.forEach(feature => {
-              if (feature.properties && feature.geometry) {
-                  let poiName = feature.properties.name || "Unnamed Place";
-                  let lat = feature.geometry.coordinates[1]; // GeoJSON stores [lon, lat]
-                  let lon = feature.geometry.coordinates[0];
+  searchInput.addEventListener("input", function () {
+      let query = this.value;
 
+      if (query.length < 2) return;  // Don't spam server on every keystroke
+
+      fetch(`/search-pois/?q=${encodeURIComponent(query)}`)
+          .then(response => response.json())
+          .then(data => {
+              dataList.innerHTML = ""; // Clear previous options
+              data.forEach(poi => {
                   let option = document.createElement("option");
-                  option.value = poiName;
-                  option.dataset.lat = lat;
-                  option.dataset.lon = lon;
+                  option.value = poi.name;
+                  option.dataset.lat = poi.lat;
+                  option.dataset.lon = poi.lon;
                   dataList.appendChild(option);
-              }
-          });
-      })
-      .catch(error => console.error("Error loading POI data:", error));
+              });
+          })
+          .catch(err => console.error("POI search failed:", err));
+  });
 
-  // Handle Selection from Search Bar
+  // Handle selection (same as before)
   searchInput.addEventListener("input", function () {
       let selectedOption = [...dataList.options].find(opt => opt.value === this.value);
       if (selectedOption) {
@@ -269,22 +269,21 @@ $(document).ready(function () {
 
           console.log(`Selected: ${this.value} (Lat: ${lat}, Lon: ${lon})`);
 
-          // Update lat/lon input fields
           latField.value = lat;
           lonField.value = lon;
           document.getElementById("current-lat").dispatchEvent(new Event("input"));
           document.getElementById("current-lon").dispatchEvent(new Event("input"));
 
-          // If Leaflet.js map exists, add or update marker
           if (typeof map !== "undefined") {
               if (window.marker) {
-                  window.marker.setLatLng([lat, lon]); // Move existing marker
+                  window.marker.setLatLng([lat, lon]);
               } else {
-                  window.marker = L.marker([lat, lon]).addTo(map); // Add new marker
+                  window.marker = L.marker([lat, lon]).addTo(map);
               }
           }
       }
   });
+
 
   // Add functionality to the "Check Data" button (for AJAX to update site information)
   document.getElementById("check-data").addEventListener("click", function () {
